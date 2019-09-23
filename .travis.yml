@@ -1,0 +1,102 @@
+language: python            # this works for Linux but is an error on macOS or Windows
+matrix:
+  include:
+    - sudo: required
+      services:
+        - docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
+           PLAT=manylinux2010_x86_64
+    - name: "Python 3.7.4 on macOS 10.14"
+      os: osx
+      osx_image: xcode11    # Python 3.7.4 running on macOS 10.14.4
+      language: shell       # 'language: python' is an error on Travis CI macOS
+      addons:
+        homebrew:
+          packages:
+            - bison
+            - flex
+          update: false # makes things faster
+    - name: "Python 3.7.4 on macOS 10.13"
+      os: osx
+      osx_image: xcode10.1    # Python 3.7.4 running on macOS 10.14.4
+      language: shell       # 'language: python' is an error on Travis CI macOS
+      addons:
+        homebrew:
+          packages:
+            - bison
+            - flex
+          update: false # makes things faster
+    # - name: "Python 3.7.4 on macOS 10.12"
+    #   os: osx
+    #   osx_image: xcode9.2    # Python 3.7.4 running on macOS 10.14.4
+    #   language: shell       # 'language: python' is an error on Travis CI macOS
+    #   addons:
+    #     homebrew:
+    #       packages:
+    #         - bison
+    #         - flex
+    #         - python3
+    #       update: true # makes things faster
+    # - name: "Python 3.7.4 on macOS 10.11"
+    #   os: osx
+    #   osx_image: xcode8    # Python 3.7.4 running on macOS 10.14.4
+    #   language: shell       # 'language: python' is an error on Travis CI macOS
+    #   addons:
+    #     homebrew:
+    #       packages:
+    #         - bison
+    #         - flex
+    #         - python3
+    #       update: true # makes things faster
+    # - name: "Python 3.7.4 on macOS 10.10"
+    #   os: osx
+    #   osx_image: xcode6.4    # Python 3.7.4 running on macOS 10.14.4
+    #   language: shell       # 'language: python' is an error on Travis CI macOS
+    #   addons:
+    #     homebrew:
+    #       packages:
+    #         - bison
+    #         - flex
+    #         - python3
+    #       update: true # makes things faster
+    - name: "Python 3.7.4 on Windows"
+      os: windows           # Windows 10.0.17134 N/A Build 17134
+      language: shell       # 'language: python' is an error on Travis CI Windows
+      before_install:
+        - choco install mingw python winflexbison3
+        - python -m pip install --upgrade pip wheel
+        - openssl aes-256-cbc -K $encrypted_0b4beaaf3949_key -iv $encrypted_0b4beaaf3949_iv -in .travis/secret-files.tar.enc -out secret-files.tar -d
+        - tar xvf secret-files.tar
+      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
+
+after_success:
+- ls dist/*
+- ls -la
+- pip3 install twine
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      sudo chown -R $(whoami):$(whoami) dist;
+      python setup.py sdist
+  fi
+- twine upload --config-file .pypirc-bot dist/*
+
+before_install:
+- pip3 install --upgrade pip
+- openssl aes-256-cbc -K $encrypted_0b4beaaf3949_key -iv $encrypted_0b4beaaf3949_iv -in .travis/secret-files.tar.enc -out secret-files.tar -d
+- tar xvf secret-files.tar
+
+install:
+- alias python=python3;
+- python --version;
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      docker pull $DOCKER_IMAGE;
+  else
+      pip3 install --upgrade pip;
+      pip3 install -r requirements.txt;
+  fi
+
+script:
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      docker run --rm -e PLAT=$PLAT -v `pwd`:/io $DOCKER_IMAGE sh /io/.travis/build-wheels.sh;
+   else
+      python setup.py bdist_wheel;
+   fi

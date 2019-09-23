@@ -1,0 +1,6 @@
+include src/luke/server/livereload.js
+recursive-include src/luke/themes *
+recursive-include src/luke/docs *
+prune src/luke/themes/reveal/reveal_custom
+global-exclude *.pyc
+recursive-exclude src/luke/docs/ *.html

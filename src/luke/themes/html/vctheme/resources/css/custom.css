@@ -1,0 +1,305 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ===== */
+/* fonts */
+/* ===== */
+@font-face { font-family: Roboto; font-weight:400; src: url("fonts/Roboto-Regular.ttf"); }
+@font-face { font-family: Roboto; font-weight:500; src: url("fonts/Roboto-Medium.ttf"); }
+@font-face { font-family: Roboto; font-weight:400; font-style:italic; src: url("fonts/Roboto-Italic.ttf"); font-style:italic; }
+@font-face { font-family: Roboto; font-weight:300; font-style:italic; src: url("fonts/Roboto-LightItalic.ttf"); font-style:italic; }
+@font-face { font-family: Roboto; font-weight:300; src: url("fonts/Roboto-Light.ttf"); }
+
+
+
+/* ======= */
+/* globals */
+/* ======= */
+body {
+   font-family: Roboto;
+   font-weight: 300;
+}
+
+strong {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-weight: 500;
+}
+
+p {
+   margin-bottom: 0.75em;
+}
+
+figure {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+div.tooltip-inner em {
+	color: #CCC;
+}
+
+li em {
+	color: #833;
+}
+
+p em {
+	color: #833;
+}
+
+code {
+	color: #338;
+	box-shadow: 0px 0.5px 1px #BBB;
+	border-radius: 2px;
+}
+
+pre {
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 2px 8px 0 rgba(0,0,0,0.19) !important;
+}
+
+
+
+
+
+/* ======== */
+/* headings */
+/* ======== */
+h1,h2,h3,h4,h5,h6 {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-weight: 300;
+}
+
+h1 {
+	margin-top: 50px;
+	margin-bottom: 15px;
+}
+
+h2 {
+	margin-top: 40px;
+	margin-bottom: 15px;
+}
+
+h3 {
+	margin-top: 30px;
+}
+
+h4 {
+	margin-top: 30px;
+}
+
+/* ===== */
+/* cards */
+/* ===== */
+h3.card-title {
+	font-family: Roboto;
+	font-weight: 500;
+}
+
+h5.card-subtitle {
+	font-family: Roboto;
+	font-weight: 400;
+}
+
+.card-header {
+	font-family: Roboto;
+	font-weight: 500;
+	color: #000;
+}
+
+.card-body, .figure-caption {
+	font-family: "Roboto";
+	font-weight: 300;
+	color: #333;
+}
+
+.card-body em, .figure-caption em {
+	font-family: "Roboto";
+	font-weight: 300;
+	font-style: italic;
+}
+
+.card-body strong, .figure-caption strong {
+	font-family: "Roboto";
+	font-weight: 500;
+}
+
+
+
+/* ===== */
+/* lists */
+/* ===== */
+ul {
+	color: #DD8744; /* list-style-color */
+}
+
+li {
+	color: black;
+	line-height: 160%;
+	max-width: 55em;
+	text-align: left;
+	margin-bottom: 0.75em;
+}
+
+/* list-style: bold */
+ol.list-style-bold {
+	font-weight: bold;
+}
+ol.list-style-bold > li {
+	font-weight: normal;
+}
+
+ul > li.icon:before {
+	font-family: Icons;
+	width: 1.5em;
+}
+
+ul > li.icon {
+  list-style: none;
+}
+
+ul > li:before {
+  display: inline-block;
+  margin-left: -1.1em; /* same as padding-left set on li */
+  width: 1.1em; /* same as padding-left set on li */
+  font-size: 1em;
+}
+
+ul.list-symbol-circ > li {
+	list-style: circle;
+}
+ul.list-symbol-none > li {
+	list-style: none;
+}
+ul.list-symbol-line > li {
+	list-style: none;
+}
+ul.list-symbol-line > li:before {
+	content: "-";
+}
+
+ul > li.icon-data,
+ul > li.icon {
+	list-style-type: none;
+}
+ul > li.icon-data:before {
+	font-family: Icons;
+	content: attr(data-icon);
+}
+
+ul > li.icon:before {
+	font-family: Icons;
+}
+
+
+
+
+
+/* ====== */
+/* Alerts */
+/* ====== */
+.btn-warning {
+	background-color: #FFB;
+	background-image: repeating-linear-gradient(
+		135deg,
+		transparent,
+		transparent 5px,
+		rgba(255,255,255,0.75) 5px,
+		rgba(255,255,255,0.75) 10px
+	);
+	box-shadow: 0px 0.5px 1px #DDD;
+	border-radius: 2px;
+	padding-left: 3px;
+	padding-right: 3px;
+	border-style: solid;
+	border-color: #DDD;
+	border-width: 1px;
+}
+
+.btn-warning:hover {
+	background-color: #FFB;
+	background-image: repeating-linear-gradient(
+		135deg,
+		transparent,
+		transparent 5px,
+		rgba(255,255,255,0.75) 5px,
+		rgba(255,255,255,0.75) 10px
+	);
+	border-color: #FD3;
+	box-shadow: 0px 0.5px 1px #FD3;
+	border-width: 1px;
+}
+
+.alert > h1:first-child {
+	margin-top: 20px;
+}
+.alert > h2:first-child {
+	margin-top: 20px;
+}
+.alert > h3:first-child {
+	margin-top: 20px;
+}
+.alert > h4:first-child {
+	margin-top: 20px;
+}
+.alert > h5:first-child {
+	margin-top: 20px;
+}
+.alert > h6:first-child {
+	margin-top: 20px;
+}
+
+
+/* ========== */
+/* Blockquote */
+/* ========== */
+blockquote{
+  display:block;
+  background: #fff;
+  padding: 15px 20px 15px 45px;
+  margin: 0 0 20px;
+  position: relative;
+
+  /*Font*/
+  font-size: 16px;
+  line-height: 1.2;
+  color: #666;
+  text-align: justify;
+
+  /*Borders - (Optional)*/
+  border-left: 15px solid #999;
+  border-right: 2px solid #999;
+
+  /*Box Shadow - (Optional)*/
+  -moz-box-shadow: 2px 2px 15px #ccc;
+  -webkit-box-shadow: 2px 2px 15px #ccc;
+  box-shadow: 2px 2px 15px #ccc;
+}
+
+blockquote::before{
+  content: "\201C"; /*Unicode for Left Double Quote*/
+
+  /*Font*/
+  font-family: Georgia, serif;
+  font-size: 60px;
+  font-weight: bold;
+  color: #999;
+
+  /*Positioning*/
+  position: absolute;
+  left: 10px;
+  top:5px;
+}
+
+blockquote{
+  font-family: "Roboto";
+  font-weight: 300;
+  font-style: italic;
+  font-size: 110%;
+  line-height: 1.4;
+  padding-left: 60px;
+}
+
+blockquote::after{
+  /*Reset to make sure*/
+  content: "";
+}
+

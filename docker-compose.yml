@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+    lukeserver:
+        build: ./
+        env_file:
+            - ./luke_server.env
+        volumes:
+            - /var/www/:/var/www/:ro
+            - /var/www/lukestyles:/var/www/lukestyles
+        restart: always
+        ports:
+            - 8080:80
+        # environment:
+            # - resource_path=/var/www/lukestyles
+            # - resource_view=/lukestyles
+        #     - hostname=lukeserver
+        #     - hostport=80
+        #     - verbose=0
+        #     - root_dir=/var/www
+        networks:
+            - reverseproxy
+        container_name: lukeserver
+
+networks:
+    reverseproxy:
+        external: true
