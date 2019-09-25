@@ -114,7 +114,7 @@ class MyServer(baseserver, object):
         path = self.get_abspath(self.path)
         if os.path.isdir(path) and not path.endswith("/"):
             path = path + "/"
-        if not os.path.exists(path) or not path.startswith(os.path.abspath(root_dir)+"/"):
+        if not os.path.exists(path) or not path.startswith(os.path.abspath(root_dir)+os.sep):
             self.send_response(404)
             return
 
