@@ -176,6 +176,8 @@ class MarkdownParser(BisonParser):
         extern void *py_parser;
         extern void (*py_input)(PyObject *parser, char *buf, int *result, int max_size);
 
+        PyMODINIT_FUNC PyInit_markdown_parser(void) { /* windows needs this function */ }
+
         // https://stackoverflow.com/questions/42434603/how-can-flex-return-multiple-terminals-at-one-time
         #define returntoken(tok)                                       \
                 *yylval = (void*)PyUnicode_FromString(strdup(yytext)); \
@@ -440,7 +442,6 @@ class MarkdownParser(BisonParser):
 
 
         buildDirectory = os.path.join(os.path.dirname(__file__),"compiled")+os.path.sep
-        # buildDirectory=None
         super(MarkdownParser, self).__init__(buildDirectory=buildDirectory,**kwargs)
 
     # ---------------------------------------------------------------
