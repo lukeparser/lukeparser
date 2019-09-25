@@ -34,6 +34,6 @@ done
 # Install packages and test
 for PYBIN in /opt/python/*/bin/; do
     echo "$PYBIN"
-    "${PYBIN}/pip" install pybison --no-index -f /io/dist
+    "${PYBIN}/pip" install lukeparser --no-index -f /io/dist
     # (cd "$HOME"; "${PYBIN}/nosetests" pymanylinuxdemo)
 done

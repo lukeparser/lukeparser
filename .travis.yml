@@ -10,11 +10,14 @@ matrix:
       os: osx
       osx_image: xcode11    # Python 3.7.4 running on macOS 10.14.4
       language: shell       # 'language: python' is an error on Travis CI macOS
+      python: 3.7
+      env: TOXENV=py37
       addons:
         homebrew:
           packages:
             - bison
             - flex
+            - python3
           update: false # makes things faster
     - name: "Python 3.7.4 on macOS 10.13"
       os: osx
@@ -63,19 +66,23 @@ matrix:
       os: windows           # Windows 10.0.17134 N/A Build 17134
       language: shell       # 'language: python' is an error on Travis CI Windows
       before_install:
-        - choco install mingw python winflexbison3
-        - python -m pip install --upgrade pip wheel
+        - pip3 install --upgrade pip
+        - pip3 install virtualenv
+        - virtualenv -p python3 ~/venv
+        - source ~/venv/bin/activate
         - openssl aes-256-cbc -K $encrypted_0b4beaaf3949_key -iv $encrypted_0b4beaaf3949_iv -in .travis/secret-files.tar.enc -out secret-files.tar -d
         - tar xvf secret-files.tar
-      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
+
 
 after_success:
 - ls dist/*
 - ls -la
+- python setup.py install --user
+- luke test.md
 - pip3 install twine
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       sudo chown -R $(whoami):$(whoami) dist;
-      python setup.py sdist
+      python setup.py sdist;
   fi
 - twine upload --config-file .pypirc-bot dist/*
 
