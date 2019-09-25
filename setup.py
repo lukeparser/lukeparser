@@ -79,7 +79,7 @@ from luke.parser.markdown import MarkdownParser
 parser = MarkdownParser(_buildOnlyCFiles=True)
 
 extension_module = Extension(
-    'luke.parser.markdown_parser',
+    'luke.parser.compiled.markdown_parser',
     sources=[
         'src/luke/parser/compiled/tmp.bison.c',
         'src/luke/parser/compiled/tmp.lex.c'
