@@ -16,7 +16,9 @@ ChangeLog
 *.html
 !resources/*.html
 pybison-*Parser/
-src/parser/compiled
+src/luke/parser/compiled
+Dockerfile.*
+tests/
 
 
 # Created by .ignore support plugin (hsz.mobi)
