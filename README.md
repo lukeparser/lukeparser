@@ -1,5 +1,5 @@
-# Luke, I'm Your Parser. ![python-3 badge](https://img.shields.io/badge/python-3-brightgreen.svg?style=flat-square) [![Build Status](https://img.shields.io/travis/lukeparser/lukeparser.svg?style=flat-square&branch=master)](https://travis-ci.org/lukeparser/lukeparser)
-> The Style of Markdown with the Power of LaTeX. 
+# Luke, I'm Your Parser. ![python-3 badge](https://img.shields.io/pypi/v/lukeparser) ![python-3 badge](https://img.shields.io/pypi/pyversions/lukeparser) [![Build Status](https://img.shields.io/travis/lukeparser/lukeparser.svg?style=flat-square&branch=master)](https://travis-ci.org/lukeparser/lukeparser)
+> The Style of Markdown with the Power of LaTeX.
 
 
 
