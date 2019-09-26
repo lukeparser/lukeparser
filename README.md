@@ -1,4 +1,4 @@
-# Luke, I'm Your Parser. ![python-3 badge](https://img.shields.io/pypi/v/lukeparser) ![python-3 badge](https://img.shields.io/pypi/pyversions/lukeparser) [![Build Status](https://img.shields.io/travis/lukeparser/lukeparser.svg?style=flat-square&branch=master)](https://travis-ci.org/lukeparser/lukeparser)
+# Luke, I'm Your Parser. ![python-3 badge](https://img.shields.io/pypi/v/lukeparser?style=flat-square) ![python-3 badge](https://img.shields.io/pypi/pyversions/lukeparser?style=flat-square) [![Build Status](https://img.shields.io/travis/lukeparser/lukeparser.svg?style=flat-square&branch=master)](https://travis-ci.org/lukeparser/lukeparser)
 > The Style of Markdown with the Power of LaTeX.
 
 
@@ -69,6 +69,6 @@ _For more examples and usage, please see our docs._
 5. Create a new Pull Request
 
 ## License
-Code: [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)  
-Language Definition: [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
-© 2019 David Hartmann (dahartmann@uni-mainz.de). With the exceptions noted below, this code is released under the GPL, version 2. This software carries no warranty of any kind. The language specification and the documentation, written in the *luke markdown dialect* are licensed under the MIT license.
+Code: [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg?style=flat-square)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)  
+Language Definition: [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)  
+© 2019 David Hartmann. With the exceptions noted below, this code is released under the GPL, version 2. This software carries no warranty of any kind. The language specification and the documentation, written in the *luke markdown dialect* are licensed under the MIT license.
