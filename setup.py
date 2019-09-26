@@ -13,15 +13,17 @@ META_PATH = os.path.join("src","luke", "__init__.py")
 KEYWORDS = ["markdown", "html", "latex", "parser"]
 CLASSIFIERS = [
     "Development Status :: 3 - Alpha",
-    "Intended Audience :: Developers",
     "Natural Language :: English",
     "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
-    "Operating System :: OS Independent",
+    'Operating System :: MacOS',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: POSIX :: Linux',
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
+    'Programming Language :: Python :: Implementation :: CPython',
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Text Processing"
 ]
@@ -104,8 +106,8 @@ if __name__ == "__main__":
         maintainer=find_meta("author"),
         # maintainer_email=find_meta("email"),
         keywords=KEYWORDS,
-        long_description=read("README.md"),
         long_description_content_type="text/markdown",
+        long_description=read("README.md"),
         packages=PACKAGES,
         package_dir={"": "src"},
         zip_safe=False,
@@ -118,6 +120,7 @@ if __name__ == "__main__":
             ],
         },
         include_package_data=True,
-        ext_modules = [extension_module]
+        ext_modules = [extension_module],
+        python_requires='>=3.5',
     )
 

@@ -1,4 +1,4 @@
-# Luke, I'm Your Parser. ![python-3 badge](https://img.shields.io/pypi/v/lukeparser?style=flat-square) ![python-3 badge](https://img.shields.io/pypi/pyversions/lukeparser?style=flat-square) [![Build Status](https://img.shields.io/travis/lukeparser/lukeparser.svg?style=flat-square&branch=master)](https://travis-ci.org/lukeparser/lukeparser)
+# Luke, I'm Your Parser. ![python-3 badge](https://img.shields.io/pypi/v/lukeparser?style=flat-square) ![python-3 badge](https://img.shields.io/pypi/pyversions/lukeparser?style=flat-square) [![Build Status](https://img.shields.io/travis/lukeparser/lukeparser.svg?style=flat-square&branch=master) ](https://travis-ci.org/lukeparser/lukeparser)
 > The Style of Markdown with the Power of LaTeX.
 
 
