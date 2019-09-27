@@ -1,7 +1,7 @@
 import os
 
 home = os.path.expanduser("~")
-config_path = os.path.join(home, ".config/lukeparser/")
+config_path = os.path.join(home, ".config","lukeparser")
 
 # set defaults
 defaults = {
