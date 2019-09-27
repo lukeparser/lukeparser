@@ -88,6 +88,14 @@ or
 ]
 
 
+// should be queried from user-config defaults in the future
+{section={
+alignment=left
+section-auto-id=T
+section-counter=F
+section-contentlist=T
+}}
+
 ## Predefined Attributes
 
 ### Always
