@@ -104,7 +104,7 @@ class MyServer(baseserver, object):
 
         # ensure existence of path (or remappings)
         if self.path.endswith("/"):
-            file_ext = "/"
+            file_ext = os.sep
         else:
             self.path, file_ext = os.path.splitext(self.path)
             if file_ext == ".md":
@@ -112,8 +112,8 @@ class MyServer(baseserver, object):
             if file_ext not in file_ending_mapping.keys():
                 self.path = self.path+file_ext
         path = self.get_abspath(self.path)
-        if os.path.isdir(path) and not path.endswith("/"):
-            path = path + "/"
+        if os.path.isdir(path) and not path.endswith(os.sep):
+            path = path + os.sep
         if not os.path.exists(path) or not path.startswith(os.path.abspath(root_dir)+os.sep):
             self.send_response(404)
             return
