@@ -10,6 +10,7 @@ matrix:
         - docker
       env: DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
            PLAT=manylinux2010_x86_64
+           PY=python
     - name: "Python 3.7 on macOS 10.14"
       os: osx
       osx_image: xcode11    # Python 3.7.4 running on macOS 10.14.4
@@ -18,6 +19,7 @@ matrix:
       env: TOXENV=py37
            PATH="/usr/local/opt/flex/bin:$PATH"
            PATH="/usr/local/opt/bison/bin:$PATH"
+           PY=python3
       addons:
         homebrew:
           packages:
@@ -32,6 +34,7 @@ matrix:
       env: TOXENV=py37
            PATH="/usr/local/opt/flex/bin:$PATH"
            PATH="/usr/local/opt/bison/bin:$PATH"
+           PY=python3
       addons:
         homebrew:
           packages:
@@ -46,6 +49,7 @@ matrix:
       env: TOXENV=py37
            PATH="/usr/local/opt/flex/bin:$PATH"
            PATH="/usr/local/opt/bison/bin:$PATH"
+           PY=python3
       addons:
         homebrew:
           packages:
@@ -60,6 +64,7 @@ matrix:
       env: TOXENV=py37
            PATH="/usr/local/opt/flex/bin:$PATH"
            PATH="/usr/local/opt/bison/bin:$PATH"
+           PY=python3
       addons:
         homebrew:
           packages:
@@ -74,6 +79,7 @@ matrix:
       env: TOXENV=py37
            PATH="/usr/local/opt/flex/bin:$PATH"
            PATH="/usr/local/opt/bison/bin:$PATH"
+           PY=python3
       addons:
         homebrew:
           packages:
@@ -84,6 +90,7 @@ matrix:
       os: windows           # Windows 10.0.17134 N/A Build 17134
       language: shell       # 'language: python' is an error on Travis CI Windows
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
+           PY=python
       before_install:
         - choco install mingw python winflexbison3
         - python -m pip install --upgrade pip wheel
@@ -94,16 +101,15 @@ matrix:
 after_success:
 - ls dist/*
 - ls -la
-- python setup.py install --user
-- pip3 install --upgrade twine setuptools
+- $PY -m pip install twine;
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      $PY -m pip install --upgrade setuptools;
       sudo chown -R $(whoami):$(whoami) dist;
-      python setup.py sdist;
+      $PY setup.py sdist;
   fi
 - twine upload --config-file .pypirc-bot dist/*
 
 before_install:
-- python -m pip install --upgrade pip
 - bison --version
 - openssl aes-256-cbc -K $encrypted_0b4beaaf3949_key -iv $encrypted_0b4beaaf3949_iv -in .travis/secret-files.tar.enc -out secret-files.tar -d
 - tar xvf secret-files.tar
@@ -111,21 +117,15 @@ before_install:
 install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       docker pull $DOCKER_IMAGE;
-  elif [[ "$TRAVIS_OS_NAME" == "osx" && "$TOXENV" == "py37" ]]; then
-      python3 --version;
-      python3 -m pip install --upgrade pip;
-      python3 -m pip install -r requirements.txt;
   else
-      python --version;
-      python -m pip install --upgrade pip;
-      python -m pip install -r requirements.txt;
+      $PY --version;
+      $PY -m pip install --upgrade pip;
+      $PY -m pip install -r requirements.txt;
   fi
 
 script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       docker run --rm -e PLAT=$PLAT -v `pwd`:/io $DOCKER_IMAGE sh /io/.travis/build-wheels.sh;
-  elif [[ "$TRAVIS_OS_NAME" == "osx" && "$TOXENV" == "py37" ]]; then
-      python3 setup.py bdist_wheel;
   else
-      python setup.py bdist_wheel;
+      $PY setup.py bdist_wheel;
   fi
