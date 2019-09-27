@@ -1,0 +1,30 @@
+     </div>
+
+		<script src="{resources}/jquery.min.js"></script>
+		<script src="{resources}/bootstrap.js"></script>
+		<script src="{resources}/popper.min.js"></script>
+		<script src="{resources}/highlight.min.js"></script>
+
+        <script src="{resources}/MathJax/MathJax.js?config=TeX-MML-AM_CHTML,local/local">
+			MathJax.Hub.Config({{
+			  TeX: {{
+				extensions: ["AMSmath.js","AMSsymbols.js"]
+			  }}
+			}});
+        </script>
+        <script>
+			var popOverSettings = {{
+				placement: 'bottom',
+			}};
+			$(document).ready(function() {{
+				$('[data-toggle="tooltip"]').tooltip(popOverSettings);
+				$('[data-toggle="tooltip"]').on('shown.bs.tooltip', function () {{
+					MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+				}});
+			}});
+        </script>
+        <script>
+            hljs.initHighlightingOnLoad();
+        </script>
+    </body>
+</html>

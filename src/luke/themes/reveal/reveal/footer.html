@@ -1,0 +1,31 @@
+			</section>
+			</section>
+			</div>
+		</div>
+		<script src="{resources}/js/reveal.js"></script>
+		<script src="{resources}/head.min.js"></script>
+		<script>
+			Reveal.initialize({{
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{{ src: '{resources}/plugin/math/math.js', async: true }}
+					//{{ src: '{resources}/lib/js/classList.js', condition: function() {{ return !document.body.classList; }} }},
+					//{{ src: '{resources}/plugin/markdown/marked.js', condition: function() {{ return !!document.querySelector( '[data-markdown]' ); }} }},
+					//{{ src: '{resources}/plugin/markdown/markdown.js', condition: function() {{ return !!document.querySelector( '[data-markdown]' ); }} }},
+					//{{ src: '{resources}/plugin/highlight/highlight.js', async: true, callback: function() {{ hljs.initHighlightingOnLoad(); }} }},
+					//{{ src: '{resources}/plugin/search/search.js', async: true }},
+					//{{ src: '{resources}/plugin/zoom-js/zoom.js', async: true }},
+					//{{ src: '{resources}/plugin/notes/notes.js', async: true }}
+				]
+			}});
+		</script>
+	</body>
+</html>
