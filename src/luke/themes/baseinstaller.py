@@ -10,8 +10,9 @@ import pkgutil
 def downloadZipTo(srcurl,target,verbose=False,skipBaseFolder=1):
     url = urlopen(srcurl)
     with ZipFile(BytesIO(url.read())) as my_zip_file:
+        print("\tDownloading of Zip complete. Copying Files...")
         for contained_file in my_zip_file.namelist():
-            target_file = "/".join(contained_file.split("/")[skipBaseFolder:])
+            target_file = os.sep.join(contained_file.split("/")[skipBaseFolder:])
             target_path = os.path.join(target, target_file)
             if verbose:
                 print(contained_file, " -> ", target_file)
@@ -31,14 +32,11 @@ def downloadZipTo(srcurl,target,verbose=False,skipBaseFolder=1):
             # write content of zip-file
             with open(target_path, "wb") as output:
                 output.write(my_zip_file.open(contained_file).read())
-            # for line in my_zip_file.open(contained_file).readlines():
-            #     print(line)
-                # output.write(line)
 
 def downloadFileTo(srcurl,dest):
     with urllib.request.urlopen(srcurl) as srcfile:
-        with open(dest,"w") as destfile:
-            destfile.write(srcfile.read().decode("utf8"))
+        with open(dest,"wb") as destfile:
+            destfile.write(srcfile.read())
 
 
 def getOrCreateVersionFile(version_file, version, downloadfn):
