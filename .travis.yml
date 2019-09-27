@@ -25,7 +25,7 @@ matrix:
           packages:
             - bison
             - flex
-          update: true # makes things faster
+          update: false # makes things faster
     - name: "Python 3.7 on macOS 10.13"
       os: osx
       osx_image: xcode10.1    # Python 3.7.4 running on macOS 10.14.4
@@ -40,7 +40,7 @@ matrix:
           packages:
             - bison
             - flex
-          update: true # makes things faster
+          update: false # makes things faster
     - name: "Python 3.7 on macOS 10.12"
       os: osx
       osx_image: xcode9.2    # Python 3.7.4 running on macOS 10.14.4
@@ -55,7 +55,8 @@ matrix:
           packages:
             - bison
             - flex
-          update: true # makes things faster
+            - python
+          update: false # makes things faster
     - name: "Python 3.7 on macOS 10.11"
       os: osx
       osx_image: xcode8    # Python 3.7.4 running on macOS 10.14.4
@@ -70,7 +71,8 @@ matrix:
           packages:
             - bison
             - flex
-          update: true # makes things faster
+            - python
+          update: false # makes things faster
     - name: "Python 3.7 on macOS 10.10"
       os: osx
       osx_image: xcode6.4    # Python 3.7.4 running on macOS 10.14.4
@@ -85,7 +87,8 @@ matrix:
           packages:
             - bison
             - flex
-          update: true # makes things faster
+            - python
+          update: false # makes things faster
     - name: "Python 3.7 on Windows"
       os: windows           # Windows 10.0.17134 N/A Build 17134
       language: shell       # 'language: python' is an error on Travis CI Windows
