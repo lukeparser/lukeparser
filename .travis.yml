@@ -95,7 +95,7 @@ after_success:
 - ls dist/*
 - ls -la
 - python setup.py install --user
-- pip3 install twine
+- pip3 install --upgrade twine setuptools
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       sudo chown -R $(whoami):$(whoami) dist;
       python setup.py sdist;
