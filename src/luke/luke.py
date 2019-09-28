@@ -8,6 +8,7 @@ import luke.parser
 import luke.views
 import luke.themes
 from luke.defaults import defaults as global_defaults
+import shutil
 
 
 # inspect available choices
@@ -66,10 +67,8 @@ def parseThemeName(combined_name):
     return theme_name, view_name
 
 
-cached_views = {}
 
-
-def prefetch_themes_and_views(themes):
+def fetch_themes_and_views(themes):
 
     queried_views = []
     for combined_name in themes:
@@ -81,15 +80,14 @@ def prefetch_themes_and_views(themes):
         theme_name, view_name = parseThemeName(combined_name)
 
         # get view instance
-        if view_name not in cached_views:
-            try:
-                cached_views[view_name] = __import__("luke.views."+view_name, fromlist=['']).View(
-                    theme_name=theme_name
-                )
-            except:
-                raise ValueError("The view '"+view_name+"' of your chosen theme '"+combined_name+"' is not known")
+        try:
+            view = __import__("luke.views."+view_name, fromlist=['']).View(
+                theme_name=theme_name
+            )
+        except:
+            raise ValueError("The view '"+view_name+"' of your chosen theme '"+combined_name+"' is not known")
 
-        queried_views.append(cached_views[view_name])
+        queried_views.append(view)
 
     return queried_views
 
@@ -166,7 +164,7 @@ def apply_views(tree, themes, file_path, verbose=False, to_string=False, **setti
         themes = [themes]
 
     # import themes (with corresponding views)
-    views = prefetch_themes_and_views(themes)
+    views = fetch_themes_and_views(themes)
 
     # ----------- #
     # apply views #
@@ -185,7 +183,7 @@ def apply_views(tree, themes, file_path, verbose=False, to_string=False, **setti
             print("Applying view '{}'".format(type(view).__name__))
             t = time.time()
 
-        # the view produces no output
+        # the view produces the output file
         output = view.run(tree, to_string=to_string, verbose=verbose, **settings)
         outputs.append(output)
 
@@ -194,6 +192,82 @@ def apply_views(tree, themes, file_path, verbose=False, to_string=False, **setti
             print("Time used for applying view: ", "{:.4f}".format(elapsed))
 
     return outputs
+
+def process_dir(f,parser,prep,**settings_orig):
+    settings_orig = {**global_defaults, **settings_orig}
+    settings = settings_orig.copy()
+    cwd = os.getcwd()
+    outname = os.path.basename(f)
+    theme = settings["theme"][0]
+    if not theme.startswith("documentation") and (theme != "default" or not global_defaults["default_view"].startswith("documentation")):
+        raise ValueError("Sorry, processing a whole directory is currently only for the documentation.html theme supported .")
+    theme="documentation"
+    # TODO: make this code view-specific
+
+    # destination of file (having content)
+    if settings["out_here"]:
+        path_out = cwd
+    else:
+        path_out = settings["output"]
+    path_out = os.path.join(path_out, outname)
+
+
+    # set local settings
+    # process_dir takes care of these settings
+    del settings["input"]
+    del settings["output"]
+    settings["copy_resources"] = False
+    settings["resources_with_file"] = False
+    settings["resources_here"] = False
+    settings["out_here"] = False
+    settings["resources_dest"] = None
+    settings["internal_variables"] = {"md_link_replace":"html"}
+
+    # first make a copy of the whole folder
+    shutil.copytree(f, path_out)
+
+    # process all files
+    for dirName, subdirList, fileList in os.walk(path_out):
+        for filename in fileList:
+            if not filename.endswith(".md"):
+                continue
+            filename_path = os.path.join(dirName,filename)
+
+            # destination of resources
+            if settings_orig["copy_resources"]:
+                if settings_orig["resources_here"]:
+                    path_resources_dest = os.path.join(cwd,"luke_resources",theme)
+                elif settings_orig["resources_with_file"]:
+                    path_resources_dest = os.path.join(path_out,"..","luke_resources",theme)
+                else:
+                    path_resources_dest = settings_orig["resources_dest"] if settings_orig["resources_dest"] is not None else os.path.join(cwd,"luke_resources",theme)
+                path_resources_relative = os.path.relpath(path_resources_dest,os.path.dirname(filename_path))
+            else:
+                path_resources_dest = None
+                if settings_orig["resources_here"]:
+                    path_resources_relative = os.path.join(os.path.relpath(cwd,filename_path),"luke_resources",theme)
+                elif settings_orig["resources_with_file"]:
+                    path_resources_relative = os.path.join("luke_resources",theme)
+                elif settings_orig["resources_relative"]:
+                    path_resources_relative = settings_orig["resources_relative"]
+                else:
+                    path_resources_relative = None
+            settings["resources_relative"] = path_resources_relative
+
+            tree = parse_lang(parser, prep, filename_path, **settings)
+            apply_views(tree, settings["theme"], filename_path, output=filename_path, **settings)
+
+    # copy resource folder if not yet done
+    path_theme = os.path.join(settings["theme_path"],"html",theme)
+    path_resources_src = os.path.join(settings["theme_path"],"html",theme,"resources")
+    if settings_orig["copy_resources"] and not os.path.exists(path_resources_dest):
+        if settings_orig["verbose"] >= 1:
+            print("Copying resources to: "+path_resources_dest)
+        if os.path.exists(path_resources_src):
+            shutil.copytree(path_resources_src, path_resources_dest)
+        else:
+            raise ValueError("The resource-directory '"+path_resources_src+"' does not exist and thus cannot be copied.")
+
 
 
 # ===============

@@ -61,12 +61,12 @@ Example useage:
     parser.add_argument("-t", "--theme", default=[], action="append",
                         help="Theme(s) to use. Insert path to use custom theme.")
     parser.add_argument("--overwrite-theme", dest="overwrite_theme", action="store_true", default=False,
-                        help="Do not allow the theme to be overwritten by the file itself.")
+                        help="Do not allow the theme-choice overloaded by the in-file settings.")
 
     # resource
-    parser.add_argument("--resources-dest", dest="resources_dest", default=None, nargs=1,
+    parser.add_argument("--resources-dest", dest="resources_dest", default=None,
                         help="Copy resources to RESOURCE_DEST (if does not exist there).")
-    parser.add_argument("--resources-relative", dest="resources_relative", default=None, nargs=1,
+    parser.add_argument("--resources-relative", dest="resources_relative", default=None,
                         help="Relative resource-directory from the files directory.")
     # resource shorthands
     parser.add_argument("--resources-here", dest="resources_here", action="store_true", default=False,
@@ -167,7 +167,7 @@ Example useage:
         args.theme.append(defaults["default_theme"])
 
     # get views and theme-objects
-    prefetch_themes_and_views(args.theme)
+    fetch_themes_and_views(args.theme)
 
     # import parser & preprocessing
     from luke.Preprocessing import Preprocessing
@@ -188,17 +188,7 @@ Example useage:
             tree = parse_lang(parser, prep, str(f), **settings)
             apply_views(tree, args.theme, str(f), **settings)
         elif f.is_dir():
-            raise NotImplementedError("# todo")
-            # todo return list of tree's or iterate over dir contents here?
-            # for file in os.listdir(folder):
-            #     f = os.path.join(folder, file)
-            #     if not file.endswith(".md"):
-            #         continue
-            #     tree = parse_lang(parser, prep, f, verbose=verbose)
-            #     apply_view(view, tree, f, themename)
-
-            # dir_parse_lang(parser, prep, str(f), verbose=args.verbose)
-            # dir_apply_view(view, str(f), args.theme)
+            process_dir(f,parser,prep,**settings)
         else:
             raise FileNotFoundError(file)
 
