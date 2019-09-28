@@ -292,6 +292,8 @@ class html(View):
     @apply_scope(insertBy="ref", insertFrom="link")
     def translate_link(self, var, run):
         href = var('dest',"")
+        if href.endswith(".md") and var("md_link_replace",False,scope="internal"):
+            href = href[:-2]+var("md_link_replace",scope="internal")
         content = run(var(['content', 'dest'], ""), add_scope={"internal": {"paragraphmode": True}})
         return html.make_main_tag(var, "a", tag_addition="href=\"{}\"", content="{}").format(href, content)
 
@@ -762,6 +764,13 @@ class html(View):
         scopes[-1]["counter"] = []
         return ""
 
+    @apply_scope(getVars=["href"])
+    def cmd_redirect(self, var, run, href):
+        if href.endswith(".md") and var("md_link_replace",False,scope="internal"):
+            href = href[:-2]+var("md_link_replace",scope="internal")
+        return """
+            <meta http-equiv="refresh" content="0; url={href}" />
+        """.format(href=href)
 
     @apply_scope(getVars=["scopes","clear","maxdepth","nested","create"])
     def cmd_contentlist(self, var, run, scopes, clear=False,maxdepth=-1,nested=False, create=False):
@@ -1311,7 +1320,7 @@ class html(View):
             tree = preparse.preparse(tree)
         except ModuleNotFoundError:
             pass
-        content = super().run(tree)
+        content = super().run(tree,**settings)
 
 
         # ------------------- #

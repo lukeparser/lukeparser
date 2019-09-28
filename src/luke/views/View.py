@@ -687,7 +687,8 @@ class View():
             raise TypeError("Can't handle this type! ({})".format(mytype))
 
     def run(self, tree, **settings):
-        global_scope = {"counter":{k:[0] for k in self.counters}, "footnotes": {"buffer":[]}, "internal":{"contentlist":[]}, "components": {}, "variable": {"view": self.__class__.__name__}}
+        internals = settings["internal_variables"] if "internal_variables" in settings else {}
+        global_scope = {"counter":{k:[0] for k in self.counters}, "footnotes": {"buffer":[]}, "internal":{"contentlist":[], **internals}, "components": {}, "variable": {"view": self.__class__.__name__}}
         if "content" in tree:
             tree["content"].append({
                 "command": "footnotes",

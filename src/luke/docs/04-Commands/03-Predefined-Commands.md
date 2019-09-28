@@ -90,6 +90,13 @@ See [Extra-Components/Icons](../03-Extra-Components/03-Icons.md).
 ]
 
 
+## Redirect (HTML-only)
+Redirect the current page somewhere else.
+```latex
+\redirect{"otherfile.md"}
+```
+
+
 ## Simple Helpers
 
 **New Line Command**
