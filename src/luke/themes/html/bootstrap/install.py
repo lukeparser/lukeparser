@@ -1,59 +1,36 @@
-from luke.themes.baseinstaller import BaseInstaller, downloadZipTo, downloadFileTo, getOrCreateVersionFile
+from luke.themes.baseinstaller import BaseInstaller, install_resources
 import os
 
 
+resources = {
+    "bootstrap": {
+        "src": "https://github.com/twbs/bootstrap/releases/download/v{version}/bootstrap-{version}-dist.zip",
+        "version": "4.1.3"
+    },
+    "jQuery": {
+        "src": "https://code.jquery.com/jquery-{version}.min.js",
+        "version": "3.3.1"
+    },
+    "Popper": {
+        "src": "https://cdnjs.cloudflare.com/ajax/libs/popper.js/{version}/esm/popper.min.js",
+        "version": "1.15.0"
+    },
+    "Highlight_js": {
+        "src": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/{version}/highlight.min.js",
+        "version": "9.13.1"
+    },
+    "Highlight_css": {
+        "src": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/{version}/styles/default.min.css",
+        "version": "9.13.1"
+    },
+    "MathJax": {
+        "src": "https://github.com/mathjax/MathJax/archive/{version}.zip",
+        "version": "2.7.5"
+    },
+}
+
 
 class Installer(BaseInstaller):
-
-    def install(theme_path,theme_name="bootstrap"):
-        theme_path = os.path.join(theme_path,theme_name)
-
-        # bootstrap
-        def download_bootstrap(version):
-            dest = os.path.join(theme_path,"resources")
-            print("Installing 'Bootstrap' to '"+dest+"'")
-            downloadZipTo("https://github.com/twbs/bootstrap/releases/download/v"+version+"/bootstrap-"+version+"-dist.zip", dest)
-        version_file = os.path.join(theme_path,"version_bootstrap")
-        getOrCreateVersionFile(version_file, "4.1.3", download_bootstrap)
-
-        # jquery
-        def download_jquery(version):
-            dest = os.path.join(theme_path,"resources","jquery.min.js")
-            print("Installing 'jQuery' to '"+dest+"'")
-            downloadFileTo("https://code.jquery.com/jquery-"+version+".min.js",dest)
-        version_file = os.path.join(theme_path,"version_jquery")
-        getOrCreateVersionFile(version_file, "3.3.1", download_jquery)
-
-        # popper
-        def download_popper(version):
-            dest = os.path.join(theme_path,"resources","popper.min.js")
-            print("Installing 'Popper' to '"+dest+"'")
-            downloadFileTo("https://unpkg.com/popper.js/dist/umd/popper.min.js",dest)
-        version_file = os.path.join(theme_path,"version_popper")
-        getOrCreateVersionFile(version_file, "current", download_popper)
-
-        # highlight
-        def download_highlight(version):
-            # js
-            dest = os.path.join(theme_path,"resources","highlight.min.js")
-            print("Installing 'highlight' to '"+dest+"'")
-            downloadFileTo("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/"+version+"/highlight.min.js",dest)
-            # css
-            dest = os.path.join(theme_path,"resources","highlight_default.min.css")
-            print("Installing 'highlight' to '"+dest+"'")
-            downloadFileTo("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/"+version+"/styles/default.min.css",dest)
-        version_file = os.path.join(theme_path,"version_highlight")
-        getOrCreateVersionFile(version_file, "9.13.1", download_highlight)
-
-        # mathjax
-        def download_mathjax(version):
-            dest = os.path.join(theme_path,"resources","MathJax")
-            print("Installing 'mathjax' to '"+dest+"'")
-            downloadZipTo("https://github.com/mathjax/MathJax/archive/"+version+".zip", dest)
-        version_file = os.path.join(theme_path,"version_mathjax")
-        getOrCreateVersionFile(version_file, "2.7.5", download_mathjax)
-
-
-
-
+    def install(theme_path, theme_name="bootstrap"):
+        install_resources(resources, theme_path, theme_name)
 

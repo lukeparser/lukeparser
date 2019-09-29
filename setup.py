@@ -30,7 +30,8 @@ CLASSIFIERS = [
 INSTALL_REQUIRES = [
     "pybison",
     "watchdog",
-    "six"
+    "six",
+    "tqdm"
 ]
 
 ###################################################################
