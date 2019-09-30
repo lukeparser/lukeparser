@@ -56,9 +56,10 @@ matrix:
 after_success:
 - ls dist/*
 - ls -la
-- $PY -m pip install --upgrade twine;
+- $PY -m pip install --upgrade twine setupdist;
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       sudo chown -R $(whoami):$(whoami) dist;
+      rm -rf dist/pybison-*;
   fi
 - twine upload --config-file .pypirc-bot dist/*
 
