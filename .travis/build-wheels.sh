@@ -37,3 +37,7 @@ for PYBIN in /opt/python/*/bin/; do
     "${PYBIN}/pip" install lukeparser --no-index -f /io/dist
     # (cd "$HOME"; "${PYBIN}/nosetests" pymanylinuxdemo)
 done
+
+# use last python to pack sdist
+cd /io
+/opt/python/cp37-cp37m/bin/python setup.py sdist
