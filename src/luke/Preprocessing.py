@@ -230,6 +230,10 @@ class Preprocessing(object):
                 current["content"] = current["content"] + [ci for c in new_content for ci in (c["content"] if "content" in c else [c])]
                 current["content"] = MLList(self.nest_blocks(current["content"], currentLevel, indentStr, indentList[:]))
 
+            # nest all image captions
+            elif "content" in current and current["type"] == "image":
+                current["content"] = self.nest_blocks(current["content"])
+
             # nest all arguments
             if isinstance(current,dict) and "type" in current and current["type"] == "command" and "arguments" in current:
                 for arg in range(len(current["arguments"])):
