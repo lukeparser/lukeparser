@@ -265,6 +265,14 @@ class BaseTheme():
         install_resources(cls.resources, theme_path, theme_name)
 
     @classmethod
+    def preparse(cls, tree):
+        return tree
+
+    @classmethod
+    def postparse(cls, tree):
+        return tree
+
+    @classmethod
     def get_resource_paths(cls,basepath=False):
         paths = {}
         resource_type = "zip_paths" if basepath else "cdn_paths"

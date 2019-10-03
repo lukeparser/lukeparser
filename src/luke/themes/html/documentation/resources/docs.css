@@ -44,11 +44,14 @@
 .bd-navbar .navbar-nav .nav-link {
   padding-right: .5rem;
   padding-left: .5rem;
-  color: #cbbde2;
+}
+
+
+.bd-navbar .navbar-nav li.nav-item {
+	margin-bottom: 0;
 }
 
 .bd-navbar .navbar-nav .nav-link.active, .bd-navbar .navbar-nav .nav-link:hover {
-  color: #fff;
   background-color: transparent;
 }
 

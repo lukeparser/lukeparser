@@ -2,7 +2,7 @@
 
 \include{"../include.md"}
 
-\title{"Getting Started" "Basic Useage"}
+\title{"Getting Started" "Basic Usage"}
 
 
 ## Install Themes

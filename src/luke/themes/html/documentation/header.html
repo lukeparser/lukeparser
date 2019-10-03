@@ -14,11 +14,15 @@
 
     </head>
   <body>
-      <nav class="navbar navbar-light bg-light sticky-top">
-          <a class="navbar-brand" href="#">
-              Lukeparser
-          </a>
-          {components[top]}
+      <nav class="navbar navbar-expand navbar-light bg-light flex-column flex-md-row bd-navbar">
+          <button class="navbar-toggler d-block d-md-none" type="button" data-toggle="collapse" data-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand mr-0 mr-md-2" href="/">{components[brand]}</a>
+          <div class="navbar-nav-scroll">
+          {components[topleft]}
+          </div>
+          {components[topright]}
       </nav>
 	  <div class="container-fluid">
 		  <div class="row flex-xl-nowrap">

@@ -1,6 +1,6 @@
 {theme=documentation}
 
-
+\include{"../include.md"}
 Getting Started {section-contentlist=False}
 ===============
 

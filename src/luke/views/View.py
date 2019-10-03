@@ -462,7 +462,7 @@ class View():
         if name not in components:
             components[name] = ""
         arguments = var("arguments")
-        components[name] += run(arguments[0])
+        components[name] += run(arguments[0],add_scope={"internal":{"paragraphmode":True}})
         return ""
 
     @apply_scope(getVars=True)
@@ -687,6 +687,24 @@ class View():
             raise TypeError("Can't handle this type! ({})".format(mytype))
 
     def run(self, tree, **settings):
+        classname = self.__class__.__name__
+        themename = settings["theme"] if "theme" in settings else "default"
+
+        try:
+            theme = __import__("luke.themes."+classname+"."+themename, fromlist=['']).Theme
+        except ModuleNotFoundError:
+            theme = False
+            pass
+
+        # ---------#
+        # preparse #
+        # ---------#
+        if theme:
+            tree = theme.preparse(tree)
+
+        # ------------------ #
+        # parse content-tree #
+        # ------------------ #
         internals = settings["internal_variables"] if "internal_variables" in settings else {}
         global_scope = {"counter":{k:[0] for k in self.counters}, "footnotes": {"buffer":[]}, "internal":{"contentlist":[], **internals}, "components": {}, "variable": {"view": self.__class__.__name__}}
         if "content" in tree:
@@ -696,6 +714,12 @@ class View():
             })
         result = self.runWithScope(tree, [global_scope])
         tree["global_scope"] = global_scope
+
+        # ----------#
+        # postparse #
+        # ----------#
+        if theme:
+            global_scope = theme.postparse(global_scope)
 
         # start deferred threads
         for t_id,t in self.thread_later_start.items():

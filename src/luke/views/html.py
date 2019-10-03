@@ -1255,6 +1255,8 @@ class html(View):
         settings = {**defaults, **self.defaults, **settings}
         theme = self.guess_tree_theme(tree,settings)
         theme_variant = self.guess_tree_theme(tree,settings,"theme-variant")
+        settings["theme"] = theme
+        settings["theme_variant"] = theme_variant
 
         # get theme resources
         path_theme = os.path.join(settings["theme_path"],classname,theme)
@@ -1315,11 +1317,6 @@ class html(View):
         # ------------------ #
         # parse content-tree #
         # ------------------ #
-        try:
-            preparse = __import__("luke.themes."+classname+"."+theme+".preparse", fromlist=['']).Preparse
-            tree = preparse.preparse(tree)
-        except ModuleNotFoundError:
-            pass
         content = super().run(tree,**settings)
 
 
