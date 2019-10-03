@@ -1328,7 +1328,7 @@ class html(View):
         # ------------------------ #
         try:
             themecls = __import__("luke.themes."+classname+"."+theme, fromlist=['']).Theme
-            resource_paths_dict = themecls.get_resource_paths(False if settings["cdn"] else resources_relative)
+            resource_paths_dict = themecls.get_resource_paths(False if "cdn" in settings and settings["cdn"] else resources_relative)
         except ModuleNotFoundError:
             resource_paths_dict = {}
 
