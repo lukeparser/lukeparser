@@ -168,8 +168,12 @@ def install_resources(resources, theme_path,theme_name):
                 continue
 
             # remove if is wrong version
-            shutil.rmtree(dest(theme_path,args))
-            shutil.rmtree(dest(theme_path,args,destfolder=True))
+            path = dest(theme_path,args)
+            if os.path.exists(path):
+                shutil.rmtree(path)
+            path = dest(theme_path,args,destfolder=True)
+            if os.path.exists(path):
+                shutil.rmtree(path)
 
         thread_args.append((t,theme_path,args))
 
