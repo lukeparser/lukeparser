@@ -84,7 +84,7 @@
 /* ============ */
 
 .bd-sidebar {
-  order: 0;
+  border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 1em;
 }

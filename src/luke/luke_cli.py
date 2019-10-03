@@ -77,6 +77,10 @@ Example useage:
     parser.add_argument('--copy-resources', dest='copy_resources', action='store_true',
                         help="Copy resource-folder (to resource-dest). (default: %(default)s)")
     parser.add_argument('--no-copy-resources', dest='copy_resources', action='store_false')
+    parser.add_argument('--cdn', dest='cdn', action='store_true',
+                        help="Use CDN instead of local resources. (default: %(default)s)")
+    parser.add_argument('--no-cdn', dest='cdn', action='store_false')
+
 
     # shorthands
     parser.add_argument('--out-here', action='store_true', default=False,

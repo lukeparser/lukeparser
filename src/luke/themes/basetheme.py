@@ -182,11 +182,74 @@ def install_resources(resources, theme_path,theme_name):
         t.close()
     print("Installation Complete.")
 
-class dotdict(dict):
+class autotag_dict(dict):
+
+    def __init__(self,dict,fdict={}):
+        self.fdict = fdict
+        super(autotag_dict, self).__init__(dict)
+
     """dot.notation access to dictionary attributes"""
-    __getattr__ = dict.get
-    __setattr__ = dict.__setitem__
-    __delattr__ = dict.__delitem__
+    def __getattr__(self,name):
+
+        # check for predefined commands
+        maketag = False
+        if name.endswith("_tag"):
+            maketag = True
+            name = name[:-4]
+
+        if not name in self:
+            raise KeyError("Key with name '"+name+"' not found.")
+
+        # case: just return the value
+        obj = self.get(name)
+        if not maketag:
+            if isinstance(obj,dict):
+                if "src" in obj:
+                    obj = obj["src"]
+                elif "href" in obj:
+                    obj = obj["href"]
+            return obj.format(**self.fdict)
+
+        # case: make the whole tag
+        return make_tag(obj).format(**self.fdict)
+
+def make_tag(obj):
+        # first ensure object structure
+        if isinstance(obj,str):
+            obj = {"src": obj}
+        else:
+            obj = obj.copy()
+
+        # ensure href = src
+        if "href" in obj:
+            obj["src"] = obj["href"]
+        elif "src" in obj:
+            obj["href"] = obj["src"]
+        else:
+            raise KeyError("Either 'src' or 'href' hs to be specified for auto-tag object")
+
+        # get tag type
+        if obj["src"].endswith(".css"):
+            tag = "link"
+            obj["rel"]="stylesheet"
+            del obj["src"]
+        elif obj["src"].endswith(".js"):
+            tag = "script"
+            obj["type"]="text/javascript" 
+            del obj["href"]
+        else:
+            tag = obj["tag"]
+            del obj["tag"]
+
+        # make the tag
+        html = "<"+tag+" "+" ".join([attr+"=\""+val+"\"" for attr,val in obj.items()])
+
+        if tag == "link":
+            html += " />"
+        else:
+            html += "></"+tag+">"
+
+        return html
 
 class BaseTheme():
 
@@ -198,18 +261,32 @@ class BaseTheme():
     @classmethod
     def get_resource_paths(cls,basepath=False):
         paths = {}
+        resource_type = "zip_paths" if basepath else "cdn_paths"
         for key, args in cls.resources.items():
             args["name"] = key
+            fdict = {"version": args["version"]} if "version" in args else {}
 
             # if is zip, get subdir
             if args["src"].endswith(".zip") or "type" in args and args["type"] == "zip":
-                if "zip_paths" in args:
-                    paths[key] = dotdict({k: os.path.join(basepath,key,v) for k,v in args["zip_paths"].items()})
+                if resource_type in args:
+                    paths[key] = autotag_dict({
+                        k: os.path.join(basepath,key,v).format(version=args["version"]) if isinstance(v,str) and basepath else v for k,v in args[resource_type].items()
+                    }, fdict)
                 else:
                     pass
 
-            # alse use filename taken from key
+            # else use filename taken from key
             else:
-                paths[key] = os.path.join(basepath,filename(args))
+                if resource_type == "zip_paths":
+                    paths[key] = (os.path.join(basepath,filename(args)) if basepath else filename(args)).format(**fdict)
+                else: 
+                    paths[key] = args["src"].format(**fdict)
+
+                # make html-tag (copy if is package data)
+                if "pkg" in args and resource_type == "cdn_paths":
+                    paths[key+"_tag"] = "<style>\n"+pkgutil.get_data(args["pkg"],args["src"]).decode("utf-8")+"\n</style>"
+                else:
+                    paths[key+"_tag"] = make_tag(paths[key]).format(**fdict)
+
         return paths
 
