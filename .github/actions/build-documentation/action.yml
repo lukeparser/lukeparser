@@ -1,0 +1,6 @@
+# action.yml
+name: 'Build Documentation'
+description: 'Uses the current luke version of this folder to build the documentation.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

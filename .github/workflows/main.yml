@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  push:	
+    branches:	
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@master
+    - uses: ./.github/actions/build-documentation
+    - name: GitHub Pages Deploy
+      uses: JamesIves/github-pages-deploy-action@master
+      env:
+          BUILD_DIR: ./docs
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_BRANCH: master # The branch the action should deploy from.
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: docs # The folder the action should deploy.
