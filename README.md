@@ -31,21 +31,13 @@ Did you ever missed these functions in Markdown?
 
 ## Getting Started
 
-**Install**
+**Documentation**  
+Read the [Documentation online.](lukeparser.github.io/lukeparser).
+
+**Install** (Linux, Windows & OS X)
 ```sh
 pip install lukeparser
 ```
-
-**Get some themes first.** (Otherwise everything looks so ... plain)
-```
-luke --init
-```
-
-**Parse the Documentation**  
-```
-luke --doc
-```
-Go to [localhost:8080](http://localhost:8080).
 
 **Start a live reload server anywhere**
 ```
@@ -62,7 +54,7 @@ _For more examples and usage, please see our docs._
 
 ## Contributing
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
+1. Fork it (<https://github.com/lukeparser/lukeparser/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
