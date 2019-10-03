@@ -92,15 +92,19 @@ def download(srcurl, pbar):
 def version_file(theme_path,args):
     return os.path.join(theme_path,"version_"+args["name"])
 
-# get path to a version file
-def dest(theme_path,args,destfolder=False):
-    theme_path = os.path.join(theme_path,"resources")
+# extract filename from args
+def filename(args,destfolder=False):
     if destfolder:
-        dest_filename = args["name"]
+        return args["name"]
     else:
         extensions = os.path.basename(args["src"]).split(".")
         extensions = extensions[-2:] if extensions[-2] == "min" else extensions[-1:]
-        dest_filename = args["name"]+"."+".".join(extensions)
+        return args["name"]+"."+".".join(extensions)
+
+# get path to a version file
+def dest(theme_path,args,destfolder=False):
+    theme_path = os.path.join(theme_path,"resources")
+    dest_filename = filename(args,destfolder)
     return os.path.join(theme_path,dest_filename)
 
 # installs a single resource based on a config object
@@ -177,10 +181,35 @@ def install_resources(resources, theme_path,theme_name):
     for t in tqdms:
         t.close()
     print("Installation Complete.")
-    
 
-class BaseInstaller():
-    def install(theme_path,theme_name="vctheme"):
-        theme_path = os.path.join(theme_path,theme_name,"resources")
+class dotdict(dict):
+    """dot.notation access to dictionary attributes"""
+    __getattr__ = dict.get
+    __setattr__ = dict.__setitem__
+    __delattr__ = dict.__delitem__
 
+class BaseTheme():
+
+    @classmethod
+    def install(cls, theme_path):
+        theme_name = cls.__module__.split(".")[-1]
+        install_resources(cls.resources, theme_path, theme_name)
+
+    @classmethod
+    def get_resource_paths(cls,basepath=False):
+        paths = {}
+        for key, args in cls.resources.items():
+            args["name"] = key
+
+            # if is zip, get subdir
+            if args["src"].endswith(".zip") or "type" in args and args["type"] == "zip":
+                if "zip_paths" in args:
+                    paths[key] = dotdict({k: os.path.join(basepath,key,v) for k,v in args["zip_paths"].items()})
+                else:
+                    pass
+
+            # alse use filename taken from key
+            else:
+                paths[key] = os.path.join(basepath,filename(args))
+        return paths
 

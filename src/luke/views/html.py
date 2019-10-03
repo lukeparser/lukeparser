@@ -1212,11 +1212,11 @@ class html(View):
             return
 
         # load installer
-        # try:
-        theme = __import__("luke.themes."+self.viewname+"."+theme_name+".install", fromlist=['']).Installer
-        # except:
-        #     print("Theme '"+theme_name+"' ("+"luke.themes."+self.viewname+"."+theme_name+") does not need to be installed (or lacks a installer).")
-            # return
+        try:
+            theme = __import__("luke.themes."+self.viewname+"."+theme_name, fromlist=['']).Theme
+        except:
+            print("There is no such theme '"+theme_name+"'")
+            return
         theme.install(theme_path)
 
 
@@ -1323,6 +1323,16 @@ class html(View):
         content = super().run(tree,**settings)
 
 
+        # ------------------------ #
+        # get theme resource paths #
+        # ------------------------ #
+        try:
+            themecls = __import__("luke.themes."+classname+"."+theme, fromlist=['']).Theme
+            resource_paths_dict = themecls.get_resource_paths(resources_relative)
+        except ModuleNotFoundError:
+            resource_paths_dict = {}
+
+
         # ------------------- #
         # get header & footer #
         # ------------------- #
@@ -1336,7 +1346,7 @@ class html(View):
             "theme": theme,
             "theme-variant": theme_variant,
             "components": format_dict(**tree["global_scope"]["components"]) if "global_scope" in tree and "components" in tree["global_scope"] else format_dict()
-        })
+        }, **resource_paths_dict)
 
         # use from copied resource if overwritten
         # else use original file from package
@@ -1355,8 +1365,8 @@ class html(View):
             else:
                 footer = pkgutil.get_data("luke.themes."+classname+"."+theme,"footer.html").decode("utf-8")
                 footer = footer.format(**fdict).encode("utf-8")
-        except:
-            raise ValueError("The theme '"+theme+"' does not seem to exist.")
+        except KeyError:
+            raise KeyError("Tried to find key in formatting dictionary that does not exist.")
 
         if settings["to_string"]:
             return header+content.encode("utf-8")+footer
