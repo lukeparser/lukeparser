@@ -19,6 +19,9 @@ resources = {
         "type": "zip",
         "skipBaseFolder": 0,
         "zip_paths": {
+            "css": {
+                "ignore": True
+            }
         },
         "cdn_paths": {
             "css": {

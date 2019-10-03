@@ -201,7 +201,6 @@ def process_dir(f,parser,prep,**settings_orig):
     theme = settings["theme"][0]
     if not theme.startswith("documentation") and (theme != "default" or not global_defaults["default_view"].startswith("documentation")):
         raise ValueError("Sorry, processing a whole directory is currently only for the documentation.html theme supported .")
-    theme="documentation"
     # TODO: make this code view-specific
 
     # destination of file (having content)

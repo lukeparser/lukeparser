@@ -221,7 +221,9 @@ def make_tag(obj):
             obj = obj.copy()
 
         # ensure href = src
-        if "href" in obj:
+        if "ignore" in obj and obj["ignore"]:
+            return ""
+        elif "href" in obj:
             obj["src"] = obj["href"]
         elif "src" in obj:
             obj["href"] = obj["src"]
