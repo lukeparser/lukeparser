@@ -10,7 +10,7 @@ matrix:
         - docker
       env: DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
            PLAT=manylinux2010_x86_64
-           PY=python
+           PY=python3
     - name: "Python 3.7 on macOS 10.14"
       os: osx
       osx_image: xcode11    # Python 3.7.4 running on macOS 10.14.4
@@ -56,7 +56,8 @@ matrix:
 after_success:
 - ls dist/*
 - ls -la
-- $PY -m pip install --upgrade twine setupdist;
+- $PY --version
+- $PY -m pip install --upgrade twine setupdist
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       sudo chown -R $(whoami):$(whoami) dist;
       rm -rf dist/pybison-*;
