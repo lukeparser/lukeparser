@@ -577,17 +577,18 @@ class View():
     @apply_scope(getVars=["filter","sub"])
     def cmd_listdocuments(self,var,run,filter="[0-9]+-?(.*)((.md)|/)",sub="\\1"):
         basepath = run(var("basepath"))
-        basepath = os.path.realpath(basepath)+"/"
+        basepath = os.path.realpath(basepath)+os.sep
         currentpath = var("basepath",ignore_self=True)
         currentpath_real = os.path.realpath(currentpath)
         currentfile_real = var("absolute_path")
-
+        if os.sep == "\\":
+            filter = filter.replace("/",os.sep+os.sep)
+            
         def dir2content(basepath,rootdir):
-            files = [f+"/" if os.path.isdir(os.path.join(basepath,f)) else f for f in os.listdir(basepath)]
+            files = [f+os.sep if os.path.isdir(os.path.join(basepath,f)) else f for f in os.listdir(basepath)]
             files = sorted(files)
             files = [(re.sub(filter,sub,f).replace("-"," "),f) for f in files if re.match(filter,f) and not f.startswith("index\\.")]
             relpath = os.path.relpath(basepath,rootdir)
-
             content = {
                 "type":"ulist","list-symbol":"none","content":
                     [
