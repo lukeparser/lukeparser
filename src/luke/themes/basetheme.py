@@ -276,7 +276,8 @@ class BaseTheme():
     def get_resource_paths(cls,basepath=False):
         paths = {}
         resource_type = "zip_paths" if basepath else "cdn_paths"
-        basepath = basepath.replace(os.sep,"/")
+        if basepath:
+            basepath = basepath.replace(os.sep,"/")
         for key, args in cls.resources.items():
             args["name"] = key
             fdict = {"version": args["version"]} if "version" in args else {}
