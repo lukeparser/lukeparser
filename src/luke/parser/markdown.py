@@ -115,7 +115,7 @@ class MarkdownParser(BisonParser):
         const char *chr_backslash = (char *)"\\\0";
         const char *chr_bs_backslash = (char *)"\\\\\0";
         const char *chr_pipe = (char *)"|\0";
-        const char *chr_emdash = (char *)"—\0";
+        const char *chr_emdash = (char *)"\xE2\x80\x94\0";
         const char *chr_space = (char *)" \0";
         const char *chr_newline = (char *)"\n\0";
 
