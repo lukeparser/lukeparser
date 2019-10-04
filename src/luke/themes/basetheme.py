@@ -276,6 +276,7 @@ class BaseTheme():
     def get_resource_paths(cls,basepath=False):
         paths = {}
         resource_type = "zip_paths" if basepath else "cdn_paths"
+        basepath = basepath.replace(os.sep,"/")
         for key, args in cls.resources.items():
             args["name"] = key
             fdict = {"version": args["version"]} if "version" in args else {}
@@ -284,7 +285,7 @@ class BaseTheme():
             if args["src"].endswith(".zip") or "type" in args and args["type"] == "zip":
                 if resource_type in args:
                     paths[key] = autotag_dict({
-                        k: os.path.join(basepath,key,v).format(version=args["version"]) if isinstance(v,str) and basepath else v for k,v in args[resource_type].items()
+                        k: "/".join([basepath,key,v]).format(version=args["version"]) if isinstance(v,str) and basepath else v for k,v in args[resource_type].items()
                     }, fdict)
                 else:
                     pass
@@ -292,7 +293,7 @@ class BaseTheme():
             # else use filename taken from key
             else:
                 if resource_type == "zip_paths":
-                    paths[key] = (os.path.join(basepath,filename(args)) if basepath else filename(args)).format(**fdict)
+                    paths[key] = ("/".join([basepath,filename(args)]) if basepath else filename(args)).format(**fdict)
                 else: 
                     paths[key] = args["src"].format(**fdict)
 
