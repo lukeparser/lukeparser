@@ -3,6 +3,7 @@ import hashlib
 import re
 import os
 from luke.defaults import defaults
+defaults = defaults["general"]
 import pkgutil
 
 try:
@@ -237,7 +238,7 @@ class latex(View):
         # get theme
         theme = settings["theme_name"] if settings["overwrite_theme"] else treevar("theme",settings["theme_name"])
         if theme == "default":
-            theme = settings["default_latex_theme"]
+            theme = settings["default_theme"]["latex"]
 
         if classname == "reveal":
             reveal_theme = theme

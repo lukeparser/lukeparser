@@ -9,6 +9,7 @@ import shutil
 from html import escape
 import traceback
 import linecache
+defaults = defaults["general"]
 
 class format_dict(dict):
     def __missing__(self, key):
@@ -26,7 +27,7 @@ from luke.views.View import apply_scope
 from luke.views.View import View
 from luke.parser.markdown import MLList
 
-default_theme = defaults["default_html_theme"]
+default_theme = defaults["default_theme"]["html"]
 
 class html(View):
     """

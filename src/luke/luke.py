@@ -7,7 +7,8 @@ import luke
 import luke.parser
 import luke.views
 import luke.themes
-from luke.defaults import defaults as global_defaults
+from luke.defaults import defaults
+defaults = defaults["general"]
 import shutil
 
 
@@ -41,7 +42,7 @@ def getDefaultFileOrVar(path,file_or_varname):
     default_file = os.path.join(path, "views", file_or_varname)
 
     # get default setting first
-    default = global_defaults[file_or_varname]
+    default = defaults[file_or_varname]
 
     # overwrite with file contents
     if os.path.exists(default_file):
@@ -61,7 +62,7 @@ def parseThemeName(combined_name):
         try:
             theme_name, view_name = importlib.import_module("luke.views."+combined_name).default_theme, combined_name
         except:
-            theme_name, view_name = combined_name, global_defaults["default_view"]
+            theme_name, view_name = combined_name, defaults["default_view"]
     else:
         theme_name, view_name = combined_split[0:2]
     return theme_name, view_name
@@ -194,12 +195,12 @@ def apply_views(tree, themes, file_path, verbose=False, to_string=False, **setti
     return outputs
 
 def process_dir(f,parser,prep,**settings_orig):
-    settings_orig = {**global_defaults, **settings_orig}
+    settings_orig = {**defaults, **settings_orig}
     settings = settings_orig.copy()
     cwd = os.getcwd()
     outname = os.path.basename(f)
     theme = settings["theme"][0]
-    if not theme.startswith("documentation") and (theme != "default" or not global_defaults["default_view"].startswith("documentation")):
+    if not theme.startswith("documentation") and (theme != "default" or not defaults["default_view"].startswith("documentation")):
         raise ValueError("Sorry, processing a whole directory is currently only for the documentation.html theme supported .")
     # TODO: make this code view-specific
 

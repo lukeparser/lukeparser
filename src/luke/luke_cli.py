@@ -1,8 +1,8 @@
 from luke.luke import *
-import argparse
 import sys
 from pathlib import Path
-from luke.defaults import defaults
+from luke.defaults import defaults, ArgumentParserWithHelp
+defaults = defaults["general"]
 from luke import __version__
 
 
@@ -11,12 +11,6 @@ def main(developer_mode=False):
     # =============== #
     # parse arguments #
     # =============== #
-
-    class ArgumentParserWithHelp(argparse.ArgumentParser):
-        def error(self, message):
-            sys.stderr.write('error: %s\n' % message)
-            self.print_help()
-            sys.exit(2)
 
     parser = ArgumentParserWithHelp(description="Lukeparser - the Theme of Markdown with the power of LaTeX.",
                                     formatter_class=argparse.RawDescriptionHelpFormatter,

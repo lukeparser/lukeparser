@@ -14,6 +14,7 @@ import hashlib
 from tempfile import gettempdir
 from luke.defaults import defaults
 from luke.parser.markdown import MLList
+defaults = defaults["general"]
 
 class notfound:
     pass

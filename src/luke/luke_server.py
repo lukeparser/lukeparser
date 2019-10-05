@@ -7,6 +7,7 @@ import re
 from luke.defaults import defaults
 from luke.luke import installTheme
 from luke.server.LivereloadHandler import LivereloadHandler
+defaults = defaults["general"]
 
 hostName = os.environ.get("hostname") or "localhost"
 hostPort = int(os.environ.get("hostport") or 8080)
