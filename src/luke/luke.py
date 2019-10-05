@@ -11,7 +11,6 @@ from luke.defaults import defaults
 defaults = defaults["general"]
 import shutil
 
-
 # inspect available choices
 def listLanguages():
     return [modname for importer, modname, ispkg in pkgutil.iter_modules(luke.parser.__path__)]

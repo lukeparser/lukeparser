@@ -1,7 +1,8 @@
 from luke.luke import *
 import sys
+import argparse
 from pathlib import Path
-from luke.defaults import defaults, ArgumentParserWithHelp
+from luke.defaults import defaults, ArgumentParserWithHelp, make_config_yaml
 defaults = defaults["general"]
 from luke import __version__
 
@@ -42,6 +43,8 @@ Example useage:
                         help="Install theme.")
     parser.add_argument("--init", action="store_true", default=False, # TODO: move to pip-install skript?
                         help="Initialize lukeparser. (Create default config-file, install vc_theme).")
+    parser.add_argument("--showconfig", action="store_true", default=False,
+                        help="Show default configuration file.")
 
     # normal useage
     parser.add_argument("-o", "--output", default=".",
@@ -54,7 +57,7 @@ Example useage:
     # theme/resource
     parser.add_argument("-t", "--theme", default=[], action="append",
                         help="Theme(s) to use. Insert path to use custom theme.")
-    parser.add_argument("--overwrite-theme", dest="overwrite_theme", action="store_true", default=False,
+    parser.add_argument("--overwrite-theme", dest="overwrite_theme", action="store_true", default=defaults["overwrite_theme"],
                         help="Do not allow the theme-choice overloaded by the in-file settings.")
 
     # resource
@@ -62,16 +65,17 @@ Example useage:
                         help="Copy resources to RESOURCE_DEST (if does not exist there).")
     parser.add_argument("--resources-relative", dest="resources_relative", default=None,
                         help="Relative resource-directory from the files directory.")
+
     # resource shorthands
-    parser.add_argument("--resources-here", dest="resources_here", action="store_true", default=False,
+    parser.add_argument("--resources-here", dest="resources_here", action="store_true", default=defaults["resources_here"],
                         help="Shorthand: Store resources in working directory."
                              " (Sets resources_dest to working directory)")
-    parser.add_argument("--resources-with-file", dest="resources_with_file", action="store_true", default=False,
+    parser.add_argument("--resources-with-file", dest="resources_with_file", action="store_true", default=defaults["resources_with_file"],
                         help="Store resources near file. (Sets resources_dest to file directory)")
-    parser.add_argument('--copy-resources', dest='copy_resources', action='store_true',
+    parser.add_argument('--copy-resources', dest='copy_resources', action='store_true', default=defaults["copy_resources"],
                         help="Copy resource-folder (to resource-dest). (default: %(default)s)")
     parser.add_argument('--no-copy-resources', dest='copy_resources', action='store_false')
-    parser.add_argument('--cdn', dest='cdn', action='store_true', default=True,
+    parser.add_argument('--cdn', dest='cdn', action='store_true', default=defaults["cdn"],
                         help="Use CDN instead of local resources. (default: %(default)s)")
     parser.add_argument('--no-cdn', dest='cdn', action='store_false')
 
@@ -119,6 +123,11 @@ Example useage:
     # install a given theme
     if args.install:
         installTheme(args.install[0], reinstall=True)
+        sys.exit(0)
+
+    # show the default configuration file
+    if args.showconfig:
+        print(make_config_yaml())
         sys.exit(0)
 
     # initialize lukeparser (create config-file, install vc_theme)

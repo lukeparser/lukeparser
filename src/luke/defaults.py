@@ -1,3 +1,4 @@
+import sys
 import os
 import argparse
 from ruamel import yaml
@@ -39,8 +40,8 @@ defaults = {
             "latex": "basic"
         },
         "default_view": "html",
-    },
-    "cli": {
+
+        "cdn": True,
         "overwrite_theme": False,
         "out_here": False,
         "copy_resources": False,
@@ -49,6 +50,9 @@ defaults = {
         "resources_relative": ".",
         "to_string": False,
         "resources_relative_append_theme": D(False,"blub"),
+    },
+    "cli": {
+
     },
     "server": {
 
@@ -63,7 +67,7 @@ defaults = {
 
 
 
-def make_config_yaml(defaults,level=0):
+def make_config_yaml(defaults=defaults,level=0):
     s = ""
     indent = "    "
     for key,val in defaults.items():
@@ -82,3 +86,12 @@ def make_config_yaml(defaults,level=0):
 # print(yaml.safe_dump(yamlobj,indent=4))
 # import sys
 # sys.exit(0)
+
+
+class ArgumentParserWithHelp(argparse.ArgumentParser):
+    def error(self, message):
+        sys.stderr.write('error: %s\n' % message)
+        self.print_help()
+        sys.exit(2)
+
+
