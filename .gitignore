@@ -18,7 +18,6 @@ ChangeLog
 pybison-*Parser/
 src/luke/parser/compiled
 Dockerfile.*
-tests/
 
 
 # Created by .ignore support plugin (hsz.mobi)

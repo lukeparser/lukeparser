@@ -1,0 +1,1 @@
+text {attr}`inline`

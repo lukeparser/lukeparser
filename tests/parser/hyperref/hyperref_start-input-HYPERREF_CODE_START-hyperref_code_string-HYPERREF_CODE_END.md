@@ -1,0 +1,7 @@
+[input](```
+    code
+```)
+
+![input](```
+    code
+```)

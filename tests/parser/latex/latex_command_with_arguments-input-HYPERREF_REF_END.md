@@ -1,0 +1,5 @@
+\cmd[
+    test
+][
+    test2
+]
