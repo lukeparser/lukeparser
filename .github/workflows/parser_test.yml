@@ -1,0 +1,18 @@
+name: PyTest
+
+on:
+  push:
+    paths:
+      - 'src/luke/parser/*'
+  pull_request:
+    paths:
+      - 'src/luke/parser/*'
+
+jobs:
+  pytest:
+    name: PyTest
+    steps:
+    - uses: actions/checkout@master
+    - uses: cclauss/GitHub-Action-for-pytest@0.5.0
+      with:
+          args: "pytest -v tests"
