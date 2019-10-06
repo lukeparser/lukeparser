@@ -1,0 +1,7 @@
+# action.yml
+name: 'PyTest for Luke Parser'
+description: 'Uses the current luke version of this folder to build the documentation.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args: ["pytest -v tests"]
