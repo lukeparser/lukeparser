@@ -2,9 +2,14 @@
 """
 Markdown parser
 """
-from bison import BisonParser, BisonSyntaxError
+from bison import BisonParser, BisonSyntaxError as _BisonSyntaxError
 import os
 
+class BisonSyntaxError(_BisonSyntaxError):
+    def __str__(self):
+        return "SyntaxError"
+    def __repr__(self):
+        return str(self)
 
 # Multiline-List
 class MLList(list):
@@ -287,7 +292,7 @@ class MarkdownParser(BisonParser):
         <INITIAL>"{"                            { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
         <ATTRIBUTE_STATE>"{"                    { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
         <ATTRIBUTE_STATE>{whitespace_nl}"}"{whitespace}        { STATE_POP(); returntoken(ATTR_END); }
-        <ATTRIBUTE_STATE>"}["                   { STATE_POP(); returntoken(ATTR_END_AND_ARG_START); }
+        <ATTRIBUTE_STATE>"}["                   { STATE_POP(); STATE_PUSH(INITIAL); returntoken(ATTR_END_AND_ARG_START); }
         <ATTRIBUTE_STATE>"["                    { STATE_PUSH(INITIAL); returntoken(ATTR_INPUT); }
         <ATTRIBUTE_STATE>"#"                    { returntoken(ATTR_HASH); }
         <ATTRIBUTE_STATE>"\."                   { returntoken(ATTR_DOT); }
@@ -312,12 +317,12 @@ class MarkdownParser(BisonParser):
         ^{whitespace}"^["[^\]]+"]:"{whitespace} { returntoken(FOOTNOTE_DEFINITION); }
         ^{whitespace}"!["[^\]]+"]:"{whitespace} { returntoken(IMAGE_DEFINITION); }
         ^{whitespace}"["[^\^\]]+"]:"{whitespace} { returntoken(LINK_DEFINITION); }
-        "[^"                                    { returntoken(FOOTNOTE_START); }
-        "][^"                                   { returntoken(FOOTNOTE_MID); }
-        "^["                                    { returntoken(FOOTNOTE_INLINE_START); }
-        "]^["                                   { returntoken(FOOTNOTE_INLINE_MID); }
-        "!["                                    { returntoken(IMG_START); }
-        "["                                     { returntoken(LINK_START); }
+        "[^"                                    { STATE_PUSH(INITIAL); returntoken(FOOTNOTE_START); }
+        "][^"                                   { STATE_POP(); STATE_PUSH(INITIAL); returntoken(FOOTNOTE_MID); }
+        "^["                                    { STATE_PUSH(INITIAL); returntoken(FOOTNOTE_INLINE_START); }
+        "]^["                                   { STATE_POP(); STATE_PUSH(INITIAL); returntoken(FOOTNOTE_INLINE_MID); }
+        "!["                                    { STATE_PUSH(INITIAL); returntoken(IMG_START); }
+        "["                                     { STATE_PUSH(INITIAL); returntoken(LINK_START); }
         "]["{whitespace_nl}                     { returntoken(HYPERREF_REF_MID); }
         "]("{whitespace_nl}"```"\w*{whitespace_nl}    {  STATE_PUSH(HYPERREF_CODE_STATE); returntoken(HYPERREF_CODE_START); }
         "]("{whitespace_nl}                     { STATE_PUSH(HYPERREF_LINK_STATE); returntoken(HYPERREF_LINK_MID); }
@@ -541,7 +546,6 @@ class MarkdownParser(BisonParser):
               | table
               | codeblock_block
               | href_definition
-              | error
         """
         if option == 1:
             return {'type': 'paragraph', 'content': MLList([values[0]])}
@@ -549,8 +553,6 @@ class MarkdownParser(BisonParser):
             return {'type': 'hrule'}
         elif option == 7:
             return {'type': 'attributes', **values[0]}
-        elif option == 11:
-            return {"type":"error","exception-object":BisonSyntaxError("Error Occured in %s-Element" % (target)),"exception-type":"Syntax Error","text":values[0][0],"pos":values[0][1:]}
         return values[0]
 
     def on_br(self, target, option, names, values):
@@ -734,7 +736,6 @@ class MarkdownParser(BisonParser):
              | ITALIC_START span_multitext_wrap
              | BOLD_START span_multitext_wrap
              | STRIKE_START span_multitext_wrap
-             | error UNEXPECTED_END
         """
         # raise ValueError("test")
         if option == 0:
@@ -804,8 +805,6 @@ class MarkdownParser(BisonParser):
               | latex_command_with_arguments input HYPERREF_REF_END
               | LATEX_COMMAND_WITH_OPTIONAL_ARGUMENT attribute_list ATTR_END
               | latex_command_with_arguments_and_optional input HYPERREF_REF_END
-              | latex_command_with_arguments error
-              | latex_command_with_arguments_and_optional error
         """
         if option == 0:
             cmd = {'type': 'command', 'command': values[0][1:].rstrip("[\t\n "), 'arguments': []}
@@ -816,16 +815,13 @@ class MarkdownParser(BisonParser):
         elif option == 3:
             values[0]['arguments'] += MLList([values[1]])
             cmd = values[0]
-        elif option == 4 or option == 5:
-            return {"type":"error","exception-object":BisonSyntaxError("Error Occured in Block-Element"),"exception-type":"Syntax Error","text":"Unexpected End","text":values[1][0],"pos":values[1][1:]}
-
         return cmd
 
     def on_latex_command_with_arguments_and_optional(self, target, option, names, values):
         """
         latex_command_with_arguments_and_optional : LATEX_COMMAND_WITH_OPTIONAL_ARGUMENT attribute_list ATTR_END_AND_ARG_START
                                                   | latex_command_with_arguments_and_optional input HYPERREF_REF_MID
-                                                  | latex_command_with_arguments_and_optional error
+                                                  | latex_command_with_arguments_and_optional error UNEXPECTED_END
         """
         if option == 0:
             return {'type': 'command', 'command': values[0][1:].rstrip("[\t\n ")[:-1].rstrip("[\t\n "), 'arguments': [], **MarkdownParser.attribute_args(values[1])}
@@ -839,7 +835,7 @@ class MarkdownParser(BisonParser):
         """
         latex_command_with_arguments : LATEX_COMMAND_WITH_ARGUMENTS
                                      | latex_command_with_arguments input HYPERREF_REF_MID
-                                     | latex_command_with_arguments error
+                                     | latex_command_with_arguments error UNEXPECTED_END
         """
         if option == 0:
             return {'type': 'command', 'command': values[0][1:].replace("{}", "").rstrip("[\t\n "), 'arguments': []}
@@ -944,8 +940,8 @@ class MarkdownParser(BisonParser):
                  | hyperref_start input FOOTNOTE_MID string HYPERREF_REF_END
                  | hyperref_start input FOOTNOTE_INLINE_MID input HYPERREF_REF_END
                  | hyperref_start input HYPERREF_CODE_START hyperref_code_string HYPERREF_CODE_END
-                 | hyperref_start error
-                 | FOOTNOTE_INLINE_START error
+                 | hyperref_start error UNEXPECTED_END
+                 | FOOTNOTE_INLINE_START error UNEXPECTED_END
         """
         if option == 0:
             return {'type': values[0], 'content': MLList(values[1]), 'dest': MarkdownParser.parseUrl(values[3])}
