@@ -7,15 +7,17 @@ on:
 
 jobs:
   autotagging:
-    name: Add release Tags
+    name: Autoadd release Tags
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: jaliborc/action-general-autotag@1.0.0
+    - uses: jaliborc/action-general-autotag@7d2ae9f
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source_file: src/luke/__init__.py
         extraction_regex: "^__version__\\s*=\\s*\"(\\d[\\d\\.]+)\""
         tag_message: "Alpha Release"
+        tag_format: "v{version}"
   documentation:
     name: Deploy Documentation
     runs-on: ubuntu-latest
