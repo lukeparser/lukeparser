@@ -1,6 +1,6 @@
--
-*
-+
+- 
+* 
++ 
 
 -[test] text
 +[test] text
