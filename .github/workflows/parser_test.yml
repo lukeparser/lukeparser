@@ -1,0 +1,17 @@
+name: PyTest
+
+on:
+  push:
+    paths:
+      - 'src/luke/parser/*'
+  pull_request:
+    paths:
+      - 'src/luke/parser/*'
+
+jobs:
+  pytest:
+    name: PyTest
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: ./.github/actions/pytest
