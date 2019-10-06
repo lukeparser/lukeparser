@@ -1,0 +1,11 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "command",
+            "command": "latex",
+            "arguments": [],
+            "scope": {}
+        }
+    ]
+}

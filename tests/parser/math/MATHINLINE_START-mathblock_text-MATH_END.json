@@ -1,0 +1,98 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "math_inline",
+                        "verbatim": [
+                            "\n    E=mc^2\n"
+                        ]
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "math_inline",
+                        "verbatim": [
+                            "\n    E=mc^2\n\t"
+                        ]
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "math_inline",
+                        "verbatim": [
+                            "\n    E=mc^2\n    "
+                        ]
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "math_inline",
+                        "verbatim": [
+                            "E=mc^2\n"
+                        ]
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "math_inline",
+                        "verbatim": [
+                            "\nE=mc^2"
+                        ]
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "math_inline",
+                        "verbatim": [
+                            "E=mc^2"
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}

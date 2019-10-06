@@ -1,0 +1,21 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "math_block",
+                        "verbatim": [
+                            "{",
+                            "mathblock_text",
+                            "}",
+                            " mathblock_text"
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}

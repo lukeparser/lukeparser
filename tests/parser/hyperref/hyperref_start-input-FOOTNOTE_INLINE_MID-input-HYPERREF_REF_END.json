@@ -1,0 +1,36 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "footnote_inline",
+                        "content": [
+                            {
+                                "type": "paragraph",
+                                "content": [
+                                    [
+                                        "footnote"
+                                    ]
+                                ]
+                            }
+                        ],
+                        "text": [
+                            {
+                                "type": "paragraph",
+                                "content": [
+                                    [
+                                        "test"
+                                    ]
+                                ]
+                            }
+                        ],
+                        "scope": {}
+                    }
+                ]
+            ]
+        }
+    ]
+}

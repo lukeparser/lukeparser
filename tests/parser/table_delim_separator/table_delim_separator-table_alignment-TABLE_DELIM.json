@@ -1,0 +1,21 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "table",
+            "content": [
+                [
+                    {
+                        "type": "table_separator",
+                        "align": "normal"
+                    },
+                    {
+                        "type": "table_separator",
+                        "align": "normal"
+                    }
+                ]
+            ],
+            "scope": {}
+        }
+    ]
+}

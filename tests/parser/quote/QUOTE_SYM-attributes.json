@@ -1,0 +1,18 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "quote",
+            "content": [
+                [
+                    []
+                ]
+            ],
+            "level": 0,
+            "nargs": [
+                "attr"
+            ],
+            "scope": {}
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "table",
+            "content": [
+                [
+                    [
+                        "a test"
+                    ],
+                    [
+                        "b test"
+                    ]
+                ],
+                [
+                    {
+                        "type": "table_separator",
+                        "align": "centered"
+                    },
+                    {
+                        "type": "table_separator",
+                        "align": "centered"
+                    }
+                ],
+                [
+                    [
+                        "c test"
+                    ],
+                    [
+                        "d test"
+                    ]
+                ],
+                [
+                    [
+                        "e test"
+                    ],
+                    [
+                        "f test"
+                    ]
+                ]
+            ],
+            "scope": {}
+        }
+    ]
+}

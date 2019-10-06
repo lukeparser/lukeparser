@@ -1,0 +1,38 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "code_block",
+            "verbatim": "codeblock_block\n",
+            "whitespace": "",
+            "level": 0
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "code_block",
+            "verbatim": "\tcodeblock_block\n",
+            "whitespace": "\t",
+            "level": 1
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "code_block",
+            "verbatim": "codeblock_block\n",
+            "whitespace": "\t",
+            "level": 1
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "code_block",
+            "verbatim": "\tcodeblock_block\n",
+            "whitespace": "",
+            "level": 0
+        }
+    ]
+}

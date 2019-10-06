@@ -1,0 +1,21 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "bold",
+                        "text": [
+                            {
+                                "type": "italic",
+                                "text": ""
+                            }
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}

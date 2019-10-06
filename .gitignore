@@ -15,6 +15,7 @@ ChangeLog
 *.json
 *.html
 !resources/*.html
+!tests/**/*.json
 pybison-*Parser/
 src/luke/parser/compiled
 Dockerfile.*

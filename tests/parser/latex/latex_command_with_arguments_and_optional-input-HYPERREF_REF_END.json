@@ -1,0 +1,41 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "command",
+            "command": "cmd",
+            "arguments": [
+                [
+                    {
+                        "type": "indent",
+                        "content": [
+                            [
+                                [
+                                    [
+                                        "test"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        "level": 1,
+                        "scope": {}
+                    }
+                ],
+                [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            [
+                                "test2"
+                            ]
+                        ]
+                    }
+                ]
+            ],
+            "nargs": [
+                "attrs"
+            ],
+            "scope": {}
+        }
+    ]
+}

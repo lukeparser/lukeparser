@@ -1,0 +1,23 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "attributes",
+            "nargs": [
+                42
+            ]
+        },
+        {
+            "type": "attributes",
+            "nargs": [
+                42.5
+            ]
+        },
+        {
+            "type": "attributes",
+            "nargs": [
+                42.5
+            ]
+        }
+    ]
+}

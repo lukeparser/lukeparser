@@ -1,0 +1,29 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    "br "
+                ],
+                [
+                    "blocks "
+                ],
+                [
+                    "br",
+                    {
+                        "type": "italic",
+                        "text": [
+                            "end",
+                            {
+                                "type": "hard break"
+                            },
+                            ""
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}

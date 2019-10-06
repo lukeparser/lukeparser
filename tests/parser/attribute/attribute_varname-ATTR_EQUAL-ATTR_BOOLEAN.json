@@ -1,0 +1,25 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "attributes",
+            "nargs": [],
+            "var": true
+        },
+        {
+            "type": "attributes",
+            "nargs": [],
+            "var": false
+        },
+        {
+            "type": "attributes",
+            "nargs": [],
+            "var": true
+        },
+        {
+            "type": "attributes",
+            "nargs": [],
+            "var": false
+        }
+    ]
+}

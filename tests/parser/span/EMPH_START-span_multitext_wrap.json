@@ -1,0 +1,25 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "emph",
+                        "text": [
+                            "test",
+                            {
+                                "type": "hard break"
+                            },
+                            [
+                                "test",
+                                ""
+                            ]
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}

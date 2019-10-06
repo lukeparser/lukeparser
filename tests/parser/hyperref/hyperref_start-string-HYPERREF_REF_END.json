@@ -1,0 +1,38 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "link",
+                        "content": [
+                            "string"
+                        ],
+                        "ref": "string",
+                        "scope": {}
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "image",
+                        "content": [
+                            "string"
+                        ],
+                        "ref": "string",
+                        "scope": {}
+                    }
+                ]
+            ]
+        }
+    ]
+}

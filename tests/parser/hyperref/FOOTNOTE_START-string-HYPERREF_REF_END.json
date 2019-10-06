@@ -1,0 +1,17 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "footnote",
+                        "ref": "footnote",
+                        "text": ""
+                    }
+                ]
+            ]
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "code_block",
+            "syntax": "python",
+            "verbatim": "codeblock_string\n",
+            "whitespace": "",
+            "level": 0
+        }
+    ]
+}

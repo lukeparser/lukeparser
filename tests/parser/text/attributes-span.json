@@ -1,0 +1,19 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "code_inline",
+                        "verbatim": "inline",
+                        "nargs": [
+                            "attr"
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}

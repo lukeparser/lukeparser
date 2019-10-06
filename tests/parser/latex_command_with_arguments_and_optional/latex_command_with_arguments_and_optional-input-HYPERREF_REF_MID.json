@@ -1,0 +1,45 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "command",
+            "command": "cmd",
+            "arguments": [
+                [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            [
+                                "test1"
+                            ]
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            [
+                                "test2"
+                            ]
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            [
+                                "test3"
+                            ]
+                        ]
+                    }
+                ]
+            ],
+            "nargs": [
+                "attrs"
+            ],
+            "scope": {}
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "table",
+            "content": [
+                [
+                    [
+                        "a test"
+                    ],
+                    [
+                        "b test"
+                    ]
+                ],
+                [
+                    {
+                        "type": "table_separator",
+                        "align": "normal",
+                        "nargs": [
+                            "attr"
+                        ]
+                    },
+                    {
+                        "type": "table_separator",
+                        "align": "normal",
+                        "nargs": [
+                            "anattr"
+                        ]
+                    }
+                ],
+                [
+                    [
+                        "c test"
+                    ],
+                    [
+                        "d test"
+                    ]
+                ],
+                [
+                    [
+                        "e test"
+                    ],
+                    [
+                        "f testttributes table",
+                        {
+                            "type": "italic",
+                            "text": [
+                                "alignment",
+                                ""
+                            ]
+                        }
+                    ]
+                ]
+            ],
+            "scope": {}
+        }
+    ]
+}

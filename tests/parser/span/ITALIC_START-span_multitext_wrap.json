@@ -1,0 +1,25 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "italic",
+                        "text": [
+                            "text",
+                            {
+                                "type": "hard break"
+                            },
+                            [
+                                "text",
+                                ""
+                            ]
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}

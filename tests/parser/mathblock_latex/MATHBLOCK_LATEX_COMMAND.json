@@ -1,0 +1,22 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "math_block",
+                        "verbatim": [
+                            {
+                                "type": "latex_command",
+                                "command": "cmd",
+                                "arguments": []
+                            }
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}

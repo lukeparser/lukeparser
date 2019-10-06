@@ -1,0 +1,52 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "tikz",
+                        "content": [
+                            {
+                                "type": "paragraph",
+                                "content": [
+                                    [
+                                        "input"
+                                    ]
+                                ]
+                            }
+                        ],
+                        "tikz-code": "code",
+                        "scope": {}
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "tikz",
+                        "content": [
+                            {
+                                "type": "paragraph",
+                                "content": [
+                                    [
+                                        "input"
+                                    ]
+                                ]
+                            }
+                        ],
+                        "tikz-code": "code",
+                        "scope": {}
+                    }
+                ]
+            ]
+        }
+    ]
+}

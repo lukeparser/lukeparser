@@ -1,0 +1,54 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "link",
+                        "alt_text": "alt string",
+                        "dest": "string.img",
+                        "content": [
+                            {
+                                "type": "paragraph",
+                                "content": [
+                                    [
+                                        "input"
+                                    ]
+                                ]
+                            }
+                        ],
+                        "scope": {}
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    {
+                        "type": "image",
+                        "alt_text": "alt string",
+                        "dest": "string.img",
+                        "content": [
+                            {
+                                "type": "paragraph",
+                                "content": [
+                                    [
+                                        "input"
+                                    ]
+                                ]
+                            }
+                        ],
+                        "scope": {}
+                    }
+                ]
+            ]
+        }
+    ]
+}

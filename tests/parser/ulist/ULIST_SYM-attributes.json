@@ -1,0 +1,21 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "ulist",
+            "content": [
+                [
+                    []
+                ]
+            ],
+            "level": 0,
+            "nargs": [
+                "test"
+            ],
+            "symbols": [
+                "-"
+            ],
+            "scope": {}
+        }
+    ]
+}

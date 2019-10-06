@@ -1,0 +1,10 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "attributes",
+            "nargs": [],
+            "id": "test"
+        }
+    ]
+}

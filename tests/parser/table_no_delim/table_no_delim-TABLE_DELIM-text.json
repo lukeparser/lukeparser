@@ -1,0 +1,22 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "table",
+            "content": [
+                [
+                    [
+                        "text"
+                    ],
+                    [
+                        "text"
+                    ],
+                    [
+                        "text"
+                    ]
+                ]
+            ],
+            "scope": {}
+        }
+    ]
+}

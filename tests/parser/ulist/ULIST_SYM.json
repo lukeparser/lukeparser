@@ -1,0 +1,50 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    "-"
+                ],
+                [
+                    {
+                        "type": "emph",
+                        "text": [
+                            "+",
+                            {
+                                "type": "hard break"
+                            },
+                            ""
+                        ]
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "ulist",
+            "content": [
+                [
+                    [
+                        [
+                            "text"
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            "text"
+                        ]
+                    ]
+                ]
+            ],
+            "level": 0,
+            "symbols": [
+                "test",
+                "test"
+            ],
+            "scope": {}
+        }
+    ]
+}

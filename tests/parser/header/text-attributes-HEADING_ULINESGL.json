@@ -1,0 +1,20 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "section",
+            "title": [
+                [
+                    "text "
+                ]
+            ],
+            "h-level": 1,
+            "level": 0,
+            "nargs": [
+                "attributes"
+            ],
+            "content": [],
+            "scope": {}
+        }
+    ]
+}

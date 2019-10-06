@@ -1,0 +1,63 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "indent",
+            "content": [
+                [
+                    [
+                        [
+                            "indent"
+                        ]
+                    ]
+                ],
+                {
+                    "type": "hard break"
+                },
+                [
+                    [
+                        [
+                            "indent"
+                        ]
+                    ],
+                    {
+                        "type": "hard break"
+                    },
+                    {
+                        "type": "indent",
+                        "content": [
+                            [
+                                [
+                                    [
+                                        "indent"
+                                    ]
+                                ],
+                                {
+                                    "type": "hard break"
+                                },
+                                {
+                                    "type": "indent",
+                                    "content": [
+                                        [
+                                            [
+                                                [
+                                                    "indent"
+                                                ]
+                                            ]
+                                        ]
+                                    ],
+                                    "level": 3,
+                                    "scope": {}
+                                }
+                            ]
+                        ],
+                        "level": 2,
+                        "scope": {}
+                    }
+                ]
+            ],
+            "level": 1,
+            "scope": {}
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "indent",
+            "content": [
+                [
+                    [
+                        [
+                            "indent"
+                        ]
+                    ]
+                ]
+            ],
+            "level": 1,
+            "scope": {}
+        }
+    ]
+}

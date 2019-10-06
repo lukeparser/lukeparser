@@ -1,0 +1,20 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                [
+                    "text ",
+                    {
+                        "type": "code_inline",
+                        "verbatim": "inline",
+                        "nargs": [
+                            "attr"
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}

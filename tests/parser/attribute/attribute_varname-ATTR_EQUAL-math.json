@@ -1,0 +1,45 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "attributes",
+            "nargs": [],
+            "var": {
+                "type": "math_inline",
+                "verbatim": [
+                    "E=mc^2"
+                ]
+            }
+        },
+        {
+            "type": "attributes",
+            "nargs": [],
+            "var": {
+                "type": "math_block",
+                "verbatim": [
+                    "E=mc^2"
+                ]
+            }
+        },
+        {
+            "type": "attributes",
+            "nargs": [],
+            "var": {
+                "type": "math_block",
+                "verbatim": [
+                    "\n    E=mc^2\n"
+                ]
+            }
+        },
+        {
+            "type": "attributes",
+            "nargs": [],
+            "var": {
+                "type": "math_block",
+                "verbatim": [
+                    "\n\tE=mc^2\n"
+                ]
+            }
+        }
+    ]
+}

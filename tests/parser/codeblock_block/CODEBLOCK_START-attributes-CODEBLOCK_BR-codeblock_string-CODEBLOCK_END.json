@@ -1,0 +1,26 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "code_block",
+            "verbatim": "codeblock_string\n",
+            "whitespace": "",
+            "level": 0,
+            "nargs": [
+                "test"
+            ]
+        },
+        {
+            "type": "hard break"
+        },
+        {
+            "type": "code_block",
+            "verbatim": "codeblock_string\n",
+            "whitespace": "",
+            "level": 0,
+            "nargs": [
+                "test"
+            ]
+        }
+    ]
+}

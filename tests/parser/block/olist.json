@@ -1,0 +1,22 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "olist",
+            "content": [
+                [
+                    [
+                        [
+                            "olist"
+                        ]
+                    ]
+                ]
+            ],
+            "level": 0,
+            "symbols": [
+                "1."
+            ],
+            "scope": {}
+        }
+    ]
+}

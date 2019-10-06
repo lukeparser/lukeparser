@@ -1,0 +1,12 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "command",
+            "command": "cmd",
+            "nargs": [
+                "attrs"
+            ]
+        }
+    ]
+}

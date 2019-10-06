@@ -1,0 +1,14 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "attributes",
+            "nargs": [
+                {
+                    "type": "placeholder",
+                    "command": "test"
+                }
+            ]
+        }
+    ]
+}
