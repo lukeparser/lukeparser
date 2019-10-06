@@ -145,7 +145,7 @@ class Preprocessing(object):
         while i < len(blocks):
             current = blocks[i]
 
-            if isinstance(current, str):
+            if not isinstance(current, list) and not isinstance(current,dict):
                 pass
 
             # all isinstance-ifs are used for content-lists
@@ -255,10 +255,7 @@ class Preprocessing(object):
         while i < len(blocks):
             current = blocks[i]
 
-            if isinstance(current, str):
-                pass
-
-            elif isinstance(current, list):
+            if not isinstance(current, dict):
                 pass
 
             # has no type (just in case)

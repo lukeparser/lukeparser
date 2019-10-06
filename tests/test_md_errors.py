@@ -21,7 +21,7 @@ root_dir = os.path.join("tests","parser")
 
 # list all markdown files
 testdirs = [join(root_dir, f) for f in os.listdir(root_dir) if isdir(join(root_dir, f))]
-md_files = [join(d, f) for d in testdirs for f in os.listdir(d) if isfile(join(d, f))]
+md_files = [join(d, f) for d in testdirs for f in os.listdir(d) if isfile(join(d, f)) and f.endswith(".md")]
 
 def msg(msg,keylist):
     return "'"+msg+"' under the key '"+".".join(keylist)+"'."
@@ -50,7 +50,7 @@ def tfactory(file,json_file):
         prep = Preprocessing()
         res = parse_lang(parser,prep,file_path=file)
 
-        with open(json_file, 'r') as f:
+        with open(file, 'r') as f:
             md = f.read()
         with open(json_file, 'r') as f:
             expected = json.load(f)
@@ -92,18 +92,18 @@ def test_allcasestested():
             # if not os.path.exists(filename+".md"):
             #     with open(filename+".md", 'w') as f:
             #         f.write(" ".join(rule))
-            # print(filename)
-            if not os.path.exists(filename+".json"):
 
+            assert os.path.exists(filename+".md")
+
+            # (only for test writing)
+            if not os.path.exists(filename+".json"):
                 parser = MarkdownParser()
                 prep = Preprocessing()
                 res = parse_lang(parser,prep,file_path=filename+".md")
                 del res["scope"]
                 with open(filename+".json", 'w') as f:
                     f.write(json.dumps(res,indent=4,default=dumper))
-
-            assert os.path.exists(filename+".md")
-
+# test_allcasestested()
 
 # walk all files and create a test
 for file in md_files:
