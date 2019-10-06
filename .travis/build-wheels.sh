@@ -40,4 +40,6 @@ done
 
 # use last python to pack sdist
 cd /io
+/opt/python/cp37-cp37m/bin/pip list
+/opt/python/cp37-cp37m/bin/pip install --upgrade setuptools
 /opt/python/cp37-cp37m/bin/python setup.py sdist

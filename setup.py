@@ -56,7 +56,7 @@ def find_meta(meta):
     Extract __*meta*__ from META_FILE.
     """
     meta_match = re.search(
-        r"^__{meta}__ = ['\"]([^'\"]*)['\"]".format(meta=meta),
+        r"^__{meta}__\s+=\s+['\"]([^'\"]*)['\"]".format(meta=meta),
         META_FILE, re.M
     )
     if meta_match:
@@ -106,9 +106,14 @@ if __name__ == "__main__":
         # author_email=find_meta("email"),
         maintainer=find_meta("author"),
         # maintainer_email=find_meta("email"),
+        project_urls={
+            'Documentation': find_meta('documentation'),
+            'Source': find_meta("source"),
+            'Tracker': find_meta("tracker"),
+        },
         keywords=KEYWORDS,
         long_description_content_type="text/markdown",
-        long_description=read("README.md").replace("\n\n","\n"),
+        long_description=re.sub("\n\n+", "\n", read("README.md")),
         packages=PACKAGES,
         package_dir={"": "src"},
         zip_safe=False,

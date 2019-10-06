@@ -1,9 +1,6 @@
 name: PyTest
 
 on:
-  push:
-    paths:
-      - 'src/luke/parser/*'
   pull_request:
     paths:
       - 'src/luke/parser/*'

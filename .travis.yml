@@ -57,7 +57,7 @@ after_success:
 - ls dist/*
 - ls -la
 - $PY --version
-- $PY -m pip install --upgrade twine setuptools
+- $PY -m pip install --upgrade twine
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       sudo chown -R $(whoami):$(whoami) dist;
       rm -rf dist/pybison-*;
