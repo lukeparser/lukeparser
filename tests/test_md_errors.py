@@ -24,41 +24,52 @@ testdirs = [join(root_dir, f) for f in os.listdir(root_dir) if isdir(join(root_d
 md_files = [join(d, f) for d in testdirs for f in os.listdir(d) if isfile(join(d, f)) and f.endswith(".md")]
 
 def msg(msg,keylist):
-    return "'"+msg+"' under the key '"+".".join(keylist)+"'."
+    s = ""
+    if len(keylist) > 0:
+        s = keylist[0]
+    for k in keylist[1:]:
+        if not k.startswith("["):
+            s += "."
+        s += k
+    return "'"+msg+"' under the key '"+s+"'."
 
 def dictContains(src,expected,keylist=[]):
-    assert isinstance(src,dict), msg("Is not a dict.",keylist)
-    for key,val in expected.items():
-        k = keylist+[key]
-        assert key in src, msg("Does not contain the key.",k)
-        if isinstance(val,dict):
-            dictContains(src[key], val, k)
-        elif isinstance(val,list):
-            assert isinstance(src[key],list)
-            for i,v in enumerate(val):
-                assert src[key][i] == val[i], msg("Arrays do not match at index "+str(i)+".",k)
-        else:
-            assert type(src[key]) == type(val), msg("Not same types.",k)
-            assert src[key] == val, msg("Not same value.",k)
+    assert isinstance(src,expected.__class__), msg("Not same types.",keylist)
+
+    if isinstance(src,list):
+        for i,v in enumerate(expected):
+            dictContains(src[i], v, keylist+["["+str(i)+"]"])
+            # assert src[key][i] == val[i], msg("Arrays do not match at index "+str(i)+".",k)
+
+    elif isinstance(src,dict):
+        for key,val in expected.items():
+            # assert key in src, msg("Does not contain the key.",k)
+            # if isinstance(val,dict):
+            dictContains(src[key], val, keylist+[key])
+            # elif isinstance(val,list):
+            #     assert isinstance(src[key],list)
+    else:
+        assert src == expected, msg("Not same value.",keylist)
 
 def tfactory(file,json_file):
     def thetest():
-        if not os.path.exists(json_file):
-            assert False, "Missing result file"
-
         parser = MarkdownParser()
         prep = Preprocessing()
         res = parse_lang(parser,prep,file_path=file)
 
         with open(file, 'r') as f:
             md = f.read()
-        with open(json_file, 'r') as f:
-            expected = json.load(f)
 
         print("From:")
         print(md)
         print("Result:")
         print(json.dumps(res,indent=4,default=dumper))
+
+        if not os.path.exists(json_file):
+            assert False, "Missing result file"
+        with open(json_file, 'r') as f:
+            expected = json.load(f)
+
         print("Expected:")
         print(json.dumps(expected,indent=4))
         dictContains(res,expected)

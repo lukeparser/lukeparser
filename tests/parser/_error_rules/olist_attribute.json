@@ -1,0 +1,25 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "ulist",
+            "content": [
+                [
+                    [
+                        [
+                            "test ",
+                            {
+                                "type": "error"
+                            }
+                        ]
+                    ]
+                ]
+            ],
+            "level": 0,
+            "symbols": [
+                "-"
+            ]
+        }
+    ]
+}
+

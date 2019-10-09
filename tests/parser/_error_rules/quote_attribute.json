@@ -1,0 +1,22 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "quote",
+            "content": [
+                [
+                    [
+                        [
+                            "test ",
+                            {
+                                "type": "error"
+                            }
+                        ]
+                    ]
+                ]
+            ],
+            "level": 0
+        }
+    ]
+}
+
