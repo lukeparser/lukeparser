@@ -10,17 +10,6 @@
         {
             "type": "hrule"
         }
-    ],
-    "scope": {
-        "variable": {
-            "fileext": ".md",
-            "filename": "HRULE",
-            "filename_full": "HRULE.md",
-            "relative_path": "tests/parser/block/HRULE.md",
-            "absolute_path": "/home/dave/GitRepos/lukeparser/tests/parser/block/HRULE.md",
-            "basepath": "tests/parser/block",
-            "assets": "./"
-        }
-    }
+    ]
 }
 
