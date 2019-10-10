@@ -256,10 +256,10 @@ class MarkdownParser(BisonParser):
 
         <INITIAL>{whitespace}```                { STATE_PUSH(CODEBLOCK_STATE); returntoken(CODEBLOCK_START); }
         <CODEBLOCK_STATE>{whitespace}"{"        { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
-        <CODEBLOCK_STATE>{whitespace}\n         { STATE_PUSH(CODEBLOCK_STATE_VERBATIM); returntoken(CODEBLOCK_BR); }
+        <CODEBLOCK_STATE>{whitespace}\n         { STATE_POP(); STATE_PUSH(CODEBLOCK_STATE_VERBATIM); returntoken(CODEBLOCK_BR); }
         <CODEBLOCK_STATE>[^ {\n]+               { returntoken(CODEBLOCK_STRING_BEFORE); }
         <CODEBLOCK_STATE_VERBATIM>\n            { returntokenFromString(yytext,CODEBLOCK_CHAR); }
-        <CODEBLOCK_STATE_VERBATIM>{whitespace}```{whitespace}  { STATE_POP(); STATE_POP(); returntoken(CODEBLOCK_END); }
+        <CODEBLOCK_STATE_VERBATIM>{whitespace}```{whitespace}  { STATE_POP(); returntoken(CODEBLOCK_END); }
         <CODEBLOCK_STATE_VERBATIM>{any}         { returntokenFromString(yytext,CODEBLOCK_CHAR); }
 
         <INITIAL>"`"                            { STATE_PUSH(CODEINLINE_STATE); returntoken(CODEINLINE_START); }
@@ -287,7 +287,7 @@ class MarkdownParser(BisonParser):
         <INITIAL>"{"                            { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
         <ATTRIBUTE_STATE>"{"                    { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
         <ATTRIBUTE_STATE>{whitespace_nl}"}"{whitespace}        { STATE_POP(); returntoken(ATTR_END); }
-        <ATTRIBUTE_STATE>"}["                   { STATE_POP(); returntoken(ATTR_END_AND_ARG_START); }
+        <ATTRIBUTE_STATE>"}["                   { STATE_POP(); STATE_PUSH(INITIAL); returntoken(ATTR_END_AND_ARG_START); }
         <ATTRIBUTE_STATE>"["                    { STATE_PUSH(INITIAL); returntoken(ATTR_INPUT); }
         <ATTRIBUTE_STATE>"#"                    { returntoken(ATTR_HASH); }
         <ATTRIBUTE_STATE>"\."                   { returntoken(ATTR_DOT); }
@@ -312,15 +312,15 @@ class MarkdownParser(BisonParser):
         ^{whitespace}"^["[^\]]+"]:"{whitespace} { returntoken(FOOTNOTE_DEFINITION); }
         ^{whitespace}"!["[^\]]+"]:"{whitespace} { returntoken(IMAGE_DEFINITION); }
         ^{whitespace}"["[^\^\]]+"]:"{whitespace} { returntoken(LINK_DEFINITION); }
-        "[^"                                    { returntoken(FOOTNOTE_START); }
-        "][^"                                   { returntoken(FOOTNOTE_MID); }
-        "^["                                    { returntoken(FOOTNOTE_INLINE_START); }
-        "]^["                                   { returntoken(FOOTNOTE_INLINE_MID); }
-        "!["                                    { returntoken(IMG_START); }
-        "["                                     { returntoken(LINK_START); }
+        "[^"                                    { STATE_PUSH(INITIAL); returntoken(FOOTNOTE_START); }
+        "][^"                                   { STATE_POP(); STATE_PUSH(INITIAL); returntoken(FOOTNOTE_MID); }
+        "^["                                    { STATE_PUSH(INITIAL); returntoken(FOOTNOTE_INLINE_START); }
+        "]^["                                   { STATE_POP(); STATE_PUSH(INITIAL); returntoken(FOOTNOTE_INLINE_MID); }
+        "!["                                    { STATE_PUSH(INITIAL); returntoken(IMG_START); }
+        "["                                     { STATE_PUSH(INITIAL); returntoken(LINK_START); }
         "]["{whitespace_nl}                     { returntoken(HYPERREF_REF_MID); }
-        "]("{whitespace_nl}"```"\w*{whitespace_nl}    {  STATE_PUSH(HYPERREF_CODE_STATE); returntoken(HYPERREF_CODE_START); }
-        "]("{whitespace_nl}                     { STATE_PUSH(HYPERREF_LINK_STATE); returntoken(HYPERREF_LINK_MID); }
+        "]("{whitespace_nl}"```"\w*{whitespace_nl}    {  STATE_POP(); STATE_PUSH(HYPERREF_CODE_STATE); returntoken(HYPERREF_CODE_START); }
+        "]("{whitespace_nl}                     { STATE_POP(); STATE_PUSH(HYPERREF_LINK_STATE); returntoken(HYPERREF_LINK_MID); }
         "]"                                     { STATE_POP(); returntoken(HYPERREF_REF_END); }
 
         <HYPERREF_LINK_STATE>{whitespace_nl}")" { STATE_POP(); returntoken(HYPERREF_LINK_END); }
