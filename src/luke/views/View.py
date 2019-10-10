@@ -14,6 +14,7 @@ import hashlib
 from tempfile import gettempdir
 from luke.defaults import defaults
 from luke.parser.markdown import MLList
+from luke import __version__
 
 class notfound:
     pass
@@ -679,6 +680,10 @@ class View():
     @apply_scope()
     def cmd_block(self, var, run):
         return run(var("arguments")[0])
+
+    @apply_scope()
+    def cmd_version(self, var, run):
+        return run(__version__)
 
     def runWithScope(self, tree, scope):
         mytype = str(type(tree).__name__)

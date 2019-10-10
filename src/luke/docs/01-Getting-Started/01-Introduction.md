@@ -44,3 +44,6 @@ Somewhat deeper topics will include
 - [Extending Luke (custom Themes, views or internal-Functions)](../05-Themes-and-Views/)
 
 
+---
+
+*Version: \version*
