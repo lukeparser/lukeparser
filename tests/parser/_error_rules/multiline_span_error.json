@@ -1,0 +1,34 @@
+{
+    "type": "document",
+    "content": [
+        {
+            "type": "ulist",
+            "content": [
+                [
+                    [
+                        [
+                            "test ",
+                            {
+                                "type": "emph",
+                                "text": [
+                                    "abc"
+                                ]
+                            }
+                        ]
+                    ]
+                ]
+            ],
+            "level": 0,
+            "symbols": [
+                "-"
+            ],
+            "scope": {}
+        },
+        {
+            "type": "attributes",
+            "nargs": [
+                "attr"
+            ]
+        }
+    ]
+}
