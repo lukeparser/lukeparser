@@ -113,7 +113,7 @@ if __name__ == "__main__":
         },
         keywords=KEYWORDS,
         long_description_content_type="text/markdown",
-        long_description=re.sub("\n\n+", "\n", read("README.md")),
+        long_description=read("README.md"),
         packages=PACKAGES,
         package_dir={"": "src"},
         zip_safe=False,

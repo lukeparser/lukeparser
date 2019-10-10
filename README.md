@@ -32,7 +32,7 @@ Did you ever missed these functions in Markdown?
 ## Getting Started
 
 **Documentation**  
-Read the [Documentation online.](lukeparser.github.io/lukeparser).
+Read the [Documentation online.](https://lukeparser.github.io/lukeparser).
 
 **Install** (Linux, Windows & OS X)
 ```sh
