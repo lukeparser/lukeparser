@@ -6,15 +6,14 @@
             "content": [
                 [
                     {
-                        "type": "strike",
+                        "type": "emph",
                         "text": [
-                            "strike",
+                            "text",
                             {
                                 "type": "hard break"
                             },
                             [
-                                "till here",
-                                ""
+                                "text"
                             ]
                         ]
                     }

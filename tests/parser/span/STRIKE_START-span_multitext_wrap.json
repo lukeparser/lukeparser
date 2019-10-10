@@ -5,18 +5,19 @@
             "type": "paragraph",
             "content": [
                 [
-                    "~strike"
-                ]
-            ]
-        },
-        {
-            "type": "hard break"
-        },
-        {
-            "type": "paragraph",
-            "content": [
-                [
-                    "strike"
+                    {
+                        "type": "strike",
+                        "text": [
+                            "strike",
+                            {
+                                "type": "hard break"
+                            },
+                            [
+                                "till here",
+                                ""
+                            ]
+                        ]
+                    }
                 ]
             ]
         }
