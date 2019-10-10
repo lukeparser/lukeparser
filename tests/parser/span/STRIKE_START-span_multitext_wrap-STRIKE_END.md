@@ -1,3 +1,3 @@
-~strike
+~~strike
 
-till here~
+till here~~
