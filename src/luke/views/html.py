@@ -570,6 +570,7 @@ class html(View):
     def translate_error(self, var, run):
         err = var("exception-object",None)
         err_type = var("exception-type")
+        file_path = var("absolute_path")
 
         if err_type == "Syntax Error":
             text = var("text","")
@@ -578,7 +579,6 @@ class html(View):
 
             # get error source
             add_range = 1
-            file_path = var("absolute_path")
             file_error_source = []
             for i in range(pos[1]-add_range,pos[3]+add_range+1):
                 line_number = {
@@ -623,71 +623,14 @@ class html(View):
             # file_str = "".join(file_error_source)
             # code_block = {"type": "code_block", "verbatim":file_str}
             code_block = {
-                        "customsyntax": True,
-                        "type": "math_block",
-                        "verbatim": file_error_source,
-                        # [
-                            # "\n#include <iostream>\nusing namespace std;\nint main()\n",
-                            # "{",
-                            # "\n    unsigned int n;\n    unsigned long long factorial = 1;\n\n    ",
-                            # {
-                            #     "arguments": [
-                            #         [
-                            #             "cout << \"Enter a positive integer: \";"
-                            #         ]
-                            #     ],
-                            #     "command": "meta",
-                            #     "type": "latex_command"
-                            # },
-                            # "\n    cin >> n;\n\n    ",
-                            # {
-                            #     "arguments": [
-                            #         [
-                            #             "for(int i = 1; i <=n; ++i) {"
-                            #         ]
-                            #     ],
-                            #     "command": "title",
-                            #     "type": "latex_command"
-                            # },
-                            # "\n        ",
-                            # {
-                            #     "arguments": [
-                            #         [
-                            #             "factorial *= i;"
-                            #         ]
-                            #     ],
-                            #     "command": "keyword",
-                            #     "type": "latex_command"
-                            # },
-                            # "\n    ",
-                            # {
-                            #     "arguments": [
-                            #         [
-                            #             "}"
-                            #         ]
-                            #     ],
-                            #     "command": "title",
-                            #     "type": "latex_command"
-                            # },
-                            # "\n\n    ",
-                            # {
-                            #     "arguments": [
-                            #         [
-                            #             "cout << \"Factorial of \" << n << \" = \" << factorial;"
-                            #         ]
-                            #     ],
-                            #     "command": "meta",
-                            #     "type": "latex_command"
-                            # },
-                            # "\n    return 0;\n",
-                            # "}",
-                            # "\n"
-                        # ]
-                    }
+                "customsyntax": True,
+                "type": "math_block",
+                "verbatim": file_error_source,
+            }
 
 
             content = [
-                "An Error occured during parsing ",
+                "An Error occured during parsing of",
                 "the File '",file_path,"'.",
                 {"type":"hard break"},
                 "The Error says: '",
@@ -704,6 +647,32 @@ class html(View):
                     "content": code_block
                 }
             ]
+        elif err_type == "Unexpected End Error":
+            text = var("text","")
+            parsed_content = var("content","")
+            err = var("exception-object")
+            code_block = "CB"
+            pos = ("S",0,0,0,0)
+            content = [
+                "An Error occured during parsing of",
+                "the File '",file_path,"'.",
+                {"type":"hard break"},
+                "The Error says: '",
+                {"type":"strong","text":text},
+                "'.",
+                {"type":"new line"},
+                err.args[0],
+                {"type":"hard break"},
+                {
+                    "type": "section",
+                    "collapsible": True,
+                    "show": True,
+                    "title": ["Parsed Content:"],
+                    "h-level": 0,
+                    "content": parsed_content
+                }
+            ]
+
         else:
             if isinstance(err,Exception):
                 err = traceback.format_exc()
