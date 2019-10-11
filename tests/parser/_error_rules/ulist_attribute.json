@@ -6,12 +6,10 @@
             "content": [
                 [
                     [
-                        [
-                            "test ",
-                            {
-                                "type": "error"
-                            }
-                        ]
+                        "test ",
+                        {
+                            "type": "error"
+                        }
                     ]
                 ]
             ],

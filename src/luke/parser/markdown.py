@@ -2,8 +2,21 @@
 """
 Markdown parser
 """
-from bison import BisonParser, BisonSyntaxError
+from bison import BisonParser, BisonSyntaxError as _BisonSyntaxError
 import os
+
+
+class BisonSyntaxError(_BisonSyntaxError):
+    def __str__(self):
+        return "SyntaxError"
+    def __repr__(self):
+        return str(self)
+
+class UnexpectedEndError(_BisonSyntaxError):
+    def __str__(self):
+        return "UnexpectedEndError"
+    def __repr__(self):
+        return str(self)
 
 
 # Multiline-List
@@ -465,8 +478,12 @@ class MarkdownParser(BisonParser):
     # ---------------- #
 
     @staticmethod
-    def make_error(target,errorval,msg=None):
-        return {"type":"error","exception-object":BisonSyntaxError("Error Occured in Block-Element"),"exception-type":"Syntax Error","text":errorval[0] if msg is not None else msg,"pos":errorval[1:]}
+    def syntax_error(target,errorval,msg=None):
+        return {"type":"error","exception-object":BisonSyntaxError("Error Occured in Block-Element %s." % target),"exception-type":"Syntax Error","text":errorval[0] if msg is None else msg,"pos":errorval[1:]}
+
+    @staticmethod
+    def unexpectedend_error(target,errorval,msg=None):
+        return {"type":"error","exception-object":UnexpectedEndError("Error Occured in Block-Element %s. " % target),"exception-type":"Unexpected End Error","text":"Unexpected End" if msg is None else msg,"content":errorval}
 
     @staticmethod
     def dictupdate(old, new):
@@ -542,7 +559,7 @@ class MarkdownParser(BisonParser):
             return values[0] + [values[2]]
         elif option >= 2:
             err_val = 0 if option == 2 else 2
-            return MarkdownParser.make_error(target, values[err_val])
+            return MarkdownParser.syntax_error(target, values[err_val])
 
     def on_block(self, target, option, names, values):
         """
@@ -557,6 +574,7 @@ class MarkdownParser(BisonParser):
               | table
               | codeblock_block
               | href_definition
+              | error UNEXPECTED_END
         """
         if option == 1:
             return {'type': 'paragraph', 'content': MLList([values[0]])}
@@ -565,7 +583,7 @@ class MarkdownParser(BisonParser):
         elif option == 7:
             return {'type': 'attributes', **values[0]}
         elif option == 11:
-            return MarkdownParser.make_error(target, values[0])
+            return MarkdownParser.syntax_error(target, values[0])
         return values[0]
 
     def on_br(self, target, option, names, values):
@@ -613,7 +631,9 @@ class MarkdownParser(BisonParser):
         elif option == 3:
             return {'type': 'quote', 'content': [], 'level': values[0]}
         elif option >= 4:
-            return MarkdownParser.make_error(target, values[-1])
+            content = [] if option == 4 else values[1]
+            content += [MarkdownParser.syntax_error(target, values[-1])]
+            return {'type': 'quote', 'content': content, 'level': values[0]}
 
     def on_ulist(self, target, option, names, values):
         """
@@ -633,8 +653,8 @@ class MarkdownParser(BisonParser):
         elif option == 3:
             return {'type': 'ulist', 'content': [], 'level': values[0], 'symbols': [MarkdownParser.ulist_sym_get(values[0])]}
         elif option >= 4:
-            content = [] if option == 4 else [values[1]]
-            content += [MarkdownParser.make_error(target, values[-1])]
+            content = [] if option == 4 else values[1]
+            content += [MarkdownParser.syntax_error(target, values[-1])]
             return {'type': 'ulist', 'content': content, 'level': values[0], 'symbols': [MarkdownParser.ulist_sym_get(values[0])]}
 
     def on_olist(self, target, option, names, values):
@@ -655,7 +675,9 @@ class MarkdownParser(BisonParser):
         elif option == 3:
             return {'type': 'olist', 'content': [], 'level': values[0], 'symbols': [values[0].strip()]}
         elif option >= 4:
-            return MarkdownParser.make_error(target, values[-1])
+            content = [] if option == 4 else values[1]
+            content += [MarkdownParser.syntax_error(target, values[-1])]
+            return {'type': 'olist', 'content': content, 'level': values[0], 'symbols': [values[0].strip()]}
 
     def on_href_definition(self, target, option, names, values):
         """
@@ -694,7 +716,7 @@ class MarkdownParser(BisonParser):
         elif option == 5:
             return {'type': 'footnote_definition', 'ref': values[0].strip()[2:-2].lower(), 'content': MLList(), "level": ""}
         elif option >= 6:
-            return MarkdownParser.make_error(target, values[1])
+            return MarkdownParser.syntax_error(target, values[1])
 
     def on_header(self, target, option, names, values):
         """
@@ -770,7 +792,6 @@ class MarkdownParser(BisonParser):
              | ITALIC_START span_multitext_wrap UNEXPECTED_END
              | BOLD_START span_multitext_wrap UNEXPECTED_END
              | STRIKE_START span_multitext_wrap UNEXPECTED_END
-             | error UNEXPECTED_END
         """
         if option == 0:
             return values[0]
@@ -788,8 +809,6 @@ class MarkdownParser(BisonParser):
             return {'type': 'code_inline', 'verbatim': values[1].replace("\\`","`")}
         elif option == 10:
             return {'type': 'placeholder', 'command': values[0][2:-2]}
-        elif option == 16:
-            return MarkdownParser.make_error(target, values[0])
         return values[0]
 
     def on_span_multitext_wrap(self, target, option, names, values):
@@ -969,6 +988,7 @@ class MarkdownParser(BisonParser):
                  | hyperref_start input FOOTNOTE_MID string HYPERREF_REF_END
                  | hyperref_start input FOOTNOTE_INLINE_MID input HYPERREF_REF_END
                  | hyperref_start input HYPERREF_CODE_START hyperref_code_string HYPERREF_CODE_END
+                 | FOOTNOTE_INLINE_START input UNEXPECTED_END
         """
         if option == 0:
             return {'type': values[0], 'content': MLList(values[1]), 'dest': MarkdownParser.parseUrl(values[3])}
@@ -993,8 +1013,9 @@ class MarkdownParser(BisonParser):
             return {'type': 'footnote_inline' if values[0] == 'link' else 'note_inline', 'content': MLList(values[3]), 'text': MLList(values[1])}
         elif option == 9:
             return {'type': 'tikz', 'content': MLList(values[1]), 'tikz-code': values[3].strip()}
-        elif option == 10 or option == 11:
-            return MarkdownParser.make_error(target, values[1], "Unexpected End")
+        elif option >= 10:
+            error = [values[1]]
+            return MarkdownParser.unexpectedend_error(target, error)
 
     def on_hyperref_start(self, target, option, names, values):
         """
@@ -1079,7 +1100,7 @@ class MarkdownParser(BisonParser):
                         | CODEBLOCK_START CODEBLOCK_STRING_BEFORE CODEBLOCK_BR codeblock_string CODEBLOCK_END
                         | CODEBLOCK_START attributes CODEBLOCK_BR codeblock_string CODEBLOCK_END
                         | CODEBLOCK_START CODEBLOCK_BR codeblock_string CODEBLOCK_END
-                        | codeblock_block error
+                        | codeblock_block error UNEXPECTED_END
         """
         if option == 0:
             return {'type': 'code_block', 'syntax': values[1], 'verbatim': values[4].replace("\\`","`"), 'whitespace': values[0][:-3], 'level': values[0], **values[2]}
@@ -1090,7 +1111,7 @@ class MarkdownParser(BisonParser):
         elif option == 3:
             return {'type': 'code_block', 'verbatim': values[2].replace("\\`","`"), 'whitespace': values[0][:-3], 'level': values[0]}
         elif option == 4:
-            return MarkdownParser.make_error(target, values[1], "Codeblock is a block-element and has to end with a NEWLINE-Symbol")
+            return MarkdownParser.syntax_error(target, values[1], "Codeblock is a block-element and has to end with a NEWLINE-Symbol")
 
     # ================ #
     # ATTRIBUTES STATE #
@@ -1153,6 +1174,7 @@ class MarkdownParser(BisonParser):
                   | ATTR_PLACEHOLDER
                   | attributes
         """
+                  # | attribute_varname ATTR_EQUAL error
         if option == 0:
             return {'id': values[1]}
         elif option == 1:
@@ -1176,7 +1198,7 @@ class MarkdownParser(BisonParser):
         elif option == 10:
             return {values[0]: values[3]}
         elif option == 11:
-            return MarkdownParser.make_error(target, values[2])
+            return MarkdownParser.syntax_error(target, values[2])
         elif option == 12:
             return MarkdownParser.bool(values[0])
         elif option == 13:

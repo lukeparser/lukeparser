@@ -2,14 +2,7 @@
     "type": "document",
     "content": [
         {
-            "type": "paragraph",
-            "content": [
-                [
-                    {
-                        "type": "error"
-                    }
-                ]
-            ]
+            "type": "error"
         }
     ]
 }
