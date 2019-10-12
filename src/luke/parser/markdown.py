@@ -424,12 +424,13 @@ class MarkdownParser(BisonParser):
                     if((new_str = malloc(1)) != NULL) {{
                         new_str[0] = '\\0';
                     }}
-                    $$ = new_str;
-                  }}
+                    $$ = PyUnicode_FromString(new_str);
+                  }};
             """
 
             return """
             {prefix}string : {prefix}string2 {{ $$ = PyUnicode_FromString(strdup($1)); }};
+                    {emptyrule}
             {prefix}string2 : {PREFIX}CHAR {{ $$ = $1; }}
                     | {prefix}string2 {PREFIX}CHAR {{
                         char * new_str ;
@@ -440,7 +441,6 @@ class MarkdownParser(BisonParser):
                         }}
                         $$ = new_str;
                     }};
-                    {emptyrule}
 
 
             """.format(prefix=prefix, PREFIX=prefix.upper(), emptyrule=emptyrule)
@@ -1038,7 +1038,7 @@ class MarkdownParser(BisonParser):
         """
         if option == 0:
             return {'type': 'math_block', 'verbatim': values[1]}
-        else: # option == 1:
+        else:
             return {'type': 'math_inline', 'verbatim': values[1]}
 
     def on_mathblock_text(self, target, option, names, values):
@@ -1069,16 +1069,6 @@ class MarkdownParser(BisonParser):
         elif option == 3:
             return values[0] + values[1]
         return values[0]
-
-    # def on_mathblock_string(self, target, option, names, values):
-    #     """
-    #     mathblock_string : MATHBLOCK_CHAR
-    #                      | mathblock_string MATHBLOCK_CHAR
-    #     """
-    #     if option == 0:
-    #         return values[0]
-    #     else:
-    #         return values[0] + values[1]
 
     def on_mathblock_latex(self, target, option, names, values):
         """
@@ -1135,6 +1125,7 @@ class MarkdownParser(BisonParser):
     def on_attributes(self, target, option, names, values):
         """
         attributes : ATTR_START attribute_list ATTR_END
+                   | ATTR_START ATTR_END
         """
         return MarkdownParser.attribute_args(values[1])
 
@@ -1143,7 +1134,6 @@ class MarkdownParser(BisonParser):
         attribute_list : attribute
                        | attribute_list attribute
                        | attribute_list ATTR_COMMA attribute
-                       |
         """
         if option == 0:
             return [values[0]]
