@@ -16,9 +16,6 @@
                         "type": "italic",
                         "text": [
                             "end",
-                            {
-                                "type": "hard break"
-                            },
                             ""
                         ]
                     }
