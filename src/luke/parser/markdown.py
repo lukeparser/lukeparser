@@ -69,7 +69,7 @@ class MarkdownParser(BisonParser):
 
             # [State] ATTRIBUTE
             'ATTR_START', 'ATTR_END', 'ATTR_END_AND_ARG_START', 'ATTR_INPUT',
-            'ATTR_HASH', 'ATTR_DOT', 'ATTR_EXCLAMATION', 'ATTR_COMMA', 'ATTR_EQUAL', 'ATTR_BOOLEAN', 'ATTR_NUMBER', 'ATTR_STRING',
+            'ATTR_HASH', 'ATTR_DOT', 'ATTR_EXCLAMATION', 'ATTR_EQUAL', 'ATTR_BOOLEAN', 'ATTR_NUMBER', 'ATTR_STRING',
             'ATTR_WORD', 'ATTR_PLACEHOLDER',
 
             # [State] Codeblock, Mathblock
@@ -302,16 +302,14 @@ class MarkdownParser(BisonParser):
         <INITIAL>^{whitespace}"{"               { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
         <INITIAL>"{"                            { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
         <ATTRIBUTE_STATE>"{"                    { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
-        <ATTRIBUTE_STATE>{whitespace_nl}"}"{whitespace}        { STATE_POP(); returntoken(ATTR_END); }
+        <ATTRIBUTE_STATE>"}"                    { STATE_POP(); returntoken(ATTR_END); }
         <ATTRIBUTE_STATE>"}["                   { STATE_POP(); STATE_PUSH(INITIAL); returntoken(ATTR_END_AND_ARG_START); }
         <ATTRIBUTE_STATE>"["                    { STATE_PUSH(INITIAL); returntoken(ATTR_INPUT); }
         <ATTRIBUTE_STATE>"#"                    { returntoken(ATTR_HASH); }
         <ATTRIBUTE_STATE>"\."                   { returntoken(ATTR_DOT); }
         <ATTRIBUTE_STATE>"!"                    { returntoken(ATTR_EXCLAMATION); }
-        <ATTRIBUTE_STATE>{whitespace_nl}"="{whitespace_nl}                    { returntoken(ATTR_EQUAL); }
-        <ATTRIBUTE_STATE>{whitespace_nl}":"{whitespace_nl}                    { returntoken(ATTR_EQUAL); }
-        <ATTRIBUTE_STATE>{whitespace_nl}","{whitespace_nl}                    { returntoken(ATTR_COMMA); }
-        <ATTRIBUTE_STATE>[ \n\t]+               { returntoken(ATTR_COMMA); }
+        <ATTRIBUTE_STATE>"="                    { returntoken(ATTR_EQUAL); }
+        <ATTRIBUTE_STATE>":"                    { returntoken(ATTR_EQUAL); }
         <ATTRIBUTE_STATE>[Tt]"rue"?             { returntoken(ATTR_BOOLEAN); }
         <ATTRIBUTE_STATE>[Ff]"alse"?            { returntoken(ATTR_BOOLEAN); }
         <ATTRIBUTE_STATE>[0-9]+([\.,][0-9]+)?   { returntoken(ATTR_NUMBER); }
@@ -322,6 +320,7 @@ class MarkdownParser(BisonParser):
         <ATTRIBUTE_STATE>"\$"                   { STATE_PUSH(MATHINLINE_STATE); returntoken(MATHINLINE_START); }
         <ATTRIBUTE_STATE>{word}                 { returntoken(ATTR_WORD); }
         <ATTRIBUTE_STATE>{any}                  { }
+        <ATTRIBUTE_STATE>{whitespace_nl}        { }
 
 
         ^{whitespace}"[^"[^\]]+"]:"{whitespace} { returntoken(FOOTNOTE_DEFINITION); }
@@ -1165,16 +1164,11 @@ class MarkdownParser(BisonParser):
         """
         attribute_list : attribute
                        | attribute_list attribute
-                       | attribute_list ATTR_COMMA attribute
         """
         if option == 0:
             return [values[0]]
         elif option == 1:
             return values[0] + [values[1]]
-        elif option == 2:
-            return values[0] + [values[2]]
-        elif option == 3:
-            return []
 
     def on_attribute(self, target, option, names, values):
         """
