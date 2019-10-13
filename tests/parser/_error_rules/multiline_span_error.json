@@ -6,15 +6,10 @@
             "content": [
                 [
                     [
-                        [
-                            "test ",
-                            {
-                                "type": "emph",
-                                "text": [
-                                    "abc"
-                                ]
-                            }
-                        ]
+                        "test ",
+                        {
+                            "type": "error"
+                        }
                     ]
                 ]
             ],
@@ -23,12 +18,6 @@
                 "-"
             ],
             "scope": {}
-        },
-        {
-            "type": "attributes",
-            "nargs": [
-                "attr"
-            ]
         }
     ]
 }

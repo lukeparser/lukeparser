@@ -65,7 +65,7 @@ class MarkdownParser(BisonParser):
             'ITALIC_START', 'ITALIC_END', 'BOLD_START', 'BOLD_END',
 
             # STRUCTURAL
-            'BR', 'CHAR', 'NEWLINE',
+            'LINEBREAK', 'CHAR', 'NEWLINE', 'EMPTYLINE',
 
             # [State] ATTRIBUTE
             'ATTR_START', 'ATTR_END', 'ATTR_END_AND_ARG_START', 'ATTR_INPUT',
@@ -86,7 +86,7 @@ class MarkdownParser(BisonParser):
             'MATHBLOCK_LATEX_COMMAND', 'MATHBLOCK_CURLY_OPEN', 'MATHBLOCK_CURLY_CLOSE', 'MATHBLOCK_VERBATIM_PLACEHOLDER',
 
             # other
-            'URL', 'HRULE', 'UNEXPECTED_END'
+            'URL', 'HRULE', 'UNEXPECTED_END', 'EXPECTING_ESS'
 
         ]
 
@@ -239,8 +239,6 @@ class MarkdownParser(BisonParser):
         <COMMENT>./\n                           { STATE_POP(); }
         <COMMENT>{any}                          { }
 
-        ^" "" "+\n                              { returntoken( BR ); }
-        " "" "+\n                               { returntoken( NEWLINE ); }
         ("https://"|"ftp://"|"http://"|"www.")[^\]\n ]+   { returntoken(URL); }
         \<("https://"|"ftp://"|"http://"|"www.")[^\>\]]+\> { returntoken(URL); }
 
@@ -377,7 +375,9 @@ class MarkdownParser(BisonParser):
         "_"                                     { ess_state_stack('i',ITALIC_START,ITALIC_END) }
         "~~"                                    { ess_state_stack('-',STRIKE_START,STRIKE_END) }
 
-        \n                                      { returntoken(BR); }
+        " "" "+\n\n                             { returntoken(EMPTYLINE); }
+        " "" "+\n                               { returntoken(NEWLINE); }
+        \n                                      { returntoken(LINEBREAK); }
         " "+                                    { returntokenFromString(chr_space, CHAR); }
         [a-zA-Z0-9„“-—',.:;()]+                 { returntokenFromString(yytext, CHAR); }
         {any}                                   { returntokenFromString(yytext, CHAR); }
@@ -398,7 +398,7 @@ class MarkdownParser(BisonParser):
                 if (ess_i != 0) {
                     yyset_extra(1,yyscanner);
                     reset_stacks();
-                    returntoken(UNEXPECTED_END);
+                    returntoken(EXPECTING_ESS);
                 }
 
                 // reset stacks
@@ -549,19 +549,17 @@ class MarkdownParser(BisonParser):
                | blocks br block
                | error br block
                | blocks br error
-               | blocks br error br block
         """
         if option == 0:
             return [values[0]]
-        elif option == 1:
+        else:
+            left = values[0] if option != 2 else MarkdownParser.syntax_error(target,values[0])
+            right = values[2] if option != 3 else MarkdownParser.syntax_error(target,values[2])
             if values[1] == "hard":
-                return values[0] + [{'type': 'hard break'}, values[2]]
+                return left + [{'type': 'hard break'}, right]
             elif values[1] == "newline":
-                return values[0] + [{'type': 'new line'}, values[2]]
-            return values[0] + [values[2]]
-        elif option >= 2:
-            err_val = 0 if option == 2 else 2
-            return MarkdownParser.syntax_error(target, values[err_val])
+                return left + [{'type': 'new line'}, right]
+            return left + [right]
 
     def on_block(self, target, option, names, values):
         """
@@ -588,12 +586,25 @@ class MarkdownParser(BisonParser):
             return MarkdownParser.syntax_error(target, values[0])
         return values[0]
 
+    def on_single_br(self, target, option, names, values):
+        """
+        single_br : LINEBREAK
+                  | LINEBREAK INDENT_SYM
+                  | NEWLINE
+                  | NEWLINE INDENT_SYM
+        """
+        if option <= 1:
+            return 'soft'
+        else:
+            return 'newline'
+
     def on_br(self, target, option, names, values):
         """
-        br : BR
+        br : LINEBREAK
            | NEWLINE
-           | br BR
-           | br INDENT_SYM BR
+           | br LINEBREAK
+           | br INDENT_SYM LINEBREAK
+           | EMPTYLINE
         """
         if option == 0:
             return 'soft'
@@ -789,11 +800,11 @@ class MarkdownParser(BisonParser):
              | hyperref
              | latex
              | PLACEHOLDER
-             | EMPH_START span_multitext_wrap UNEXPECTED_END
-             | STRONG_START span_multitext_wrap UNEXPECTED_END
-             | ITALIC_START span_multitext_wrap UNEXPECTED_END
-             | BOLD_START span_multitext_wrap UNEXPECTED_END
-             | STRIKE_START span_multitext_wrap UNEXPECTED_END
+             | EMPH_START span_multitext_wrap span_ess_end
+             | STRONG_START span_multitext_wrap span_ess_end
+             | ITALIC_START span_multitext_wrap span_ess_end
+             | BOLD_START span_multitext_wrap span_ess_end
+             | STRIKE_START span_multitext_wrap span_ess_end
         """
         if option == 0:
             return values[0]
@@ -813,10 +824,18 @@ class MarkdownParser(BisonParser):
             return {'type': 'placeholder', 'command': values[0][2:-2]}
         return values[0]
 
+    def on_span_ess_end(self, target, option, names, values):
+        """
+        span_ess_end : LINEBREAK EXPECTING_ESS
+                     | EXPECTING_ESS
+                     | LINEBREAK
+        """
+        return True
+
     def on_span_multitext_wrap(self, target, option, names, values):
         """
         span_multitext_wrap : span_multitext
-                            | br span_multitext
+                            | single_br span_multitext
         """
         if option == 1:
             return values[1]
@@ -825,7 +844,7 @@ class MarkdownParser(BisonParser):
     def on_span_multitext(self, target, option, names, values):
         """
         span_multitext : text
-                       | text br span_multitext
+                       | text single_br span_multitext
                        |
         """
         if option == 0:
