@@ -9,7 +9,9 @@
                         "type": "math_block",
                         "verbatim": [
                             "{",
-                            "mathblock_text",
+                            [
+                                "mathblock_text"
+                            ],
                             "}"
                         ]
                     }

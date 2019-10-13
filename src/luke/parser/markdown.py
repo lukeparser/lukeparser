@@ -93,7 +93,10 @@ class MarkdownParser(BisonParser):
         # ------------------------------
         # precedences
         # ------------------------------
-        self.precedences = ()
+        self.precedences = (
+            ("nonassoc", ["MATHBLOCK_LATEX_COMMAND"]),
+            ("left", ["MATHBLOCK_CURLY_OPEN", "MATHBLOCK_CURLY_CLOSE"])
+        )
 
         # $$
         # -----------------------------------------
@@ -1044,41 +1047,70 @@ class MarkdownParser(BisonParser):
     def on_mathblock_text(self, target, option, names, values):
         """
         mathblock_text : mathblock_span
-                       | mathblock_span mathblock_text
-                       | MATHBLOCK_CURLY_OPEN mathblock_text MATHBLOCK_CURLY_CLOSE
-                       | MATHBLOCK_CURLY_OPEN mathblock_text MATHBLOCK_CURLY_CLOSE mathblock_text
+                       | mathblock_string
+                       | mathblock_span mathblock_string
+                       | mathblock_text mathblock_span
+                       | mathblock_text mathblock_span mathblock_string
         """
-        if option == 0:
+        if option <= 1:
+            if isinstance(values[0],list):
+                return values[0]
             return [values[0]]
-        elif option == 1:
-            return [values[0]] + values[1]
         elif option == 2:
-            return [values[0]] + values[1] + [values[2]]
+            return [values[0], values[1]]
         elif option == 3:
-            return [values[0]] + values[1] + [values[2]] + values[3]
+            return values[0] + [values[1]]
+        elif option == 4:
+            return values[0] + [values[1], values[2]]
 
     def on_mathblock_span(self, target, option, names, values):
         """
-        mathblock_span : mathblock_string
-                       | mathblock_latex
+        mathblock_span : mathblock_latex
+                       | mathblock_args
                        | MATHBLOCK_VERBATIM_PLACEHOLDER
-                       | MATHBLOCK_CURLY_OPEN MATHBLOCK_CURLY_CLOSE
         """
-        if option == 2:
+        if option == 0:
+            return values[0]
+        elif option == 1:
+            v = []
+            for val in values[0]:
+                if val:
+                    v.append("{")
+                    v.append(val)
+                    v.append("}")
+                else:
+                    v.append("{}")
+            return v
+        elif option == 2:
             return {'type': 'placeholder', 'command': values[0][2:-2]}
-        elif option == 3:
-            return values[0] + values[1]
-        return values[0]
 
     def on_mathblock_latex(self, target, option, names, values):
         """
         mathblock_latex : MATHBLOCK_LATEX_COMMAND
-                        | mathblock_latex MATHBLOCK_CURLY_OPEN mathblock_text MATHBLOCK_CURLY_CLOSE
+                        | MATHBLOCK_LATEX_COMMAND mathblock_args
         """
         if option == 0:
             return {'type': 'latex_command', 'command': values[0][1:], 'arguments': []}
         elif option == 1:
-            return {'type': 'latex_command', 'command': values[0]["command"], 'arguments': values[0]["arguments"] + [values[2]]}
+            return {'type': 'latex_command', 'command': values[0][1:], 'arguments': values[1]}
+
+    def on_mathblock_args(self, target, option, names, values):
+        """
+        mathblock_args : MATHBLOCK_CURLY_OPEN MATHBLOCK_CURLY_CLOSE
+                       | MATHBLOCK_CURLY_OPEN mathblock_text MATHBLOCK_CURLY_CLOSE
+                       | MATHBLOCK_CURLY_OPEN MATHBLOCK_CURLY_CLOSE mathblock_args
+                       | MATHBLOCK_CURLY_OPEN mathblock_text MATHBLOCK_CURLY_CLOSE mathblock_args
+        """
+        if option == 0:
+            return [""]
+        elif option == 1:
+            return [values[1]]
+        elif option == 2:
+            return [""] + values[2]
+        elif option == 3:
+            return [values[1]] + values[3]
+
+
 
     # =============== #
     # CODEBLOCK STATE #
