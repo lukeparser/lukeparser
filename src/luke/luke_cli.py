@@ -1,6 +1,7 @@
+import sys
+import os
 from luke.luke import *
 import argparse
-import sys
 from pathlib import Path
 from luke.defaults import defaults
 from luke import __version__
@@ -145,7 +146,7 @@ Example useage:
         #     package_dir = luke.__path__[0]
         package_dir = luke.__path__[0]
         doc_dir = os.path.join(package_dir,"docs")
-        start_server(doc_dir)
+        start_server(doc_dir,livereload=False)
         sys.exit(0)
 
     if args.live:

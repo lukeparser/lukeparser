@@ -40,7 +40,7 @@ installTheme(parse_settings_default["theme_name"])
 
 
 
-def make_app(root_dir):
+def make_app(root_dir, livereload=True):
     tornado.log.enable_pretty_logging()
 
     if standalone:
@@ -68,7 +68,7 @@ def make_app(root_dir):
     return tornado.web.Application(handlers)
 
 
-def main(root_dir=root_dir):
+def main(root_dir=root_dir, livereload=livereload):
     globals()["root_dir"] = root_dir
 
     if livereload:
@@ -81,7 +81,7 @@ def main(root_dir=root_dir):
 
 
     logger.info(time.asctime()+ "Server Starts - %s:%s" % (hostName, hostPort))
-    app = make_app(root_dir)
+    app = make_app(root_dir, livereload)
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(hostPort, hostName)
     try:
