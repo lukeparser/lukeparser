@@ -52,7 +52,6 @@ matrix:
            BISON=win_bison
       before_install:
         - choco install mingw python winflexbison3
-        - $PY -m pip install --upgrade wheel
     - name: "Python 3.7 on Windows"
       os: windows           # Windows 10.0.17134 N/A Build 17134
       language: shell       # 'language: python' is an error on Travis CI Windows
@@ -62,7 +61,6 @@ matrix:
       before_install:
         - choco install mingw winflexbison3
         - choco install python --version 3.7 --allow-downgrade
-        - $PY -m pip install --upgrade wheel
 
 after_success:
 - ls dist/*
@@ -84,7 +82,7 @@ install:
       docker pull $DOCKER_IMAGE;
   else
       $PY --version;
-      $PY -m pip install --upgrade pip;
+      $PY -m pip install --upgrade pip wheel setuptools;
       $PY -m pip install -r requirements.txt;
   fi
 
