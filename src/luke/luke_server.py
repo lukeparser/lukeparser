@@ -44,11 +44,11 @@ def make_app(root_dir):
     tornado.log.enable_pretty_logging()
 
     if standalone:
-        md_settings = {'path': root_dir, 'default_filename': '', "parse_settings": parse_settings_default, "injectLivereload": livereload}
+        md_settings = {'path': root_dir, 'default_filename': 'index.md', "parse_settings": parse_settings_default, "injectLivereload": livereload}
         handlers = [
             ('/'+resources_relative+'/(.*)', tornado.web.StaticFileHandler, {'path': resource_path, 'default_filename': ''}),
-            ('/(.*)', MarkdownHandler, md_settings),
             ('/()', MarkdownHandler,   md_settings),
+            ('/(.*)/', MarkdownHandler, md_settings),
             ('/(.*\.md)', MarkdownHandler, md_settings),
             ('/(.*)', tornado.web.StaticFileHandler, {'path': root_dir, 'default_filename': ''}),
         ]
