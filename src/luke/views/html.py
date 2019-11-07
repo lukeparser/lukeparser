@@ -741,10 +741,13 @@ class html(View):
     def cmd_icon(self, var, run, iconname):
         return "<span class=\"oi oi-{icon}\" title=\"{icon}\" aria-hidden=\"true\"></span>&nbsp;".format(icon=iconname)
 
-    @apply_scope(insertBy="ref", insertFrom="footnote")
-    def cmd_footnotes(self, var, run):
+    @apply_scope(insertBy="ref", insertFrom="footnote", getVars=["clear"])
+    def cmd_footnotes(self, var, run, clear=False):
         footnotes_list = var("buffer",scope="footnotes")
         if len(footnotes_list)==0:
+            return ""
+        if clear:
+            footnotes_list.clear()
             return ""
         footnote_view_content = [ [str_escaped("[<span id=\""+f["id"]+"_content\">"+str(f["index"])+"</span>] "),MLList(f["content"]), {"type":"new line"}] for f in footnotes_list ]
         footnotes_list.clear()
@@ -789,7 +792,7 @@ class html(View):
 
         def deferred(q,i,cl):
             content = {"type":"ulist","list-symbol":"custom","symb":["--" for counter,id,title,livel in cl for c in counter], "content":
-                    [[[".".join([str(c) for c in counter]) + ". "] if counter != [] and counter != [0] else [],{"type":"link","dest": filename+"#"+id, "content": title.replace("<br/>"," ")}] for counter,id,title,level in cl if (maxdepth == -1 or len(counter)<=maxdepth)]
+                    [[[".".join([str(c) for c in counter]) + ". "] if counter != [] and counter != [0] else [],{"type":"link","dest": filename+"#"+id, "content": re.sub('<[^<]+?>', '', title)}] for counter,id,title,level in cl if (maxdepth == -1 or len(counter)<=maxdepth)]
             }
 
             q.put((i,run(content)))
