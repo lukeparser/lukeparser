@@ -772,8 +772,8 @@ class html(View):
             <meta http-equiv="refresh" content="0; url={href}" />
         """.format(href=href)
 
-    @apply_scope(getVars=["scopes","clear","maxdepth","nested","create"])
-    def cmd_contentlist(self, var, run, scopes, clear=False,maxdepth=-1,nested=False, create=False):
+    @apply_scope(getVars=["scopes","clear","maxdepth","nested","create","filename"])
+    def cmd_contentlist(self, var, run, scopes, clear=False,maxdepth=-1,nested=False, create=False, filename=""):
         if clear:
             var("contentlist",scope="internal").clear()
             return ""
@@ -789,7 +789,7 @@ class html(View):
 
         def deferred(q,i,cl):
             content = {"type":"ulist","list-symbol":"custom","symb":["--" for counter,id,title,livel in cl for c in counter], "content":
-                    [[[".".join([str(c) for c in counter]) + ". "] if counter != [] and counter != [0] else [],{"type":"link","dest": "#"+id, "content": title.replace("<br/>"," ")}] for counter,id,title,level in cl if (maxdepth == -1 or len(counter)<=maxdepth)]
+                    [[[".".join([str(c) for c in counter]) + ". "] if counter != [] and counter != [0] else [],{"type":"link","dest": filename+"#"+id, "content": title.replace("<br/>"," ")}] for counter,id,title,level in cl if (maxdepth == -1 or len(counter)<=maxdepth)]
             }
 
             q.put((i,run(content)))
