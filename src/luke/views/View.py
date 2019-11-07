@@ -555,8 +555,8 @@ class View():
     def cmd_date(self, var, run, format="%d. %B %Y"):
         return ("{:"+format+"}").format(datetime.now())
 
-    @apply_scope(getVars=["scopes","file","inplace"])
-    def cmd_include(self, var, run, scopes, file, inplace=True):
+    @apply_scope(getVars=["scopes","file","inplace","hidden"])
+    def cmd_include(self, var, run, scopes, file, inplace=True, hidden=False):
         from luke.luke import parse_lang
         from luke.parser.markdown import Parser
         from luke.Preprocessing import Preprocessing
@@ -565,6 +565,9 @@ class View():
         file = os.path.join(basepath,file)
         if file.endswith(".md") or file.endswith(".json"):
             snd = parse_lang(Parser(), Preprocessing(), file)
+            if hidden:
+                run(snd)
+                return ""
             if inplace:
                 return run(snd["content"])
             return run(snd)
