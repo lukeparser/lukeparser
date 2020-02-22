@@ -3,6 +3,7 @@ import time
 import tornado.ioloop
 import tornado.web
 import logging
+import asyncio
 from luke.defaults import defaults
 from luke.luke import installTheme
 from livereload.server import LiveReloadJSHandler, ForceReloadHandler
@@ -69,6 +70,8 @@ def make_app(root_dir, livereload=True):
 
 
 def main(root_dir=root_dir, livereload=livereload):
+    if os.name == "nt" and sys.version_info >= (3.8):
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     globals()["root_dir"] = root_dir
 
     if livereload:
