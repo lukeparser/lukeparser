@@ -22,8 +22,6 @@ jobs:
            PY=python3
            BISON=bison
       install:
-        - openssl aes-256-cbc -K $encrypted_0b4beaaf3949_key -iv $encrypted_0b4beaaf3949_iv -in .travis/secret-files.tar.enc -out secret-files.tar -d
-        - tar xvf secret-files.tar
         - docker pull $DOCKER_IMAGE
       script:
         - docker run --rm -e PLAT=$PLAT -v `pwd`:/io $DOCKER_IMAGE sh /io/.travis/build-wheels.sh
@@ -90,9 +88,11 @@ after_success:
     fi
   - twine upload --config-file .pypirc-bot dist/*
 
-install:
+before_install:
   - openssl aes-256-cbc -K $encrypted_0b4beaaf3949_key -iv $encrypted_0b4beaaf3949_iv -in .travis/secret-files.tar.enc -out secret-files.tar -d
   - tar xvf secret-files.tar
+
+install:
   - $BISON --version
   - $PY --version
   - $PY -m pip install --upgrade pip wheel setuptools
