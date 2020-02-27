@@ -66,6 +66,8 @@ jobs:
       before_install:
         - choco install mingw winflexbison3
         - choco install python --version 3.8 --allow-downgrade
+        - openssl aes-256-cbc -K $encrypted_0b4beaaf3949_key -iv $encrypted_0b4beaaf3949_iv -in .travis/secret-files.tar.enc -out secret-files.tar -d
+        - tar xvf secret-files.tar
     - name: "Python 3.7 on Windows"
       os: windows           # Windows 10.0.17134 N/A Build 17134
       language: shell       # 'language: python' is an error on Travis CI Windows
@@ -75,6 +77,8 @@ jobs:
       before_install:
         - choco install mingw winflexbison3
         - choco install python --version 3.7 --allow-downgrade
+        - openssl aes-256-cbc -K $encrypted_0b4beaaf3949_key -iv $encrypted_0b4beaaf3949_iv -in .travis/secret-files.tar.enc -out secret-files.tar -d
+        - tar xvf secret-files.tar
 
 after_success:
   - ls dist/*
