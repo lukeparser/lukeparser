@@ -5,9 +5,11 @@ options { tokenVocab=MarkdownLexer; }
 input : blocks EOF ;
 
 blocks : br? (block br?)*;
-br : (NEWLINE | LINEBREAK | EMPTYLINE)+ ;
+br : (NEWLINE | LINEBREAK | emptyline | HRULE)+ ;
+emptyline : NEWLINE NEWLINE;
 
-block : text
+block : HRULE
+      | text
       | code_block
       | headline
       | ulist

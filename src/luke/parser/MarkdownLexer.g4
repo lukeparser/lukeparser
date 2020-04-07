@@ -14,6 +14,8 @@ HEADLINE_HASH: '#'+ ;
 HEADLINE_ULINEDBL: NEWLINE '=''=''='+ ;
 HEADLINE_ULINESGL: NEWLINE '-''-''-'+ ;
 
+HRULE : NEWLINE NEWLINE '__' '_'+ | NEWLINE NEWLINE '--' '-'+ | NEWLINE NEWLINE '**' '*'+ ;
+
 ULIST_SYM: ('-' | '*' | '+') ('[' ~[\]]+ ']' )? ;
 OLIST_SYM: [ivxcdmlIVXCDML0-9]+ '.';
 QUOTE_SYM: '>';
@@ -33,7 +35,6 @@ RRBR : NEWLINE* ')' ;
 ESCAPED : '\\' ( EMPH | ITALIC | '`' | LSBR | RSBR | LRBR | RRBR ) ;
 NEWLINE             : ('\r'? '\n' | '\r') ;
 LINEBREAK           : '  ' NEWLINE ;
-EMPTYLINE           : NEWLINE NEWLINE ;
 WHITESPACE          : (' ' | '\t')+ ;
 WORD                : ( [a-z] | [A-Z] )+ ;
 ANY                 : .;
