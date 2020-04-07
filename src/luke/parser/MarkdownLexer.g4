@@ -61,7 +61,8 @@ CODE_INLINE_END         : '`' -> popMode;
 CODE_INLINE_VERBATIM    : ~[`]+;
 
 mode CodeBlockSettings;
-CODE_BLOCK_TYPE        : ~[ \n\r]+;
+CODE_BLOCK_LCBR        : '{' -> pushMode(Attributes);
+CODE_BLOCK_TYPE        : ~[ \n\r{]+;
 CODE_BLOCK_NEWLINE     : ('\r'? '\n' | '\r')+ -> pushMode(CodeBlockVerbatim) ;
 CODE_BLOCK_WHITESPACE  : (' ' | '\t')+ -> skip;
 
@@ -104,6 +105,7 @@ ATTR_CMD : '\\' ATTR_WORD ( '.' ATTR_WORD )*
          | '\\(' ATTR_WORD ( '.' ATTR_WORD )* ')' ;
 ATTR_ESCAPE : '\\' ( ATTR_HASH | ATTR_DOT | ATTR_LSBR ) ;
 ATTR_WHITESPACE : (',' | ' ' | '\t' | ('\r'? '\n' | '\r') )+ -> skip ;
+ATTR_LCBR : '{' -> pushMode(Attributes);
 ATTR_RCBR : '}' -> popMode;
 
 // [\]] not possible to escape
