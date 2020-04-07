@@ -7,6 +7,7 @@ input : blocks EOF ;
 blocks : br? (block br?)*;
 br : (NEWLINE | LINEBREAK | emptyline | HRULE)+ ;
 emptyline : NEWLINE WHITESPACE* NEWLINE;
+ws : ( WHITESPACE | NEWLINE )* ;
 
 block : HRULE
       | text
@@ -18,6 +19,7 @@ block : HRULE
       | hyperref_definition
       | table
       | cmd
+      | math_block
       ;
 
 headline : HEADLINE_HASH WHITESPACE* text 
@@ -47,7 +49,7 @@ inline_element : EMPH blocks EMPH
 //             | latex
                ;
 
-string : ( WORD | ANY | WHITESPACE | EXCL | HAT )+ ;
+string : ( WORD | ANY | WHITESPACE | EXCL | HAT | ESCAPED )+ ;
 
 hyperref :      LSBR blocks RSBR LRBR hyperref_url RRBR # link
          | EXCL LSBR blocks RSBR LRBR hyperref_url RRBR # image
@@ -56,12 +58,12 @@ hyperref :      LSBR blocks RSBR LRBR hyperref_url RRBR # link
          | HAT LSBR blocks RSBR                         # inline_footnote
          | LSBR blocks RSBR HAT LSBR blocks RSBR        # positional_footnote
          | LSBR HAT blocks RSBR                         # referenc_footnote
-         | EXCL LSBR blocks RSBR LRBR WHITESPACE* code_block WHITESPACE* RRBR # rendered_image
+         | EXCL LSBR blocks RSBR LRBR ws code_block ws RRBR # rendered_image
          ;
 hyperref_url : ( URL | ~RRBR+ );
 hyperref_definition_url : ( URL | ~WHITESPACE+ );
-hyperref_definition : (IMAGE_DEFINITION | LINK_DEFINITION) WHITESPACE* (hyperref_definition_url WHITESPACE+ text?)
-                    | FOOTNOTE_DEFINITION WHITESPACE* text?
+hyperref_definition : (IMAGE_DEFINITION | LINK_DEFINITION) ws (hyperref_definition_url ws text?)
+                    | FOOTNOTE_DEFINITION ws text?
                     ;
 
 code_inline : CODE_INLINE_START CODE_INLINE_VERBATIM* CODE_INLINE_END ;
@@ -75,15 +77,12 @@ table_separator : TABLE_HRULE | TABLE_HRULE_CENTERED | TABLE_HRULE_LEFT_ALIGNED 
 cmd : CMD cmd_arg* ;
 cmd_arg : LSBR blocks RSBR ;
 
-math_inline : MATHINLINE_START math_text+ MATHINLINE_END ;
-math_text : MATHINLINE_CHAR+
-          | MATHINLINE_CMD ( MATHINLINE_LCBR math_text MATHINLINE_RCBR )*
-          | ( MATHINLINE_LCBR math_text MATHINLINE_RCBR )
-          ;
+math_inline : MATH_INLINE_START math_text+ MATH_INLINE_END ;
+math_block : MATH_BLOCK_START math_text+ MATH_BLOCK_END ;
+math_text : math_cmd | ( MATH_INLINE_CHAR | MATH_BLOCK_CHAR )+ | ( ( MATH_INLINE_LCBR | MATH_BLOCK_LCBR ) math_text? ( MATH_INLINE_RCBR | MATH_BLOCK_RCBR ) ) ;
+math_cmd : ( MATH_INLINE_CMD | MATH_BLOCK_CMD ) ( ( MATH_INLINE_LCBR | MATH_BLOCK_LCBR ) math_text? ( MATH_INLINE_RCBR | MATH_BLOCK_RCBR ) )* ;
 
-//ws : ( WHITESPACE | NEWLINE )
 
 // TODO:
 // - attributes
-// - math
 // newline / whitespace (when is actually both required?) ( newline | whitespace ) *
