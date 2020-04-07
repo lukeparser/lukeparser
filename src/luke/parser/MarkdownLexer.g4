@@ -10,7 +10,13 @@ CODE_BLOCK_START          : '```' -> pushMode(CodeBlockSettings) ;
 LINKURL: (('https://'|'ftp://'|'http://'|'www.') ~[)]+);
 URL: (('https://'|'ftp://'|'http://'|'www.') ~[ \t]+) | ('<' ('https://'|'ftp://'|'http://'|'www.') ~[>]+ '>') ;
 
-//HEADINGHASH: ^'#'
+HEADLINE_HASH: '#'+ ;
+HEADLINE_ULINEDBL: NEWLINE '=''=''='+ ;
+HEADLINE_ULINESGL: NEWLINE '-''-''-'+ ;
+
+ULIST_SYM: ('-' | '*' | '+') ('[' ~[\]]+ ']' )? ;
+OLIST_SYM: [ivxcdmlIVXCDML0-9]+ '.';
+QUOTE_SYM: '>';
 
 STRONG : '**' ;
 BOLD : '__' ;
@@ -19,13 +25,13 @@ ITALIC : '_' ;
 
 EXCL: '!' ;
 HAT: '^' ;
-LSBR : '[' NEWLINE? ;
-RSBR : NEWLINE? ']' ;
-LRBR : '(' NEWLINE? ;
-RRBR : NEWLINE? ')' ;
+LSBR : '[' NEWLINE* ;
+RSBR : NEWLINE* ']' ;
+LRBR : '(' NEWLINE* ;
+RRBR : NEWLINE* ')' ;
 
 ESCAPED : '\\' ( EMPH | ITALIC | '`' | LSBR | RSBR | LRBR | RRBR ) ;
-NEWLINE             : ('\r'? '\n' | '\r')+ ;
+NEWLINE             : ('\r'? '\n' | '\r') ;
 WHITESPACE          : (' ' | '\t')+ ;
 WORD                : ( [a-z] | [A-Z] )+ ;
 ANY                 : .;
