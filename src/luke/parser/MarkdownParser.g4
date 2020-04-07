@@ -17,6 +17,7 @@ block : HRULE
       | quote
       | hyperref_definition
       | table
+      | cmd
       ;
 
 headline : HEADLINE_HASH WHITESPACE* text 
@@ -42,7 +43,7 @@ inline_element : EMPH blocks EMPH
                | code_inline
                | hyperref
                | string
-//             | math
+               | math_inline
 //             | latex
                ;
 
@@ -71,9 +72,18 @@ table_row : TABLE_DELIM? (text TABLE_DELIM)+ text TABLE_DELIM? NEWLINE? ;
 table_separator_row : TABLE_DELIM? (table_separator TABLE_DELIM)+ table_separator TABLE_DELIM? NEWLINE? ;
 table_separator : TABLE_HRULE | TABLE_HRULE_CENTERED | TABLE_HRULE_LEFT_ALIGNED | TABLE_HRULE_RIGHT_ALIGNED ;
 
+cmd : CMD cmd_arg* ;
+cmd_arg : LSBR blocks RSBR ;
+
+math_inline : MATHINLINE_START math_text+ MATHINLINE_END ;
+math_text : MATHINLINE_CHAR+
+          | MATHINLINE_CMD ( MATHINLINE_LCBR math_text MATHINLINE_RCBR )*
+          | ( MATHINLINE_LCBR math_text MATHINLINE_RCBR )
+          ;
+
+//ws : ( WHITESPACE | NEWLINE )
 
 // TODO:
-// - table
 // - attributes
-// - latex
 // - math
+// newline / whitespace (when is actually both required?) ( newline | whitespace ) *
