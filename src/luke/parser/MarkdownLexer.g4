@@ -7,8 +7,11 @@ LC  : '//' ~[\r\n]* -> channel(HIDDEN) ;
 CODE_INLINE_START         : '`' -> pushMode(CodeInlineVerbatim) ;
 CODE_BLOCK_START          : '```' -> pushMode(CodeBlockSettings) ;
 
-LINKURL: (('https://'|'ftp://'|'http://'|'www.') ~[)]+);
-URL: (('https://'|'ftp://'|'http://'|'www.') ~[ \t]+) | ('<' ('https://'|'ftp://'|'http://'|'www.') ~[>]+ '>') ;
+URL: (('https://'|'ftp://'|'http://'|'www.') ~[ \t\n\r)]+) | ('<' ('https://'|'ftp://'|'http://'|'www.') ~[>]+ '>') ;
+
+FOOTNOTE_DEFINITION : ( '^[' | '[^' ) ~[\]]+ ']:' ;
+IMAGE_DEFINITION    : '![' ~[\]]+ ']:' ;
+LINK_DEFINITION     : '[' ~[\]]+ ']:' ;
 
 HEADLINE_HASH: '#'+ ;
 HEADLINE_ULINEDBL: NEWLINE '=''=''='+ ;
@@ -16,9 +19,9 @@ HEADLINE_ULINESGL: NEWLINE '-''-''-'+ ;
 
 HRULE : NEWLINE NEWLINE '__' '_'+ | NEWLINE NEWLINE '--' '-'+ | NEWLINE NEWLINE '**' '*'+ ;
 
-ULIST_SYM: ('-' | '*' | '+') ('[' ~[\]]+ ']' )? ;
-OLIST_SYM: [ivxcdmlIVXCDML0-9]+ '.';
-QUOTE_SYM: '>';
+ULIST_SYM: ('-' | '*' | '+') ' ' ('[' ~[\]]+ ']' )? ;
+OLIST_SYM: [ivxcdmlIVXCDML0-9]+ '. ';
+QUOTE_SYM: '> ';
 
 STRONG : '**' ;
 BOLD : '__' ;
@@ -52,3 +55,9 @@ CODE_BLOCK_WHITESPACE  : (' ' | '\t')+ -> skip;
 mode CodeBlockVerbatim;
 CODE_BLOCK_END         : '```' -> popMode, popMode;
 CODE_BLOCK_VERBATIM   : ~[`]+;
+
+//mode Attributes;
+
+
+// TODO: read linkurl using mode
+// TODO: lists with whitespace instead of space

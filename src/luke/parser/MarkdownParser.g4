@@ -6,7 +6,7 @@ input : blocks EOF ;
 
 blocks : br? (block br?)*;
 br : (NEWLINE | LINEBREAK | emptyline | HRULE)+ ;
-emptyline : NEWLINE NEWLINE;
+emptyline : NEWLINE WHITESPACE* NEWLINE;
 
 block : HRULE
       | text
@@ -15,6 +15,7 @@ block : HRULE
       | ulist
       | olist
       | quote
+      | hyperref_definition
       ;
 
 headline : HEADLINE_HASH WHITESPACE* text 
@@ -30,12 +31,13 @@ quote : (quote_elem NEWLINE)* quote_elem;
 quote_elem : QUOTE_SYM WHITESPACE* text*;
 
 
-text : (inline_element LINEBREAK)* inline_element;
+text : (inline_element text_br)* inline_element;
+text_br: NEWLINE | LINEBREAK ;
 
-inline_element : EMPH blocks EMPH?
-               | STRONG blocks STRONG?
-               | BOLD blocks BOLD?
-               | ITALIC blocks ITALIC?
+inline_element : EMPH blocks EMPH
+               | STRONG blocks STRONG
+               | BOLD blocks BOLD
+               | ITALIC blocks ITALIC
                | code_inline
                | hyperref
                | string
@@ -44,6 +46,7 @@ inline_element : EMPH blocks EMPH?
                ;
 
 string : ( WORD | ANY | WHITESPACE | EXCL | HAT )+ ;
+
 hyperref :      LSBR blocks RSBR LRBR hyperref_url RRBR # link
          | EXCL LSBR blocks RSBR LRBR hyperref_url RRBR # image
          | EXCL? LSBR string RSBR                       # reference
@@ -53,11 +56,18 @@ hyperref :      LSBR blocks RSBR LRBR hyperref_url RRBR # link
          | LSBR HAT blocks RSBR                         # referenc_footnote
          | EXCL LSBR blocks RSBR LRBR WHITESPACE* code_block WHITESPACE* RRBR # rendered_image
          ;
-
-hyperref_url : ( LINKURL | ~RRBR+ );
+hyperref_url : ( URL | ~RRBR+ );
+hyperref_definition_url : ( URL | ~WHITESPACE+ );
+hyperref_definition : (IMAGE_DEFINITION | LINK_DEFINITION) WHITESPACE* (hyperref_definition_url WHITESPACE+ text?)
+                    | FOOTNOTE_DEFINITION WHITESPACE* text?
+                    ;
 
 code_inline : CODE_INLINE_START CODE_INLINE_VERBATIM* CODE_INLINE_END ;
 code_block : CODE_BLOCK_START CODE_BLOCK_TYPE? CODE_BLOCK_NEWLINE CODE_BLOCK_VERBATIM+ CODE_BLOCK_END ;
 
 
-
+// TODO:
+// - table
+// - attributes
+// - latex
+// - math
