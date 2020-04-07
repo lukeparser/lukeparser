@@ -32,6 +32,8 @@ RRBR : NEWLINE* ')' ;
 
 ESCAPED : '\\' ( EMPH | ITALIC | '`' | LSBR | RSBR | LRBR | RRBR ) ;
 NEWLINE             : ('\r'? '\n' | '\r') ;
+LINEBREAK           : '  ' NEWLINE ;
+EMPTYLINE           : NEWLINE NEWLINE ;
 WHITESPACE          : (' ' | '\t')+ ;
 WORD                : ( [a-z] | [A-Z] )+ ;
 ANY                 : .;

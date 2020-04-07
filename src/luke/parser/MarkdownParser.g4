@@ -2,7 +2,11 @@ parser grammar MarkdownParser;
 
 options { tokenVocab=MarkdownLexer; }
 
-input : block* EOF ;
+input : blocks EOF ;
+
+blocks : br? (block br?)*;
+br : (NEWLINE | LINEBREAK | EMPTYLINE)+ ;
+
 block : text
       | code_block
       | headline
@@ -11,8 +15,8 @@ block : text
       | quote
       ;
 
-headline : HEADLINE_HASH WHITESPACE* string 
-         | WHITESPACE* string WHITESPACE* (HEADLINE_ULINEDBL | HEADLINE_ULINESGL)
+headline : HEADLINE_HASH WHITESPACE* text 
+         | WHITESPACE* text WHITESPACE* (HEADLINE_ULINEDBL | HEADLINE_ULINESGL)
          ;
 
 
@@ -24,13 +28,12 @@ quote : (quote_elem NEWLINE)* quote_elem;
 quote_elem : QUOTE_SYM WHITESPACE* text*;
 
 
-text : inline_element+
-     ;
+text : (inline_element LINEBREAK)* inline_element;
 
-inline_element : EMPH block* EMPH?
-               | STRONG block* STRONG?
-               | BOLD block* BOLD?
-               | ITALIC block* ITALIC?
+inline_element : EMPH blocks EMPH?
+               | STRONG blocks STRONG?
+               | BOLD blocks BOLD?
+               | ITALIC blocks ITALIC?
                | code_inline
                | hyperref
                | string
@@ -39,14 +42,14 @@ inline_element : EMPH block* EMPH?
                ;
 
 string : ( WORD | ANY | WHITESPACE | EXCL | HAT )+ ;
-hyperref :      LSBR block* RSBR LRBR hyperref_url RRBR # link
-         | EXCL LSBR block* RSBR LRBR hyperref_url RRBR # image
+hyperref :      LSBR blocks RSBR LRBR hyperref_url RRBR # link
+         | EXCL LSBR blocks RSBR LRBR hyperref_url RRBR # image
          | EXCL? LSBR string RSBR                       # reference
          | URL                                          # url
-         | HAT LSBR block* RSBR                         # inline_footnote
-         | LSBR block* RSBR HAT LSBR block* RSBR        # positional_footnote
-         | LSBR HAT block* RSBR                         # referenc_footnote
-         | EXCL LSBR block* RSBR LRBR WHITESPACE* code_block WHITESPACE* RRBR # rendered_image
+         | HAT LSBR blocks RSBR                         # inline_footnote
+         | LSBR blocks RSBR HAT LSBR blocks RSBR        # positional_footnote
+         | LSBR HAT blocks RSBR                         # referenc_footnote
+         | EXCL LSBR blocks RSBR LRBR WHITESPACE* code_block WHITESPACE* RRBR # rendered_image
          ;
 
 hyperref_url : ( LINKURL | ~RRBR+ );
