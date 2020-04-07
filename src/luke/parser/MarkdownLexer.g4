@@ -35,6 +35,12 @@ RSBR : NEWLINE* ']' ;
 LRBR : '(' NEWLINE* ;
 RRBR : NEWLINE* ')' ;
 
+TABLE_DELIM               : WHITESPACE* '|' WHITESPACE* ;
+TABLE_HRULE               : WHITESPACE* ('--' '-'+ | '++' '+'+) WHITESPACE* ;
+TABLE_HRULE_LEFT_ALIGNED  : WHITESPACE* ':' '--' '-'+     WHITESPACE* ;
+TABLE_HRULE_CENTERED      : WHITESPACE* ':' '--' '-'+ ':' WHITESPACE* ;
+TABLE_HRULE_RIGHT_ALIGNED : WHITESPACE*     '--' '-'+ ':' WHITESPACE* ;
+
 ESCAPED : '\\' ( EMPH | ITALIC | '`' | LSBR | RSBR | LRBR | RRBR ) ;
 NEWLINE             : ('\r'? '\n' | '\r') ;
 LINEBREAK           : '  ' NEWLINE ;

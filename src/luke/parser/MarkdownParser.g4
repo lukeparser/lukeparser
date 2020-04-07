@@ -16,6 +16,7 @@ block : HRULE
       | olist
       | quote
       | hyperref_definition
+      | table
       ;
 
 headline : HEADLINE_HASH WHITESPACE* text 
@@ -64,6 +65,11 @@ hyperref_definition : (IMAGE_DEFINITION | LINK_DEFINITION) WHITESPACE* (hyperref
 
 code_inline : CODE_INLINE_START CODE_INLINE_VERBATIM* CODE_INLINE_END ;
 code_block : CODE_BLOCK_START CODE_BLOCK_TYPE? CODE_BLOCK_NEWLINE CODE_BLOCK_VERBATIM+ CODE_BLOCK_END ;
+
+table : (table_row | table_separator_row)+ ;
+table_row : TABLE_DELIM? (text TABLE_DELIM)+ text TABLE_DELIM? NEWLINE? ;
+table_separator_row : TABLE_DELIM? (table_separator TABLE_DELIM)+ table_separator TABLE_DELIM? NEWLINE? ;
+table_separator : TABLE_HRULE | TABLE_HRULE_CENTERED | TABLE_HRULE_LEFT_ALIGNED | TABLE_HRULE_RIGHT_ALIGNED ;
 
 
 // TODO:
