@@ -18,8 +18,8 @@ block : HRULE
       | quote
       | hyperref_definition
       | table
-      | cmd
       | math_block
+      | attributes
       ;
 
 headline : HEADLINE_HASH WHITESPACE* text 
@@ -46,7 +46,7 @@ inline_element : EMPH blocks EMPH
                | hyperref
                | string
                | math_inline
-//             | latex
+               | cmd
                ;
 
 string : ( WORD | ANY | WHITESPACE | EXCL | HAT | ESCAPED )+ ;
@@ -83,6 +83,13 @@ math_text : math_cmd | ( MATH_INLINE_CHAR | MATH_BLOCK_CHAR )+ | ( ( MATH_INLINE
 math_cmd : ( MATH_INLINE_CMD | MATH_BLOCK_CMD ) ( ( MATH_INLINE_LCBR | MATH_BLOCK_LCBR ) math_text? ( MATH_INLINE_RCBR | MATH_BLOCK_RCBR ) )* ;
 
 
-// TODO:
-// - attributes
-// newline / whitespace (when is actually both required?) ( newline | whitespace ) *
+attributes: LCBR attribute* ATTR_RCBR;
+attribute : ATTR_HASH ATTR_WORD
+          | ATTR_DOT ATTR_WORD
+          | ATTR_EXCL ATTR_WORD
+          | attribute_name ATTR_EQUAL attribute_value
+          | attribute_value
+          ;
+attribute_name  :  ATTR_WORD | ATTR_STRING ;
+attribute_value :  ATTR_WORD | ATTR_STRING | ATTR_BOOL | ATTR_NUMBER | ATTR_CMD | attributes | attribute_blocks ;
+attribute_blocks : ATTR_LSBR blocks RSBR ;

@@ -21,9 +21,9 @@ HEADLINE_ULINESGL: NEWLINE '-''-''-'+ ;
 
 HRULE : NEWLINE NEWLINE '__' '_'+ | NEWLINE NEWLINE '--' '-'+ | NEWLINE NEWLINE '**' '*'+ ;
 
-ULIST_SYM: ('-' | '*' | '+') ' ' ('[' ~[\]]+ ']' )? ;
-OLIST_SYM: [ivxcdmlIVXCDML0-9]+ '. ';
-QUOTE_SYM: '> ';
+ULIST_SYM: ('-' | '*' | '+') WHITESPACE+ ('[' ~[\]]+ ']' )? ;
+OLIST_SYM: [ivxcdmlIVXCDML0-9]+ '.' WHITESPACE+ ;
+QUOTE_SYM: '>' WHITESPACE+ ;
 
 STRONG : '**' ;
 BOLD : '__' ;
@@ -35,10 +35,11 @@ CMD : '\\' WORD ( '.' WORD )*
 
 EXCL: '!' ;
 HAT: '^' ;
-LSBR : '[' ANYWS ;
-RSBR : ANYWS ']' ;
+LSBR : '[' ANYWS -> pushMode(DEFAULT_MODE) ;
+RSBR : ANYWS ']' -> popMode ;
 LRBR : '(' ANYWS ;
 RRBR : ANYWS ')' ;
+LCBR : '{' -> pushMode(Attributes);
 
 TABLE_DELIM               : WHITESPACE* '|' WHITESPACE* ;
 TABLE_HRULE               : WHITESPACE* ('--' '-'+ | '++' '+'+) WHITESPACE* ;
@@ -89,8 +90,20 @@ MATH_BLOCK_CHAR : ~[\\$\r\n\t{}]+ | MATH_BLOCK_ESCAPED | MATH_BLOCK_NEWLINE | MA
 fragment MATH_BLOCK_ESCAPED : '\\' ( MATH_BLOCK_LCBR | MATH_BLOCK_RCBR | MATH_BLOCK_END | '\\' ) ;
 
 
-//mode Attributes;
+mode Attributes;
+ATTR_HASH  : '#' ;
+ATTR_DOT   : '.' ;
+ATTR_EXCL  : '!' ;
+ATTR_EQUAL : '=' | ':' ;
+ATTR_BOOL  : [Tt]'rue'? [Ff]'alse'? ;
+ATTR_NUMBER: [0-9]+([.,][0-9]+)? ;
+ATTR_STRING: '"' ~["]+ '"' | '\'' ~[']+ '\'' ;
+ATTR_WORD  : ( [a-z] | [A-Z] ) + ;
+ATTR_LSBR : '[' -> pushMode(DEFAULT_MODE) ;
+ATTR_CMD : '\\' ATTR_WORD ( '.' ATTR_WORD )*
+         | '\\(' ATTR_WORD ( '.' ATTR_WORD )* ')' ;
+ATTR_ESCAPE : '\\' ( ATTR_HASH | ATTR_DOT | ATTR_LSBR ) ;
+ATTR_WHITESPACE : (',' | ' ' | '\t' | ('\r'? '\n' | '\r') )+ -> skip ;
+ATTR_RCBR : '}' -> popMode;
 
-
-// TODO: read linkurl using mode
-// TODO: lists with whitespace instead of space
+// [\]] not possible to escape
