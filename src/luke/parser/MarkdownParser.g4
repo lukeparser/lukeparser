@@ -2,6 +2,8 @@ parser grammar MarkdownParser;
 
 options { tokenVocab=MarkdownLexer; }
 
+tokens { INDENT, DEDENT }
+
 input : blocks EOF ;
 
 blocks : br? (block br?)*;
@@ -21,7 +23,10 @@ block : HRULE
       | math_block
       | attributes emptyline
       | attributes (ws block)?
+      | indent_blocks
       ;
+
+indent_blocks : INDENT blocks DEDENT;
 
 headline : HEADLINE_HASH WHITESPACE* text WHITESPACE* attributes? WHITESPACE*
          | WHITESPACE* text WHITESPACE* attributes? WHITESPACE* (HEADLINE_ULINEDBL | HEADLINE_ULINESGL)
@@ -29,11 +34,11 @@ headline : HEADLINE_HASH WHITESPACE* text WHITESPACE* attributes? WHITESPACE*
 
 
 ulist : ulist_elem (NEWLINE ulist_elem )* ;
-ulist_elem : ULIST_SYM WHITESPACE* text* WHITESPACE* attributes?;
+ulist_elem : ULIST_SYM WHITESPACE* text* WHITESPACE* attributes? ( ws indent_blocks )?;
 olist : olist_elem (NEWLINE olist_elem )* ;
-olist_elem : OLIST_SYM WHITESPACE* text* WHITESPACE* attributes?;
+olist_elem : OLIST_SYM WHITESPACE* text* WHITESPACE* attributes? ( ws indent_blocks )?;
 quote : quote_elem (NEWLINE quote_elem )* ;
-quote_elem : QUOTE_SYM WHITESPACE* text* WHITESPACE* attributes?;
+quote_elem : QUOTE_SYM WHITESPACE* text* WHITESPACE* attributes? ( ws indent_blocks )?;
 
 
 text : (inline_element text_br)* inline_element;
