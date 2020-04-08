@@ -4,7 +4,7 @@ options { tokenVocab=MarkdownLexer; }
 
 tokens { INDENT, DEDENT }
 
-input : blocks EOF ;
+markdown : blocks EOF ;
 
 blocks : br? (block br?)*;
 br : (NEWLINE | LINEBREAK | emptyline | HRULE)+ ;
@@ -12,6 +12,7 @@ emptyline : NEWLINE WHITESPACE* NEWLINE;
 ws : ( WHITESPACE | NEWLINE )* ;
 
 block : HRULE
+      | cmd
       | text
       | code_block
       | headline
@@ -22,9 +23,9 @@ block : HRULE
       | table
       | math_block
       | attributes emptyline
-      | attributes (ws block)?
+      | attributes ws block
+      | attributes
       | indent_blocks
-//    | cmd
       ;
 
 indent_blocks : INDENT blocks DEDENT;
@@ -45,10 +46,10 @@ quote_elem : QUOTE_SYM WHITESPACE* text* WHITESPACE* attributes? ( ws indent_blo
 text : (inline_element text_br)* inline_element;
 text_br: NEWLINE | LINEBREAK ;
 
-inline_element : EMPH blocks EMPH
-               | STRONG blocks STRONG
-               | BOLD blocks BOLD
-               | ITALIC blocks ITALIC
+inline_element : emph
+               | strong
+               | bold
+               | italic
                | code_inline
                | hyperref
                | string
@@ -57,7 +58,14 @@ inline_element : EMPH blocks EMPH
                | attributes inline_element
                ;
 
+// --------------- //
+// inline elements //
+// --------------- //
 string : ( WORD | ANY | WHITESPACE | EXCL | HAT | ESCAPED | LRBR | RRBR )+ ;
+emph   : EMPH blocks EMPH ;
+strong : STRONG blocks STRONG ;
+bold   : BOLD blocks BOLD ;
+italic : ITALIC blocks ITALIC ;
 
 hyperref :      LSBR blocks RSBR LRBR hyperref_url RRBR # link
          | EXCL LSBR blocks RSBR LRBR hyperref_url RRBR # image
@@ -75,7 +83,7 @@ hyperref_definition : (IMAGE_DEFINITION | LINK_DEFINITION) ws (hyperref_definiti
                     ;
 
 code_inline : CODE_INLINE_START CODE_INLINE_VERBATIM? CODE_INLINE_END ;
-code_block : CODE_BLOCK_START CODE_BLOCK_TYPE? attributes? CODE_BLOCK_NEWLINE CODE_BLOCK_VERBATIM? CODE_BLOCK_END ;
+code_block : CODE_BLOCK_START CODE_BLOCK_TYPE? attributes? CODE_BLOCK_NEWLINE CODE_BLOCK_END ;
 
 table : (table_row | table_separator_row)+ ;
 table_row : TABLE_DELIM? (text TABLE_DELIM)+ text TABLE_DELIM? NEWLINE? ;
