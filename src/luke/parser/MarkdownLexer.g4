@@ -100,11 +100,11 @@ CODE_BLOCK_START          : '```' -> pushMode(CodeBlockSettings) ;
 MATH_INLINE_START          : '$' ANYWS -> pushMode(MathInline);
 MATH_BLOCK_START          : '$$' -> pushMode(MathBlock);
 
-URL: (('https://'|'ftp://'|'http://'|'www.') ~[ \t\n\r)]+) | ('<' ('https://'|'ftp://'|'http://'|'www.') ~[>]+ '>') ;
+URL: (('https://'|'ftp://'|'http://'|'www.') ~[ \t\n\r)]+) | ('<' ( '\\>' | . )+? '>') ;
 
-FOOTNOTE_DEFINITION : ( '^[' | '[^' ) ~[\]]+ ']:' ;
-IMAGE_DEFINITION    : '![' ~[\]]+ ']:' ;
-LINK_DEFINITION     : '[' ~[\]]+ ']:' ;
+FOOTNOTE_DEFINITION : ( '^[' | '[^' ) ('\\]' | . )+? ']:' ;
+IMAGE_DEFINITION    : '![' ('\\]' | . )+? ']:' ;
+LINK_DEFINITION     : '[' ('\\]' | . )+? ']:' ;
 
 HEADLINE_HASH: '#'+ ;
 HEADLINE_ULINEDBL: NEWLINE '=''=''='+ ;
@@ -178,7 +178,7 @@ else:
             self.indents.pop()
     }
  ;
-ESCAPED : '\\' ( EMPH | ITALIC | '`' | LSBR | RSBR | LRBR | RRBR | '\\' ) ;
+ESCAPED : '\\' ( EMPH | ITALIC | '`' | LSBR | RSBR | LRBR | RRBR | '\\' | '<' ) ;
 LINEBREAK           : '  ' NEWLINE ;
 WHITESPACE          : [ \t]+ ;
 fragment ANYWS      : ( WHITESPACE | NEWLINE )* ;
@@ -188,7 +188,7 @@ ANY                 : .;
 
 mode CodeInlineVerbatim;
 CODE_INLINE_END         : '`' -> popMode;
-CODE_INLINE_VERBATIM    : ~[`]+;
+CODE_INLINE_VERBATIM   : ('\\`' | ~[`] )+;
 
 mode CodeBlockSettings;
 CODE_BLOCK_LCBR        : '{' -> pushMode(Attributes);
@@ -198,7 +198,7 @@ CODE_BLOCK_WHITESPACE  : (' ' | '\t')+ -> skip;
 
 mode CodeBlockVerbatim;
 CODE_BLOCK_END         : '```' -> popMode, popMode;
-CODE_BLOCK_VERBATIM   : ~[`]+;
+CODE_BLOCK_VERBATIM   : ('\\`' | ~[`] )+;
 
 mode MathInline;
 MATH_INLINE_LCBR : '{' ;
@@ -228,7 +228,7 @@ ATTR_EXCL  : '!' ;
 ATTR_EQUAL : '=' | ':' ;
 ATTR_BOOL  : [Tt]'rue'? [Ff]'alse'? ;
 ATTR_NUMBER: [0-9]+([.,][0-9]+)? ;
-ATTR_STRING: '"' ~["]+ '"' | '\'' ~[']+ '\'' ;
+ATTR_STRING: '"' ( '\\"' | . )*? '"' | '\'' ( '\\"' | . )*? '\'' ;
 ATTR_WORD  : ( [a-z] | [A-Z] ) + ;
 ATTR_LSBR : '[' -> pushMode(DEFAULT_MODE) ;
 ATTR_CMD : '\\' ATTR_WORD ( '.' ATTR_WORD )*
@@ -237,7 +237,3 @@ ATTR_ESCAPE : '\\' ( ATTR_HASH | ATTR_DOT | ATTR_LSBR ) ;
 ATTR_WHITESPACE : (',' | ' ' | '\t' | ('\r'? '\n' | '\r') )+ -> skip ;
 ATTR_LCBR : '{' -> pushMode(Attributes);
 ATTR_RCBR : '}' -> popMode;
-
-// TODO:
-// - [\]] not possible to escape
-// - INDENT

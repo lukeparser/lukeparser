@@ -73,8 +73,8 @@ hyperref_definition : (IMAGE_DEFINITION | LINK_DEFINITION) ws (hyperref_definiti
                     | FOOTNOTE_DEFINITION ws text?
                     ;
 
-code_inline : CODE_INLINE_START CODE_INLINE_VERBATIM* CODE_INLINE_END ;
-code_block : CODE_BLOCK_START CODE_BLOCK_TYPE? attributes? CODE_BLOCK_NEWLINE CODE_BLOCK_VERBATIM* CODE_BLOCK_END ;
+code_inline : CODE_INLINE_START CODE_INLINE_VERBATIM? CODE_INLINE_END ;
+code_block : CODE_BLOCK_START CODE_BLOCK_TYPE? attributes? CODE_BLOCK_NEWLINE CODE_BLOCK_VERBATIM? CODE_BLOCK_END ;
 
 table : (table_row | table_separator_row)+ ;
 table_row : TABLE_DELIM? (text TABLE_DELIM)+ text TABLE_DELIM? NEWLINE? ;
