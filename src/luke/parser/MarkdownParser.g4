@@ -24,6 +24,7 @@ block : HRULE
       | attributes emptyline
       | attributes (ws block)?
       | indent_blocks
+//    | cmd
       ;
 
 indent_blocks : INDENT blocks DEDENT;
@@ -56,7 +57,7 @@ inline_element : EMPH blocks EMPH
                | attributes inline_element
                ;
 
-string : ( WORD | ANY | WHITESPACE | EXCL | HAT | ESCAPED )+ ;
+string : ( WORD | ANY | WHITESPACE | EXCL | HAT | ESCAPED | LRBR | RRBR )+ ;
 
 hyperref :      LSBR blocks RSBR LRBR hyperref_url RRBR # link
          | EXCL LSBR blocks RSBR LRBR hyperref_url RRBR # image

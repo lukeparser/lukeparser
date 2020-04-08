@@ -138,6 +138,7 @@ TABLE_HRULE_LEFT_ALIGNED  : WHITESPACE* ':' '--' '-'+     WHITESPACE* ;
 TABLE_HRULE_CENTERED      : WHITESPACE* ':' '--' '-'+ ':' WHITESPACE* ;
 TABLE_HRULE_RIGHT_ALIGNED : WHITESPACE*     '--' '-'+ ':' WHITESPACE* ;
 
+//NEWLINE : ( '\r'? '\n' | '\r' | '\f' ) ;
 NEWLINE
  : ( {self.atStartOfInput()}?   WHITESPACE
    | ( '\r'? '\n' | '\r' | '\f' ) WHITESPACE?
@@ -178,6 +179,7 @@ else:
             self.indents.pop()
     }
  ;
+
 ESCAPED : '\\' ( EMPH | ITALIC | '`' | LSBR | RSBR | LRBR | RRBR | '\\' | '<' ) ;
 LINEBREAK           : '  ' NEWLINE ;
 WHITESPACE          : [ \t]+ ;
@@ -198,7 +200,7 @@ CODE_BLOCK_WHITESPACE  : (' ' | '\t')+ -> skip;
 
 mode CodeBlockVerbatim;
 CODE_BLOCK_END         : '```' -> popMode, popMode;
-CODE_BLOCK_VERBATIM   : ('\\`' | ~[`] )+;
+CODE_BLOCK_VERBATIM   : ('\\`' | . )+? -> more;
 
 mode MathInline;
 MATH_INLINE_LCBR : '{' ;
@@ -229,7 +231,7 @@ ATTR_EQUAL : '=' | ':' ;
 ATTR_BOOL  : [Tt]'rue'? [Ff]'alse'? ;
 ATTR_NUMBER: [0-9]+([.,][0-9]+)? ;
 ATTR_STRING: '"' ( '\\"' | . )*? '"' | '\'' ( '\\"' | . )*? '\'' ;
-ATTR_WORD  : ( [a-z] | [A-Z] ) + ;
+ATTR_WORD  : ( [a-z] | [A-Z] | '-' ) + ;
 ATTR_LSBR : '[' -> pushMode(DEFAULT_MODE) ;
 ATTR_CMD : '\\' ATTR_WORD ( '.' ATTR_WORD )*
          | '\\(' ATTR_WORD ( '.' ATTR_WORD )* ')' ;
