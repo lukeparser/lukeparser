@@ -1,3 +1,5 @@
+project(markdown)
+
 # minimum required CMAKE version
 CMAKE_MINIMUM_REQUIRED(VERSION 3.7 FATAL_ERROR)
 
@@ -27,12 +29,16 @@ antlr_target(MarkdownLexer MarkdownLexer.g4 LEXER)
 antlr_target(MarkdownParser MarkdownParser.g4 PARSER
              DEPENDS_ANTLR MarkdownLexer
              COMPILE_FLAGS -lib ${ANTLR_MarkdownLexer_OUTPUT_DIR}
-             LISTENER
+             VISITOR
              )
 
 # include generated files in project environment
 include_directories(${ANTLR_MarkdownLexer_OUTPUT_DIR})
 include_directories(${ANTLR_MarkdownParser_OUTPUT_DIR})
+
+
+# add external build for antlrcpp
+include(ExternalPybind11)
 
 # python.h
 FIND_PACKAGE(PythonLibs 3)
@@ -41,9 +47,18 @@ FIND_PATH(PYTHON_INCLUDE_PATH Python.h
   /usr/local/include)
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
 
+# make python c extension
+pybind11_add_module(markdown SHARED glue.cpp)
+# target_link_libraries(markdown PRIVATE antlr4_static)
+# add_dependencies(markdown pybind11_external)
+target_link_libraries(markdown PRIVATE pybind11::module antlr4_static)
 
+# alternative: make directly executable
 # add generated grammar to markdown binary target
-add_executable(markdown glue.cpp
-               ${ANTLR_MarkdownLexer_CXX_OUTPUTS}
-               ${ANTLR_MarkdownParser_CXX_OUTPUTS})
-target_link_libraries(markdown antlr4_static)
+# add_executable(markdown glue.cpp
+#                ${ANTLR_MarkdownLexer_CXX_OUTPUTS}
+#                ${ANTLR_MarkdownParser_CXX_OUTPUTS})
+# target_link_libraries(markdown antlr4_static)
+
+#c++ -O3 -Wall -std=c++11 -fPIC -I./antlr-runtime-src/runtime/src `python3 -m pybind11 --includes` glue.cpp -o glue
+# c++ -O3 -Wall -shared -std=c++11 -fPIC -I./antlr-runtime-src/runtime/src `python3 -m pybind11 --includes` glue.cpp -o glue`python3-config --extension-suffix`
