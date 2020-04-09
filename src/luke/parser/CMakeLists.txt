@@ -4,7 +4,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.7 FATAL_ERROR)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # compiler must be 11 or 14
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 # required if linking to static library
 add_definitions(-DANTLR4CPP_STATIC)
@@ -23,12 +23,12 @@ set(ANTLR_EXECUTABLE /usr/share/java/antlr-complete.jar)
 find_package(ANTLR REQUIRED)
 
 # Call macro to add lexer and grammar to your build dependencies.
-antlr_target(MarkdownLexer MarkdownLexer.g4 LEXER
-             PACKAGE antlrcpptest)
-antlr_target(MarkdownParser MarkdownParser.g4 PARSER LISTENER
-             PACKAGE antlrcpptest
+antlr_target(MarkdownLexer MarkdownLexer.g4 LEXER)
+antlr_target(MarkdownParser MarkdownParser.g4 PARSER
              DEPENDS_ANTLR MarkdownLexer
-             COMPILE_FLAGS -lib ${ANTLR_MarkdownLexer_OUTPUT_DIR})
+             COMPILE_FLAGS -lib ${ANTLR_MarkdownLexer_OUTPUT_DIR}
+             LISTENER
+             )
 
 # include generated files in project environment
 include_directories(${ANTLR_MarkdownLexer_OUTPUT_DIR})
@@ -42,8 +42,8 @@ FIND_PATH(PYTHON_INCLUDE_PATH Python.h
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
 
 
-# add generated grammar to demo binary target
-add_executable(demo glue.cpp
+# add generated grammar to markdown binary target
+add_executable(markdown glue.cpp
                ${ANTLR_MarkdownLexer_CXX_OUTPUTS}
                ${ANTLR_MarkdownParser_CXX_OUTPUTS})
-target_link_libraries(demo antlr4_static)
+target_link_libraries(markdown antlr4_static)
