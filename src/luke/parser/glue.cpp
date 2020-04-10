@@ -245,7 +245,7 @@ int add(int i, int j) {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(glue, m) {
+PYBIND11_MODULE(lukeparsermarkdown, m) {
     m.def("add", &add);
 
     #ifdef VERSION_INFO

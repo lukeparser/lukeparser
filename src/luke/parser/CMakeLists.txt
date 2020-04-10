@@ -1,4 +1,4 @@
-project(markdown)
+project(lukeparsermarkdown)
 
 # minimum required CMAKE version
 CMAKE_MINIMUM_REQUIRED(VERSION 3.7 FATAL_ERROR)
@@ -48,11 +48,8 @@ FIND_PATH(PYTHON_INCLUDE_PATH Python.h
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
 
 # make python c extension
-pybind11_add_module(${PROJECT_NAME} SHARED glue.cpp ${ANTLR_MarkdownLexer_CXX_OUTPUTS} ${ANTLR_MarkdownParser_CXX_OUTPUTS})
-# pybind11_add_module(${PROJECT_NAME} SHARED glue.cpp)
+pybind11_add_module(${PROJECT_NAME} glue.cpp ${ANTLR_MarkdownLexer_CXX_OUTPUTS} ${ANTLR_MarkdownParser_CXX_OUTPUTS})
 target_link_libraries(${PROJECT_NAME} PRIVATE antlr4_shared)
-
-# add_library(${PROJECT_NAME} PRIVATE ${ANTLR_MarkdownLexer_CXX_OUTPUTS} ${ANTLR_MarkdownParser_CXX_OUTPUTS})
 
 # alternative: make directly executable
 # add generated grammar to markdown binary target
