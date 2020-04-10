@@ -48,10 +48,11 @@ FIND_PATH(PYTHON_INCLUDE_PATH Python.h
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
 
 # make python c extension
-pybind11_add_module(markdown SHARED glue.cpp)
-# target_link_libraries(markdown PRIVATE antlr4_static)
-# add_dependencies(markdown pybind11_external)
-target_link_libraries(markdown PRIVATE pybind11::module antlr4_static)
+pybind11_add_module(${PROJECT_NAME} SHARED glue.cpp ${ANTLR_MarkdownLexer_CXX_OUTPUTS} ${ANTLR_MarkdownParser_CXX_OUTPUTS})
+# pybind11_add_module(${PROJECT_NAME} SHARED glue.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE antlr4_shared)
+
+# add_library(${PROJECT_NAME} PRIVATE ${ANTLR_MarkdownLexer_CXX_OUTPUTS} ${ANTLR_MarkdownParser_CXX_OUTPUTS})
 
 # alternative: make directly executable
 # add generated grammar to markdown binary target
