@@ -292,6 +292,8 @@ class html(View):
     @apply_scope(insertBy="ref", insertFrom="link")
     def translate_link(self, var, run):
         href = var('dest',"")
+        if isinstance(href,dict):
+            href = run(href['nargs'])
         if href.endswith(".md") and var("md_link_replace",False,scope="internal"):
             href = href[:-2]+var("md_link_replace",scope="internal")
         content = run(var(['content', 'dest'], ""), add_scope={"internal": {"paragraphmode": True}})
