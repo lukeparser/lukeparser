@@ -302,9 +302,9 @@ class html(View):
     @apply_scope()
     def translate_code_block(self, var, run):
         syntax = var(['syntax', 'code-syntax'], 'nohighlight')
-        if syntax == "inject":
-            return var('verbatim')
         verbatim = self.replace_in_verbatim(var('verbatim'), var(['replace', 'code-replace'], {}), var, run)
+        if syntax == "inject":
+            return verbatim
         whitespace = var('whitespace', '')
         if not var('notrim', False) and whitespace != '':
             verbatim = re.sub("^"+whitespace, "", verbatim)
