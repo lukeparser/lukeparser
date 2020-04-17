@@ -597,13 +597,12 @@ class View():
     @apply_scope(getVars=["filter","sub"])
     def cmd_listdocuments(self,var,run,filter="[0-9]+-?(.*)((.md)|/)",sub="\\1"):
         basepath = run(var("basepath"))
-        basepath = os.path.realpath(basepath)+os.sep
-        currentpath = var("basepath",ignore_self=True)
-        currentpath_real = os.path.realpath(currentpath)
+        basepath = basepath+os.sep
+        currentpath_real = os.path.dirname(run(var("relative_path")))+os.sep
         currentfile_real = var("absolute_path")
         if os.sep == "\\":
             filter = filter.replace("/",os.sep+os.sep)
-            
+
         def dir2content(basepath,rootdir):
             files = [f+os.sep if os.path.isdir(os.path.join(basepath,f)) else f for f in os.listdir(basepath)]
             files = sorted(files)
@@ -613,13 +612,13 @@ class View():
                 "type":"ulist","list-symbol":"none","content":
                     [
                         [[{"type":"link","dest": os.path.join(relpath,f), "content": {"type": "strong","text":name} if os.path.join(basepath,f) == currentfile_real else name}]] if not os.path.isdir(os.path.join(basepath,f)) or currentpath_real not in os.path.join(basepath,f) else
-                        [[{"type":"link","dest": os.path.join(relpath,f), "content": name if os.path.join(relpath,f) in currentpath_real else {"type": "strong","text":name}}], dir2content(os.path.join(basepath,f),rootdir)]
+                        [[{"type":"link","dest": os.path.join(relpath,f), "content": name if os.path.join(relpath,f) in os.path.realpath(currentpath_real) else {"type": "strong","text":name}}], dir2content(os.path.join(basepath,f),rootdir)]
                         for name,f in files
                     ]
             }
             return content
 
-        content = dir2content(basepath,currentpath)
+        content = dir2content(basepath,basepath)
 
         return run(content)
 
