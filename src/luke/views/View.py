@@ -659,6 +659,7 @@ class View():
             else:
                 return ""
 
+    @apply_scope(getVars=["scopes", "l", "r"])
     def cmd_ifeq(self, var, run, scopes, l, r):
         arguments = var("arguments")
         if l==r:
