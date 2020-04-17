@@ -399,11 +399,18 @@ class View():
                 content = {'type': math, 'verbatim': content}
             return run(content,add_scope={"variable":inner_scope})
 
-        scope_id = -2 if outer_var("paragraphmode",False,scope="internal",scopes=scopes[-1:]) else -1
-        if scopename not in scopes[scope_id]:
-            scopes[scope_id][scopename] = {name:cmd}
+        cmd_scope = outer_var("cmd_scope",False, scope="internal")
+        if cmd_scope:
+            if scopename not in cmd_scope:
+                cmd_scope[scopename] = {name:cmd}
+            else:
+                cmd_scope[scopename][name] = cmd
         else:
-            scopes[scope_id][scopename][name] = cmd
+            scope_id = -2 if outer_var("paragraphmode",False,scope="internal",scopes=scopes[-1:]) else -1
+            if scopename not in scopes[scope_id]:
+                scopes[scope_id][scopename] = {name:cmd}
+            else:
+                scopes[scope_id][scopename][name] = cmd
 
         return ""
 
@@ -562,17 +569,19 @@ class View():
         from luke.Preprocessing import Preprocessing
 
         basepath = var("basepath")
-        file = os.path.join(basepath,file)
-        if file.endswith(".md") or file.endswith(".json"):
-            snd = parse_lang(Parser(), Preprocessing(), file)
+        abs_path_file = os.path.join(basepath,file)
+        if abs_path_file.endswith(".md") or abs_path_file.endswith(".json"):
+            snd = parse_lang(Parser(), Preprocessing(), abs_path_file)
+            add_scope = {"variable": {"basepath": os.path.join(basepath,os.path.dirname(file))}, "internal": {"cmd_scope": scopes[-1]}}
+            # add_scope = {}
             if hidden:
-                run(snd)
+                run(snd, add_scope=add_scope)
                 return ""
             if inplace:
-                return run(snd["content"])
-            return run(snd)
+                return run(snd["content"], add_scope=add_scope)
+            return run(snd, add_scope=add_scope)
         else:
-            with open(file,"r") as f:
+            with open(abs_path_file,"r") as f:
                 content = f.read() #.decode("utf8")
                 return content
 
