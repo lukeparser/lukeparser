@@ -204,11 +204,18 @@ class View():
                         walk(val)
         walk(attr)
 
-        scope_id = -2 if var("paragraphmode",False,scope="internal",scopes=scopes[-1:]) else -1
-        if "variable" not in scopes[scope_id]:
-            scopes[scope_id]["variable"] = attr
+        cmd_scope = var("cmd_scope",False, scope="internal")
+        if cmd_scope:
+            if "variable" not in cmd_scope:
+                cmd_scope["variable"] = attr
+            else:
+                cmd_scope["variable"].update(attr)
         else:
-            scopes[scope_id]["variable"].update(attr)
+            scope_id = -2 if var("paragraphmode",False,scope="internal",scopes=scopes[-1:]) else -1
+            if "variable" not in scopes[scope_id]:
+                scopes[scope_id]["variable"] = attr
+            else:
+                scopes[scope_id]["variable"].update(attr)
         return ""
 
     @apply_scope()
