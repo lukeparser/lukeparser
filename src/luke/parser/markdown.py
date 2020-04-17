@@ -249,7 +249,7 @@ class MarkdownParser(BisonParser):
         "\\"{word}(\.{word})*"{"{whitespace_nl}            { STATE_PUSH(ATTRIBUTE_STATE); returntoken(LATEX_COMMAND_WITH_OPTIONAL_ARGUMENT); }
 
         {whitespace}"|"{whitespace}             { returntoken(TABLE_DELIM); }
-        {whitespace}[-+]{3,}{whitespace}        { returntoken(TABLE_HRULE); }
+        {whitespace}([-]{3,}|[+]{3,}){whitespace}        { returntoken(TABLE_HRULE); }
         {whitespace}:---+{whitespace}           { returntoken(TABLE_HRULE_LEFT_ALIGNED); }
         {whitespace}:---+:{whitespace}          { returntoken(TABLE_HRULE_CENTERED); }
         {whitespace}---+:{whitespace}           { returntoken(TABLE_HRULE_RIGHT_ALIGNED); }
