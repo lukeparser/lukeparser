@@ -648,6 +648,17 @@ class View():
         return tmp_str
 
     @apply_scope(getVars=["scopes", "l", "r"])
+    def cmd_ifexists(self, var, run, scopes, l):
+        arguments = var("arguments")
+        try:
+            var(l)
+            return run(arguments[0])
+        except:
+            if len(arguments) > 1:
+                return run(arguments[1])
+            else:
+                return ""
+
     def cmd_ifeq(self, var, run, scopes, l, r):
         arguments = var("arguments")
         if l==r:
