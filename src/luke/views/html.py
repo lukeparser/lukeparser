@@ -284,7 +284,7 @@ class html(View):
                     ret += "</li>"
                 else:
                     ret += "<li "+li_addition_local+">"
-                    ret += run(li,add_scope={"internal": {"listmode": True, "listdepth": listdepth}})
+                    ret += run(li,add_scope={"internal": {"paragraphmode":True, "listmode": True, "listdepth": listdepth}})
                     ret += "</li>"
         ret += "</ul>"
         return ret
