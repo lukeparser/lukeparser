@@ -302,7 +302,14 @@ class html(View):
     @apply_scope()
     def translate_code_block(self, var, run):
         syntax = var(['syntax', 'code-syntax'], 'nohighlight')
-        verbatim = self.replace_in_verbatim(var('verbatim'), var(['replace', 'code-replace'], {}), var, run)
+        if var('src', False):
+            basepath = var("basepath")
+            file = os.path.join(basepath,var('src'))
+            with open(file,"r") as f:
+                verbatim = f.read()
+        else:
+            verbatim = var('verbatim')
+        verbatim = self.replace_in_verbatim(verbatim, var(['replace', 'code-replace'], {}), var, run)
         if syntax == "inject":
             return verbatim
         whitespace = var('whitespace', '')
@@ -1106,7 +1113,14 @@ class html(View):
     @apply_scope()
     def translate_card_code_block(self, var, run):
         syntax = var(['syntax', 'code-syntax'], 'nohighlight')
-        verbatim = self.replace_in_verbatim(var('verbatim'), var(['replace', 'code-replace'], {}), var, run)
+        if var('src', False):
+            basepath = var("basepath")
+            file = os.path.join(basepath,var('src'))
+            with open(file,"r") as f:
+                verbatim = f.read() #.decode("utf8")
+        else:
+            verbatim = var('verbatim')
+        verbatim = self.replace_in_verbatim(verbatim, var(['replace', 'code-replace'], {}), var, run)
         whitespace = var('whitespace', '')
         if not var('notrim', False) and whitespace != '':
             verbatim = re.sub("^"+whitespace, "", verbatim)
