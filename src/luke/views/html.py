@@ -316,8 +316,7 @@ class html(View):
         if not var('notrim', False) and whitespace != '':
             verbatim = re.sub("^"+whitespace, "", verbatim)
             verbatim = re.sub("\n"+whitespace, "\n", verbatim)
-        verbatim.replace("<","&lt;")
-        verbatim.replace(">","&gt;")
+        verbatim = verbatim.replace("<","&lt;").replace(">","&gt;")
 
         return html.make_main_tag(var, "pre", tag_style="margin:0", content="""<code class={1}>{0}</code>""") \
                 .format(verbatim, syntax)
