@@ -348,9 +348,9 @@ class MarkdownParser(BisonParser):
         \n{indent}*===+/\n                      { returntoken(HEADING_ULINEDBL); }
         \n{indent}*---+/\n                      { returntoken(HEADING_ULINESGL); }
         ^{indent}*[\*\-\+]" "{whitespace}       { returntoken(ULIST_SYM); }
-        ^{indent}*[\*\-\+]\[[a-zA-Z\-\_\?]+\]" "{whitespace}        { returntoken(ULIST_SYM); }
-        ^{indent}*[\*\-\+]\[{whitespace}*\]" "{whitespace}        { returntoken(ULIST_SYM); }
-        ^{indent}*[\*\-\+]\[{utf_8}\]" "{whitespace}        { returntoken(ULIST_SYM); }
+        ^{indent}*[\*\-\+]{whitespace}\[[a-zA-Z\-\_\?]+\]" "{whitespace}        { returntoken(ULIST_SYM); }
+        ^{indent}*[\*\-\+]{whitespace}\[{whitespace}*\]" "{whitespace}        { returntoken(ULIST_SYM); }
+        ^{indent}*[\*\-\+]{whitespace}\[{utf_8}\]" "{whitespace}        { returntoken(ULIST_SYM); }
         ^{indent}*[ivxlcdmlIVXLCDML0-9]+". "{whitespace}          { returntoken(OLIST_SYM); }
         ^{indent}*[a-zA-Z]". "{whitespace}      { returntoken(OLIST_SYM); }
         ^{indent}*"> "{whitespace}              { returntoken(QUOTE_SYM); }
@@ -486,7 +486,7 @@ class MarkdownParser(BisonParser):
 
     @staticmethod
     def ulist_sym_get(s):
-        s = s.strip()
+        s = ''.join(s.split())
         if len(s) >= 2 and s[1] == "[":
             s = s[2:-1]
         return s
