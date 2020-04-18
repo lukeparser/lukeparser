@@ -594,31 +594,45 @@ class View():
 
             # return res
 
-    @apply_scope(getVars=["filter","sub"])
-    def cmd_listdocuments(self,var,run,filter="[0-9]+-?(.*)((.md)|/)",sub="\\1"):
+    @apply_scope(getVars=["filter","sub","dir","collapseother"])
+    def cmd_listdocuments(self,var,run,filter="[0-9]+-?(.*)((.md)|/)",sub="\\1",dir=".", collapseother=False):
         basepath = run(var("basepath"))
         basepath = basepath+os.sep
+        listdir = os.path.join(basepath,run(dir))
+        listdir = listdir+os.sep
         currentpath_real = os.path.dirname(run(var("relative_path")))+os.sep
         currentfile_real = var("absolute_path")
         if os.sep == "\\":
             filter = filter.replace("/",os.sep+os.sep)
 
-        def dir2content(basepath,rootdir):
-            files = [f+os.sep if os.path.isdir(os.path.join(basepath,f)) else f for f in os.listdir(basepath)]
+        def dir2content(basepath,listdir):
+            files = [f+os.sep if os.path.isdir(os.path.join(listdir,f)) else f for f in os.listdir(listdir)]
             files = sorted(files)
             files = [(re.sub(filter,sub,f).replace("-"," "),f) for f in files if re.match(filter,f) and not f.startswith("index\\.")]
-            relpath = os.path.relpath(basepath,rootdir)
+            linkpath = os.path.relpath(listdir,basepath)
             content = {
                 "type":"ulist","list-symbol":"none","content":
                     [
-                        [[{"type":"link","dest": os.path.join(relpath,f), "content": {"type": "strong","text":name} if os.path.join(basepath,f) == currentfile_real else name}]] if not os.path.isdir(os.path.join(basepath,f)) or currentpath_real not in os.path.join(basepath,f) else
-                        [[{"type":"link","dest": os.path.join(relpath,f), "content": name if os.path.join(relpath,f) in os.path.realpath(currentpath_real) else {"type": "strong","text":name}}], dir2content(os.path.join(basepath,f),rootdir)]
+                        [[{
+                            "type":"link",
+                            "dest": os.path.join(linkpath,f),
+                            "content": {"type": "strong","text":name} if os.path.abspath(os.path.join(listdir,f)) == currentfile_real else name
+                        }]] \
+                        if not os.path.isdir(os.path.join(listdir,f)) or (collapseother and os.path.abspath(currentpath_real) != os.path.abspath(os.path.join(listdir,f))) \
+                        else \
+                        [[{
+                            "type":"link",
+                            "dest": os.path.join(linkpath,f),
+                            "content": name if os.path.abspath(os.path.join(listdir,f)) != os.path.abspath(currentpath_real) else {"type": "strong","text":name}
+                        }],
+                        dir2content(basepath,os.path.join(listdir,f))
+                        ]
                         for name,f in files
                     ]
             }
             return content
 
-        content = dir2content(basepath,basepath)
+        content = dir2content(basepath,listdir)
 
         return run(content)
 
