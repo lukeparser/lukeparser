@@ -286,7 +286,7 @@ class MarkdownParser(BisonParser):
         <INITIAL>^{whitespace}"{"               { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
         <INITIAL>"{"                            { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
         <ATTRIBUTE_STATE>"{"                    { STATE_PUSH(ATTRIBUTE_STATE); returntoken(ATTR_START); }
-        <ATTRIBUTE_STATE>{whitespace_nl}"}"{whitespace}        { STATE_POP(); returntoken(ATTR_END); }
+        <ATTRIBUTE_STATE>{whitespace_nl}"}"     { STATE_POP(); returntoken(ATTR_END); }
         <ATTRIBUTE_STATE>"}["                   { STATE_POP(); returntoken(ATTR_END_AND_ARG_START); }
         <ATTRIBUTE_STATE>"["                    { STATE_PUSH(INITIAL); returntoken(ATTR_INPUT); }
         <ATTRIBUTE_STATE>"#"                    { returntoken(ATTR_HASH); }
