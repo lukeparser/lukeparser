@@ -559,9 +559,12 @@ class View():
 
 
 
-    @apply_scope(getVars=["format"])
-    def cmd_lastchange(self, var, run, format="%d. %B %Y, %H:%M:%S"):
-        absolute_path = var("absolute_path")
+    @apply_scope(getVars=["format","currentfile"])
+    def cmd_lastchange(self, var, run, format="%d. %B %Y, %H:%M:%S", currentfile=True):
+        if currentfile:
+            absolute_path = var(["absolute_path_current","absolute_path"])
+        else:
+            absolute_path = var("absolute_path")
         timestamp = datetime.fromtimestamp(Path(absolute_path).stat().st_mtime)
         return ("{:"+format+"}").format(timestamp)
 
@@ -579,7 +582,12 @@ class View():
         abs_path_file = os.path.join(basepath,file)
         if abs_path_file.endswith(".md") or abs_path_file.endswith(".json"):
             snd = parse_lang(Parser(), Preprocessing(), abs_path_file)
-            add_scope = {"variable": {"basepath": os.path.join(basepath,os.path.dirname(file))}, "internal": {"cmd_scope": scopes[-1]}}
+            add_scope = {
+                "variable": {
+                    "basepath": os.path.join(basepath,os.path.dirname(file)),
+                    "absolute_path_current": os.path.abspath(abs_path_file)
+                },
+                "internal": {"cmd_scope": scopes[-1]}}
             # add_scope = {}
             if hidden:
                 run(snd, add_scope=add_scope)
