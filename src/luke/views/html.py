@@ -490,6 +490,7 @@ class html(View):
     def translate_code_inline(self, var, run):
         syntax = var(['syntax', 'code-syntax'], 'nohighlight')
         verbatim = self.replace_in_verbatim(var('verbatim'), var(['replace', 'code-replace'], {}), var, run)
+        verbatim = verbatim.replace("<","&lt;").replace(">","&gt;")
         return html.make_main_tag(var, "code", tag_class=["{}"], content="{}").format(syntax, verbatim)
 
     @apply_scope()
