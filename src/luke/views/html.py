@@ -301,7 +301,7 @@ class html(View):
 
     @apply_scope()
     def translate_code_block(self, var, run):
-        syntax = var(['syntax', 'code-syntax'], 'nohighlight')
+        syntax = var(['syntax', 'code-syntax'], 'plaintext')
         if var('src', False):
             basepath = var("basepath")
             file = os.path.join(basepath,var('src'))
