@@ -489,8 +489,12 @@ class View():
             usetikzlibrary = "\\usetikzlibrary{"+usetikzlibrary+"}"
         x.pop('type')
         latexpackages = var('latexpackages',"")
-        latexpackages = "\n".join(["\\usepackage{"+package+"}" for package in latexpackages.split(",")])
-        svgfile = os.path.join(var("assets"),var("filename")+"_"+str(self.tikz_counter)+".svg")
+        if len(latexpackages) > 0:
+            latexpackages = "\n".join(["\\usepackage{"+package+"}" for package in latexpackages.split(",")])
+        latexincludes = var('latexincludes',"").split(",")
+        latexpackages += "\n".join([("\\usepackage{"+file[:-4]+"}") if file.endswith(".sty") else ("\include{"+file+"}") for file in latexincludes])
+        basepath = var("basepath")
+        svgfile = var(["filename_current","filename"])+"_"+str(self.tikz_counter)+".svg"
         self.tikz_counter += 1
         syspath = lambda file : os.path.join(var("basepath"),file)
         code_hashed = "<!-- "+hashlib.sha256(code.encode()).hexdigest()+" -->"
@@ -505,6 +509,11 @@ class View():
         if not svg_matches:
             temp_dir = tempfile.mkdtemp()
 
+            # copy dependencies
+            for include in latexincludes:
+                shutil.copy(os.path.join(basepath,include),temp_dir)
+
+            # generate file
             texfile_path = os.path.join(temp_dir,"tikz.tex")
             with open(texfile_path, "w") as texfile:
                 texfile.write("""
@@ -555,7 +564,8 @@ class View():
                         if once:
                             destsvg.write(code_hashed+"\n")
                             once = False
-        return run({'type': 'image', 'dest': svgfile, **x})
+        svgfile_relative = os.path.relpath(syspath(svgfile),os.path.dirname(var("relative_path")))
+        return run({'type': 'image', 'dest': svgfile_relative, **x})
 
 
 
@@ -580,12 +590,16 @@ class View():
 
         basepath = var("basepath")
         abs_path_file = os.path.join(basepath,file)
+        filename, fileext = os.path.splitext(os.path.basename(abs_path_file))
         if abs_path_file.endswith(".md") or abs_path_file.endswith(".json"):
             snd = parse_lang(Parser(), Preprocessing(), abs_path_file)
             add_scope = {
                 "variable": {
                     "basepath": os.path.join(basepath,os.path.dirname(file)),
-                    "absolute_path_current": os.path.abspath(abs_path_file)
+                    "absolute_path_current": os.path.abspath(abs_path_file),
+                    "filename_current": filename,
+                    "fileext_current": fileext,
+
                 },
                 "internal": {"cmd_scope": scopes[-1]}}
             # add_scope = {}

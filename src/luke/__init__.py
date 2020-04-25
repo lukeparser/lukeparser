@@ -1,4 +1,4 @@
-__version__ = "0.3.10.2"
+__version__ = "0.3.11"
 
 __title__         = "lukeparser"
 __description__   = "The Style of Markdown with the Power of LaTeX."
