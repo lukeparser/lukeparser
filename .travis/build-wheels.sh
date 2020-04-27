@@ -28,6 +28,7 @@ done
 
 # Bundle external shared libraries into the wheels
 for whl in dist/*.whl; do
+    auditwheel show "$whl"
     auditwheel repair "$whl" --plat $PLAT -w /io/dist/
 done
 
