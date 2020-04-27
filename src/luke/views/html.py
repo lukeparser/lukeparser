@@ -336,7 +336,7 @@ class html(View):
 
         # replace escaped chars
         def replace(s):
-            return s.replace("\{","{").replace("\}","}").replace("\\\\","\\")
+            return s.replace("\{","{").replace("\}","}").replace("\\\\","\\").replace("<","&lt;").replace(">","&gt;")
 
         # parse all the math
         for item in verbatim_with_math:
@@ -1126,6 +1126,7 @@ class html(View):
             verbatim = re.sub("^"+whitespace, "", verbatim)
             verbatim = re.sub("\n"+whitespace, "\n", verbatim)
 
+        verbatim = verbatim.replace("<","&lt;").replace(">","&gt;")
         title = var('title', "")
         titlestr = ""
         if title:
