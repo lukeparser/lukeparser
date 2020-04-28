@@ -17,7 +17,7 @@ jobs:
     - name: "Python 3 on Manylinux"
       services:
         - docker
-      env: DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64:2020-04-06-694ff3c
            PLAT=manylinux2010_x86_64
            PY=python3
            BISON=bison
