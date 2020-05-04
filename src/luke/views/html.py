@@ -17,6 +17,9 @@ class format_dict(dict):
 class str_escaped(str):
     pass
 
+def html_escape(s):
+    return s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&apos;")
+
 try:
     from StringIO import StringIO as IOBuffer
 except ImportError:
@@ -316,7 +319,7 @@ class html(View):
         if not var('notrim', False) and whitespace != '':
             verbatim = re.sub("^"+whitespace, "", verbatim)
             verbatim = re.sub("\n"+whitespace, "\n", verbatim)
-        verbatim = verbatim.replace("<","&lt;").replace(">","&gt;")
+        verbatim = html_escape(verbatim)
 
         return html.make_main_tag(var, "pre", tag_style="margin:0", content="""<code class={1}>{0}</code>""") \
                 .format(verbatim, syntax)
@@ -336,7 +339,8 @@ class html(View):
 
         # replace escaped chars
         def replace(s):
-            return s.replace("\{","{").replace("\}","}").replace("\\\\","\\").replace("<","&lt;").replace(">","&gt;")
+            s = html_escape(s)
+            return s.replace("\{","{").replace("\}","}").replace("\\\\","\\")
 
         # parse all the math
         for item in verbatim_with_math:
@@ -490,7 +494,7 @@ class html(View):
     def translate_code_inline(self, var, run):
         syntax = var(['syntax', 'code-syntax'], 'nohighlight')
         verbatim = self.replace_in_verbatim(var('verbatim'), var(['replace', 'code-replace'], {}), var, run)
-        verbatim = verbatim.replace("<","&lt;").replace(">","&gt;")
+        verbatim = html_escape(verbatim)
         return html.make_main_tag(var, "code", tag_class=["{}"], content="{}").format(syntax, verbatim)
 
     @apply_scope()
@@ -1126,7 +1130,7 @@ class html(View):
             verbatim = re.sub("^"+whitespace, "", verbatim)
             verbatim = re.sub("\n"+whitespace, "\n", verbatim)
 
-        verbatim = verbatim.replace("<","&lt;").replace(">","&gt;")
+        verbatim = html_escape(verbatim)
         title = var('title', "")
         titlestr = ""
         if title:
