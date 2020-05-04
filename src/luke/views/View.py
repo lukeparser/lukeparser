@@ -88,6 +88,7 @@ def apply_scope(insertBy=None, insertFrom=None, getVars=False):
                 for k in range(len(getVars)):
                     varname = getVars[k]
 
+
                     # first, fill with nargs
                     if k-nargs_offset < len(nargs):
                         if varname == "scopes":
@@ -589,15 +590,18 @@ class View():
         from luke.Preprocessing import Preprocessing
 
         basepath = var("basepath")
-        abs_path_file = os.path.join(basepath,file)
-        filename, fileext = os.path.splitext(os.path.basename(abs_path_file))
-        if abs_path_file.endswith(".md") or abs_path_file.endswith(".json"):
-            snd = parse_lang(Parser(), Preprocessing(), abs_path_file)
+        outerfile = var(["absolute_path_current","absolute_path"])
+        relative_path_file = os.path.join(basepath,file)
+        abs_path_file = os.path.abspath(relative_path_file)
+        filename, fileext = os.path.splitext(os.path.basename(relative_path_file))
+        if relative_path_file.endswith(".md") or relative_path_file.endswith(".json"):
+            snd = parse_lang(Parser(), Preprocessing(), relative_path_file)
             add_scope = {
                 "variable": {
                     "basepath": os.path.join(basepath,os.path.dirname(file)),
-                    "absolute_path_current": os.path.abspath(abs_path_file),
+                    "absolute_path_current": abs_path_file,
                     "filename_current": filename,
+                    "filename_current_relative": os.path.relpath(abs_path_file,os.path.dirname(outerfile)),
                     "fileext_current": fileext,
 
                 },
