@@ -221,7 +221,7 @@ class latex(View):
         })
 
         # add counters for the following elements
-        self.counters = ["section", "equation"]
+        self.counters = ["section", "equation", "tikz"]
 
     def run(self, tree, **settings):
         content = super().run(tree)

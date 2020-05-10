@@ -892,7 +892,7 @@ class html(View):
         })
 
         # add counters for the following elements
-        self.counters = ["section", "equation"]
+        self.counters = ["section", "equation", "tikz"]
 
 
         self.unique_hashes = {}

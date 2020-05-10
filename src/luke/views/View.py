@@ -153,7 +153,6 @@ class View():
         }
 
         self.translate_styles = {}
-        self.tikz_counter = 0
 
         self.thread_queue = queue.Queue()
         self.thread_num = 0
@@ -495,19 +494,22 @@ class View():
         latexincludes = var('latexincludes',"").split(",")
         latexpackages += "\n".join([("\\usepackage{"+file[:-4]+"}") if file.endswith(".sty") else ("\include{"+file+"}") for file in latexincludes])
         basepath = var("basepath")
-        svgfile = var(["filename_current","filename"])+"_"+str(self.tikz_counter)+".svg"
-        self.tikz_counter += 1
+        tikz_counter = var('tikz',scope='counter')
+        svgfile = var(["filename_current","filename"])+"_"+str(tikz_counter[0])+".svg"
+        tikz_counter[0] += 1
         syspath = lambda file : os.path.join(var("basepath"),file)
         code_hashed = "<!-- "+hashlib.sha256(code.encode()).hexdigest()+" -->"
 
         if os.path.exists(syspath(svgfile)):
             with open(syspath(svgfile)) as svg:
                 svg.readline() # skip first line
-                svg_matches = code_hashed == svg.readline()[:-1]
+                file_hash = svg.readline()[:-1]
+                svg_matches = code_hashed == file_hash
         else:
             svg_matches = False
 
         if not svg_matches:
+            breakpoint()
             temp_dir = tempfile.mkdtemp()
 
             # copy dependencies
@@ -605,6 +607,7 @@ class View():
                     "fileext_current": fileext,
 
                 },
+                "counter": {"tikz": [0]},
                 "internal": {"cmd_scope": scopes[-1]}}
             # add_scope = {}
             if hidden:
