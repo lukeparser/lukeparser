@@ -509,7 +509,6 @@ class View():
             svg_matches = False
 
         if not svg_matches:
-            breakpoint()
             temp_dir = tempfile.mkdtemp()
 
             # copy dependencies
