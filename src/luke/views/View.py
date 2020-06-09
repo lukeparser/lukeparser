@@ -369,6 +369,8 @@ class View():
         del var_scope["type"]
         del var_scope["command"]
         del var_scope["arguments"]
+        defined_var_names = list(var_scope.keys())
+        defined_var_names.remove("scope")
 
         # content of new command
         content = x["arguments"][0]
@@ -387,16 +389,22 @@ class View():
         @apply_scope(getVars=["adict"]+nargs)
         def cmd(self, var, run, adict, **nargs):
             inner_scope = dict.copy(var_scope)
+            adict = dict.copy(adict)
             content = var_scope["content"]
+            if "command" in adict:
+                del adict["command"]
+            if "type" in adict:
+                del adict["type"]
+            if "nargs" in adict:
+                adict_nargs = adict["nargs"]
+                del adict["nargs"]
+            else:
+                adict_nargs = []
+            if "arguments" in adict:
+                del adict["arguments"]
+            for k,val in zip(defined_var_names,adict_nargs[len(nargs):]):
+                adict[k] = val
             inner_scope.update(adict)
-            if "command" in inner_scope:
-                del inner_scope["command"]
-            if "type" in inner_scope:
-                del inner_scope["type"]
-            if "nargs" in inner_scope:
-                del inner_scope["nargs"]
-            if "arguments" in inner_scope:
-                del inner_scope["arguments"]
             inner_scope.update(nargs)
             arguments = var("arguments",[])
             for i,arg in enumerate(arguments):
