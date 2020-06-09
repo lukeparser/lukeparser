@@ -39,18 +39,21 @@ class html(View):
     # ----------------
     # Helper Functions
     # ----------------
-    def make_main_tag(var, *args, **kwargs):
-        return html.make_tag(var, *args, **kwargs, is_main_tag=True)
+    def make_main_tag(var,run, *args, **kwargs):
+        return html.make_tag(var,run, *args, **kwargs, is_main_tag=True)
 
-    def get_classes(var,tag_class=""):
+    def get_classes(var,run,tag_class=""):
         if not isinstance(tag_class, list):
             tag_class = [tag_class]
         self_x = var("self",get_self=True)
         filter_bool = lambda d: [k for k, v in d.items() if isinstance(v,bool) and v]
+        if "class" in self_x:
+            tag_class += [self_x["class"]]
         tag_class += filter_bool(self_x)
+        tag_class = list(map(lambda x: x if isinstance(x,str) else run(x), tag_class))
         return tag_class
 
-    def make_tag(var, tag_name, tag_id="", tag_class="", tag_style="", tag_addition="", content=None, replace_block=True, is_main_tag=False):
+    def make_tag(var,run, tag_name, tag_id="", tag_class="", tag_style="", tag_addition="", content=None, replace_block=True, is_main_tag=False):
 
         # replace tag, if in paragraphmode
         if tag_name in ["div", "p"] and replace_block and var("paragraphmode", False):
@@ -66,7 +69,7 @@ class html(View):
         else:
             tag_id = "id=\""+tag_id+"\" "
 
-        tag_class = html.get_classes(var,tag_class)
+        tag_class = html.get_classes(var,run,tag_class)
         if len(tag_class) > 0:
             tag_class = "class=\""+" ".join(tag_class)+"\" "
         else:
@@ -150,7 +153,7 @@ class html(View):
 
         # it's a plain section, how boring is that ...
         return "\n".join([
-            html.make_main_tag(var, "h{size}", tag_id=id, tag_class="{hidden} "+align, content="{counter}{title}").format(size=(level + 1), title=title, hidden=hidden, counter=counter_str), run(var('content'), add_scope={"counter": {"section": counter+[0]}})
+            html.make_main_tag(var,run, "h{size}", tag_id=id, tag_class="{hidden} "+align, content="{counter}{title}").format(size=(level + 1), title=title, hidden=hidden, counter=counter_str), run(var('content'), add_scope={"counter": {"section": counter+[0]}})
         ])
 
     @apply_scope()
@@ -186,7 +189,7 @@ class html(View):
             classes.append("list-style-bold")
             boldlist_s = "<span>"
             boldlist_e = "</span>"
-        ret = html.make_main_tag(var, "ol", tag_style=style, tag_class=classes)
+        ret = html.make_main_tag(var,run, "ol", tag_style=style, tag_class=classes)
         list_content = var("content")
         if len(list_content) > 0:
             for li in list_content:
@@ -263,7 +266,7 @@ class html(View):
                 li_addition = "data-icon='"+symb+"'"
             else:
                 li_addition = "class=\"oi-"+symb+"\""
-        ret = html.make_main_tag(var, "ul", tag_style=style, tag_class=classes)
+        ret = html.make_main_tag(var,run, "ul", tag_style=style, tag_class=classes)
         list_content = var("content")
         if not isinstance(symbols,list):
             symbols = [symbols]*len(list_content)
@@ -300,7 +303,7 @@ class html(View):
         if href.endswith(".md") and var("md_link_replace",False,scope="internal"):
             href = href[:-2]+var("md_link_replace",scope="internal")
         content = run(var(['content', 'dest'], ""), add_scope={"internal": {"paragraphmode": True}})
-        return html.make_main_tag(var, "a", tag_addition="href=\"{}\"", content="{}").format(href, content)
+        return html.make_main_tag(var,run, "a", tag_addition="href=\"{}\"", content="{}").format(href, content)
 
     @apply_scope()
     def translate_code_block(self, var, run):
@@ -321,7 +324,7 @@ class html(View):
             verbatim = re.sub("\n"+whitespace, "\n", verbatim)
         verbatim = html_escape(verbatim)
 
-        return html.make_main_tag(var, "pre", tag_style="margin:0", content="""<code class={1}>{0}</code>""") \
+        return html.make_main_tag(var,run, "pre", tag_style="margin:0", content="""<code class={1}>{0}</code>""") \
                 .format(verbatim, syntax)
 
     @apply_scope()
@@ -348,29 +351,29 @@ class html(View):
                 verbatim += replace(item)
             else:
                 verbatim += "<span class=\"hljs-{0}\">{1}</span>".format(item["command"],"".join(replace(item["arguments"][0][0])))
-        return html.make_main_tag(var, "pre", tag_style="margin:0", content="""<code class="hljs nohighlight">{0}</code>""") \
+        return html.make_main_tag(var,run, "pre", tag_style="margin:0", content="""<code class="hljs nohighlight">{0}</code>""") \
                 .format(verbatim)
 
 
     @apply_scope()
     def translate_emph(self, var, run):
-        return html.make_main_tag(var, "em", content="{}").format(run(var('text')))
+        return html.make_main_tag(var,run, "em", content="{}").format(run(var('text')))
 
     @apply_scope()
     def translate_strong(self, var, run):
-        return html.make_main_tag(var, "strong", content="{}").format(run(var('text')))
+        return html.make_main_tag(var,run, "strong", content="{}").format(run(var('text')))
 
     @apply_scope()
     def translate_bold(self, var, run):
-        return html.make_main_tag(var, "b", content="{}").format(run(var('text')))
+        return html.make_main_tag(var,run, "b", content="{}").format(run(var('text')))
 
     @apply_scope()
     def translate_italic(self, var, run):
-        return html.make_main_tag(var, "i", content="{}").format(run(var('text')))
+        return html.make_main_tag(var,run, "i", content="{}").format(run(var('text')))
 
     @apply_scope()
     def translate_strike(self, var, run):
-        return html.make_main_tag(var, "s", content="{}").format(run(var('text')))
+        return html.make_main_tag(var,run, "s", content="{}").format(run(var('text')))
 
     @apply_scope(insertBy="ref", insertFrom="image")
     def translate_image(self, var, run):
@@ -393,7 +396,7 @@ class html(View):
         src = var('dest')
 
         # inline
-        tag_class = html.get_classes(var,"")
+        tag_class = html.get_classes(var,run,"")
         if len(title)==0 and not (isinstance(content,list) and len(content)!=0) and not var("block",False):
             return """
               <img src="{src}" class="figure-img img-fluid rounded d-none d-lg-inline {tag_class}" alt='{alt}' style="{width_lg}">
@@ -422,7 +425,7 @@ class html(View):
         if var('plain', False):
             plain_body = """ style="padding: 0;" """ if var('plain', False) else ""
             plain_body_margin = """ style="margin-left: 0; margin-right: 0; border: 0;" """ if var('plain', False) else ""
-            return html.make_main_tag(var, "div", tag_class="card", tag_addition="{plainmargin}", content="""
+            return html.make_main_tag(var,run, "div", tag_class="card", tag_addition="{plainmargin}", content="""
               <div class="card-body" {plain}>
                 <figure class="figure text-center" style="display: block; margin: 0;">
                   <img src="{src}" class="figure-img img-fluid rounded d-none d-lg-inline" alt='{alt}' style="{width_lg}">
@@ -433,7 +436,7 @@ class html(View):
                 </figure>
               </div>
             """).format(src=src, alt=alt, title=title, plain=plain_body, plainmargin=plain_body_margin, width_lg=width_lg, width_md=width_md, width_sm=width_sm, width_xs=width_xs)
-        return html.make_main_tag(var, "div", tag_class=["card", "bg-light"], content="""
+        return html.make_main_tag(var,run, "div", tag_class=["card", "bg-light"], content="""
           <div class="card-body">
             <figure class="figure text-center" style="display: block; margin: 0;">
                   <img src="{src}" class="figure-img img-fluid rounded d-none d-lg-inline" alt='{alt}' style="{width_lg}">
@@ -459,7 +462,7 @@ class html(View):
         coltyp = table_content[1]
         cols = len(header)
 
-        tablestr = html.make_main_tag(var, "table", tag_class=["table", "table-striped"])
+        tablestr = html.make_main_tag(var,run, "table", tag_class=["table", "table-striped"])
         tablestr += """
           <thead>
             <tr>
@@ -495,7 +498,7 @@ class html(View):
         syntax = var(['syntax', 'code-syntax'], 'nohighlight')
         verbatim = self.replace_in_verbatim(var('verbatim'), var(['replace', 'code-replace'], {}), var, run)
         verbatim = html_escape(verbatim)
-        return html.make_main_tag(var, "code", tag_class=["{}"], content="{}").format(syntax, verbatim)
+        return html.make_main_tag(var,run, "code", tag_class=["{}"], content="{}").format(syntax, verbatim)
 
     @apply_scope()
     def translate_quote(self, var, run):
@@ -511,7 +514,7 @@ class html(View):
             <footer class="blockquote-footer">{name}{source}</footer>
             """.format(name=name,source=source)
 
-        return html.make_main_tag(var, "blockquote", tag_class="blockquote", content="""
+        return html.make_main_tag(var,run, "blockquote", tag_class="blockquote", content="""
             <p class="mb-0">{content}</p>
             {footer}
         """).format(content=run(var('content')).strip(), footer=footer)
@@ -530,12 +533,12 @@ class html(View):
             footnote_text = "[{index}]"
         elif footnote_type == "^":
             footnote_text = "<sup>{index}</sup>"
-        return html.make_main_tag(var, "span", tag_id=id, tag_class=["footnote",], content="{text}<a href=\"#"+id+"_content\">"+footnote_text+"</a>") \
+        return html.make_main_tag(var,run, "span", tag_id=id, tag_class=["footnote",], content="{text}<a href=\"#"+id+"_content\">"+footnote_text+"</a>") \
             .format(text=text, index=index)
 
     @apply_scope(insertBy="ref", insertFrom="footnote")
     def translate_note(self, var, run):
-        return html.make_main_tag(var, "span", tag_class=["btn-warning"], tag_addition='data-html="true" data-toggle="tooltip" title="{content}"', content="{text}") \
+        return html.make_main_tag(var,run, "span", tag_class=["btn-warning"], tag_addition='data-html="true" data-toggle="tooltip" title="{content}"', content="{text}") \
             .format(content=run(var('content'), add_scope={"internal": {"paragraphmode": True}}).replace('"',"'"), text=run(var('text'), add_scope={"internal": {"paragraphmode": True}}))
 
     @apply_scope()
@@ -558,7 +561,7 @@ class html(View):
             content = str(run(var('content'), add_scope={"internal": {"paragraphmode": True}}))
             content = content.strip()
             if content:
-                return str(html.make_main_tag(var, "p", content=repl)).format(content)
+                return str(html.make_main_tag(var,run, "p", content=repl)).format(content)
 
         return ""
 
@@ -925,7 +928,7 @@ class html(View):
             card = strip_empty(card)
             if "header" in card_settings and card_settings["header"] or var("withheader",False):
                 return run({**card_settings,"type":"section","card":True,"content":card[4:],"title":[card[0]],"subtitle":[card[2]],"h-level":0, "plain":var("plain",False), "cardheader": var("cardheader", False)})
-            return html.make_tag(var,"div", tag_class=tag_class, tag_style=tag_style, content="<div class=\"card-body\">"+run(MLList(card),add_scope={"internal": {"card": True}})+"</div>")
+            return html.make_tag(var,run,"div", tag_class=tag_class, tag_style=tag_style, content="<div class=\"card-body\">"+run(MLList(card),add_scope={"internal": {"card": True}})+"</div>")
 
         def strip_empty(card):
             for c in range(len(card)-1,0,-1):
@@ -980,7 +983,7 @@ class html(View):
         # # https://getbootstrap.com/docs/4.0/components/card/#card-groups
         # if var('carddeck', False):
         #     return "\n".join([
-        #         html.make_main_tag(var, "div", tag_class="card", tag_addition="{plainmargin}", content="""
+        #         html.make_main_tag(var,run, "div", tag_class="card", tag_addition="{plainmargin}", content="""
         #           <div class="card-header {hidden}">
         #             {title}
         #           </div>
@@ -1071,7 +1074,7 @@ class html(View):
 
         if var("card",False,scope="internal"):
             if (var("cardheader",False)):
-                return html.make_tag(var, "div", tag_class=["card", "width"], tag_addition="{plainmargin}", content="""
+                return html.make_tag(var,run, "div", tag_class=["card", "width"], tag_addition="{plainmargin}", content="""
                   <div class="card-header {align}" {plain}>
                     {title}
                   </div>
@@ -1084,7 +1087,7 @@ class html(View):
                     width=widthstr, align=align, subtitle=run(subtitle)
                 )
             else:
-                return html.make_tag(var, "div", tag_class=["card", "width"], tag_addition="{plainmargin}", content="""
+                return html.make_tag(var,run, "div", tag_class=["card", "width"], tag_addition="{plainmargin}", content="""
                   <div class="card-body {align}" {plain}>
                     <h3 class="card-title">{title}</h3>
                     <h5 class="card-subtitle mb-2 text-muted">{subtitle}</h5>
@@ -1099,7 +1102,7 @@ class html(View):
         # the section may be a card
         # https://getbootstrap.com/docs/4.0/components/card/
         return "\n".join([
-            html.make_main_tag(var, "div", tag_class=["card", "width"], tag_addition="{plainmargin}", content="""
+            html.make_main_tag(var,run, "div", tag_class=["card", "width"], tag_addition="{plainmargin}", content="""
               <div class="card-header {hidden}">
                 {title}
               </div>
@@ -1139,12 +1142,12 @@ class html(View):
         subtitlestr = ""
         if subtitle:
             subtitlestr = """<h6 class="card-subtitle mb-2 text-muted">{}</h6>""".format(subtitle)
-        repl = html.make_main_tag(var, "div", tag_class="card-body", content="""
+        repl = html.make_main_tag(var,run, "div", tag_class="card-body", content="""
             {title}
             {subtitle}
             <span class="card-text">{repl}</span>
         """).format(
-            title=titlestr, subtitle=subtitlestr, repl=html.make_tag(var, "pre", tag_style="margin:0", content="""<code class="{1}">{0}</code>"""), \
+            title=titlestr, subtitle=subtitlestr, repl=html.make_tag(var,run, "pre", tag_style="margin:0", content="""<code class="{1}">{0}</code>"""), \
         )
         return repl.format(verbatim, syntax)
 
@@ -1187,7 +1190,7 @@ class html(View):
         if show:
             show = "show"
         return "\n".join([
-            html.make_main_tag(var, "div", tag_class="card", tag_addition="{plainmargin}", content="""
+            html.make_main_tag(var,run, "div", tag_class="card", tag_addition="{plainmargin}", content="""
               <a class="card-header {hidden}" style="cursor: pointer;" data-toggle="collapse" data-target="#{hash}" aria-expanded="{ariaexpanded}" aria-controls="{hash}">
                 {counter}{title}
               </a>
