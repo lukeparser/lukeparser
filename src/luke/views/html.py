@@ -1361,8 +1361,8 @@ class html(View):
         # get header & footer #
         # ------------------- #
 
-        path_header = os.path.join(path_resources_src,"header.html")
-        path_footer = os.path.join(path_resources_src,"footer.html")
+        path_header = os.path.join(path_resources_src,"..","header.html")
+        path_footer = os.path.join(path_resources_src,"..","footer.html")
 
         # formatter dict
         fdict = format_dict(**{
