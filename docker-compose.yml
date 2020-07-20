@@ -11,7 +11,8 @@ services:
         restart: always
         ports:
             - 8080:80
-        # environment:
+        environment:
+            livereload=false
             # - resource_path=/var/www/lukestyles
             # - resource_view=/lukestyles
         #     - hostname=lukeserver
