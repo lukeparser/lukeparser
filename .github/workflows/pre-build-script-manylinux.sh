@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e -x
 
+# remove old bison installation
+yum remove -y bison
 # install newer bison
 cd /tmp
 BISON=bison-3.4
