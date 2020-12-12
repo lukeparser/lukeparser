@@ -151,6 +151,7 @@ jobs:
           pip install -r requirements.txt
           pip install wheel setuptools
           choco install mingw winflexbison3
+          win_bison --version
       - name: Build wheel for ${{ matrix.python-version }} on Windows
         run: python setup.py bdist_wheel
       - name: List builds
