@@ -97,7 +97,7 @@ jobs:
           - python-version: 3.8
             pep-425-tag: 'cp38-cp38'
           - python-version: 3.9
-            pep-425-tag: 'cp39-cp39's
+            pep-425-tag: 'cp39-cp39'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
