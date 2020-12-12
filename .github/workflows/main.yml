@@ -120,7 +120,8 @@ jobs:
           pip install wheel setuptools
           brew install bison flex
       - name: Build wheel for ${{ matrix.python-version }} on macOS
-        run: python setup.py bdist_wheel
+        run: |
+            PATH="/usr/local/opt/bison/bin:/usr/local/opt/flex/bin:$PATH" python setup.py bdist_wheel
       - name: List builds
         run: ls -la ./dist/
       - name: Store macOS (py${{ matrix.python-version }}) wheel
