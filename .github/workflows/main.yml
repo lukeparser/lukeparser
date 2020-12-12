@@ -1,34 +1,121 @@
-name: Deploy
+name: Build & Deploy
 
 on:
-  push:
-    branches:
-      - master
+  - push  # :
+#     branches:
+#       - master
 
 jobs:
-  autotagging:
-    name: Autoadd release Tags
+
+  auto-tag:
+    name: Add release tag
     runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.autotag.outputs.tagsha }}
     steps:
-    - uses: actions/checkout@master
-    - uses: jaliborc/action-general-autotag@7d2ae9f
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source_file: src/luke/__init__.py
-        extraction_regex: "^__version__\\s*=\\s*\"(\\d[\\d\\.]+)\""
-        tag_message: "Alpha Release"
-        tag_format: "v{version}"
-  documentation:
-    name: Deploy Documentation
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - uses: ./.github/actions/build-documentation
-    - name: GitHub Pages Deploy
-      uses: JamesIves/github-pages-deploy-action@master
-      env:
-          BUILD_DIR: ./docs
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Autoadd release Tags
+        uses: jaliborc/action-general-autotag@7d2ae9f
+        id: autotag
+        with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BASE_BRANCH: master # The branch the action should deploy from.
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: docs # The folder the action should deploy.
+          source_file: "src/luke/__init__.py"
+          # this is the semver regex https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+          # with an capture group (around everything), but all other groups are non capturing
+          # double escape's where necessary
+          extraction_regex: "__version__\\s*=\\s*[\\'\"]((?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-(?:(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)[\\'\"]"
+          tag_message: "Alpha Release"
+          tag_format: "v{version}"
+      - name: Show version
+        if: steps.autotag.outputs.tagsha
+        run: echo ${{ steps.autotag.outputs.tagsha }}
+
+  deploy:
+    name: Deploy to PyPI
+    runs-on: ubuntu-latest
+    needs: [auto-tag, build-manylinux, build-macos, build-windows]
+    if: ${{ needs.auto-tag.outputs.sha }}
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v2
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          skip_existing: true
+          user: __token__
+          password: ${{ secrets.PYPI_PASSWORD }}
+
+  build-src:
+    name: sdist
+    runs-on: ubuntu-latest
+    needs: [auto-tag]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Switch to using Python 3.x by default
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Build sdist
+      run: python setup.py sdist
+    - name: List builds
+      run: ls -la ./dist/
+    - name: Publish to PyPI
+      if: ${{ needs.auto-tag.outputs.sha }}
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        skip_existing: true
+        user: __token__
+        password: ${{ secrets.PYPI_PASSWORD }}
+
+  build-manylinux:
+    name: manylinux (${{ matrix.pep-425-tag }})
+    runs-on: ubuntu-latest
+    needs: [build-src]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: 2.7
+            pep-425-tag: 'cp27-cp27m'
+          - python-version: 2.7
+            pep-425-tag: 'cp27-cp27mu'
+          - python-version: 3.5
+            pep-425-tag: 'cp35-cp35m'
+          - python-version: 3.6
+            pep-425-tag: 'cp36-cp36m'
+          - python-version: 3.7
+            pep-425-tag: 'cp37-cp37m'
+          - python-version: 3.8
+            pep-425-tag: 'cp38-cp38'
+          - python-version: 3.9
+            pep-425-tag: 'cp39-cp39'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version:  ${{ matrix.python-version }}
+      - name: Build wheel for ${{ matrix.pep-425-tag }} on manylinux
+        uses: RalfG/python-wheels-manylinux-build@v0.3.3-manylinux2010_x86_64
+        with:
+          python-versions: ${{ matrix.pep-425-tag }}
+          build-requirements: 'six Cython'
+          system-packages: 'atlas-devel flex'
+          pre-build-command: 'sh .github/workflows/pre-build-script-manylinux.sh'
+      - name: List builds
+        run: ls -la ./dist/
+      - name: Store ${{ matrix.pep-425-tag }} wheel
+        uses: actions/upload-artifact@v2
+        with:
+          name: python-package-distributions
+          path: dist/*-manylinux*.whl
