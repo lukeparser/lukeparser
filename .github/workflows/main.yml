@@ -89,7 +89,7 @@ jobs:
           python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39'
           build-requirements: 'pybison==0.2.7.post6 six>=1.10.0 watchdog tqdm tornado livereload'
           system-packages: 'atlas-devel flex'
-          pre-build-command: 'echo $PATH; echo $LD_LIBRARY_PATH; sh .github/workflows/pre-build-script-manylinux.sh; echo $PATH; echo $LD_LIBRARY_PATH'
+          pre-build-command: 'sh .github/workflows/pre-build-script-manylinux.sh'
       - name: List builds
         run: ls -la ./dist/
       - name: Store ${{ matrix.pep-425-tag }} wheel
