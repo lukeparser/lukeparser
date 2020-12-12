@@ -119,6 +119,7 @@ jobs:
           pip install -r requirements.txt
           pip install wheel setuptools
           brew install bison flex
+          PATH="/usr/local/opt/bison/bin:/usr/local/opt/flex/bin:$PATH" bison --version
       - name: Build wheel for ${{ matrix.python-version }} on macOS
         run: |
             PATH="/usr/local/opt/bison/bin:/usr/local/opt/flex/bin:$PATH" python setup.py bdist_wheel
