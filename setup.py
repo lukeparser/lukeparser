@@ -9,7 +9,7 @@ from setuptools import setup, find_packages, Extension
 
 NAME = "lukeparser"
 PACKAGES = find_packages(where="src")
-META_PATH = os.path.join("src","luke", "__init__.py")
+META_PATH = os.path.join("src", "luke", "__init__.py")
 KEYWORDS = ["markdown", "html", "latex", "parser"]
 CLASSIFIERS = [
     "Development Status :: 3 - Alpha",
@@ -24,7 +24,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
-    'Programming Language :: Python :: Implementation :: CPython',
+    "Programming Language :: Python :: 3.9",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Text Processing"
 ]
@@ -67,7 +67,6 @@ def find_meta(meta):
     raise RuntimeError("Unable to find __{meta}__ string.".format(meta=meta))
 
 
-
 # Compile the parser
 # ==================
 import sys
@@ -97,7 +96,6 @@ extension_module = Extension(
 )
 
 
-
 if __name__ == "__main__":
     setup(
         name=NAME,
@@ -106,9 +104,7 @@ if __name__ == "__main__":
         url=find_meta("url"),
         version=find_meta("version"),
         author=find_meta("author"),
-        # author_email=find_meta("email"),
         maintainer=find_meta("author"),
-        # maintainer_email=find_meta("email"),
         project_urls={
             'Documentation': find_meta('documentation'),
             'Source': find_meta("source"),
@@ -122,14 +118,13 @@ if __name__ == "__main__":
         zip_safe=False,
         classifiers=CLASSIFIERS,
         install_requires=INSTALL_REQUIRES,
-        entry_points = {
+        entry_points={
             'console_scripts': [
                 'luke = luke.luke_cli:main',
                 'luke-server = luke.luke_server:main'
             ],
         },
         include_package_data=True,
-        ext_modules = [extension_module],
+        ext_modules=[extension_module],
         python_requires='>=3.5',
     )
-

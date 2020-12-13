@@ -1,4 +1,4 @@
-pybison>=0.2.7
+pybison>=0.2.8
 six>=1.10.0
 watchdog
 tqdm
