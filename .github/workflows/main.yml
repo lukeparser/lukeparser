@@ -121,7 +121,7 @@ jobs:
           # install newer bison
           cd /tmp
           curl -o bison.tar.gz http://ftp.gnu.org/gnu/bison/bison-3.4.tar.gz
-          tar -xvzf bison.tar.gz
+          tar -xzf bison.tar.gz
           cd bison-3.4 && ./configure --prefix=/usr/local/opt/bison && make install
           brew install flex
           PATH="/usr/local/opt/bison/bin:/usr/local/opt/flex/bin:$PATH" bison --version
