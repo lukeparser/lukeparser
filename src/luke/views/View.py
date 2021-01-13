@@ -500,7 +500,7 @@ class View():
         if len(latexpackages) > 0:
             latexpackages = "\n".join(["\\usepackage{"+package+"}" for package in latexpackages.split(",")])
         latexincludes = var('latexincludes',"").split(",")
-        latexpackages += "\n".join([("\\usepackage{"+file[:-4]+"}") if file.endswith(".sty") else ("\include{"+file+"}") for file in latexincludes])
+        latexpackages += "\n".join([("\\usepackage{"+file[:-4]+"}") if file.endswith(".sty") else ("\include{"+file+"}") for file in latexincludes if file])
         basepath = var("basepath")
         tikz_counter = var('tikz',scope='counter')
         svgfile = var(["filename_current","filename"])+"_"+str(tikz_counter[0])+".svg"
