@@ -622,15 +622,21 @@ class View():
             if hidden:
                 run(snd, add_scope=add_scope)
                 return ""
+
+            # as an inplace operation, we merge the other document internals into the current one
             if inplace:
+                for k in snd["scope"]:
+                    if k in scopes[0]:
+                        scopes[0][k].update(snd["scope"][k])
+                    else:
+                        scopes[0][k] = snd["scope"][k]
                 return run(snd["content"], add_scope=add_scope)
+
             return run(snd, add_scope=add_scope)
         else:
             with open(abs_path_file,"r") as f:
                 content = f.read() #.decode("utf8")
                 return content
-
-            # return res
 
     @apply_scope(getVars=["filter","sub","dir","collapseother"])
     def cmd_listdocuments(self,var,run,filter="[0-9]+-?(.*)((.md)|/)",sub="\\1",dir=".", collapseother=False):
