@@ -520,8 +520,10 @@ class View():
             temp_dir = tempfile.mkdtemp()
 
             # copy dependencies
-            for include in latexincludes:
-                shutil.copy(os.path.join(basepath,include),temp_dir)
+            if latexincludes:
+                for include in latexincludes:
+                    if include:
+                        shutil.copy(os.path.join(basepath,include),temp_dir)
 
             # generate file
             texfile_path = os.path.join(temp_dir,"tikz.tex")
