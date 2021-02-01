@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Autoadd release Tags
-        uses: jaliborc/action-general-autotag@7d2ae9f
+        uses: jaliborc/action-general-autotag@1.0.1
         id: autotag
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
