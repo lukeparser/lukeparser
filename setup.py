@@ -86,12 +86,12 @@ parser = MarkdownParser(_buildOnlyCFiles=True)
 extension_module = Extension(
     'luke.parser.compiled.markdown_parser',
     sources=[
-        'src/luke/parser/compiled/tmp.bison.c',
-        'src/luke/parser/compiled/tmp.lex.c'
+        'src/luke/parser/compiled/tmp.tab.c',
+        'src/luke/parser/compiled/lex.yy.c'
     ],
     headers=[
-        'src/luke/parser/compiled/tokens.h',
-        'src/luke/parser/compiled/tmp.lex.h'
+        'src/luke/parser/compiled/tmp.tab.h',
+        'src/luke/parser/compiled/lex.yy.h'
     ]
 )
 
