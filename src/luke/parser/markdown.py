@@ -95,7 +95,7 @@ class MarkdownParser(BisonParser):
         %option extra-type="int"
 
         %{
-        #include "tokens.h"
+        #include "tmp.tab.h"
 
         // chars to replace
         const char *chr_sqr_open = (char *)"[\0";
@@ -172,7 +172,7 @@ class MarkdownParser(BisonParser):
         #include <stdio.h>
         #include <string.h>
         #include "Python.h"
-        #include "tokens.h"
+        #include "tmp.tab.h"
         extern void *py_parser;
         extern void (*py_input)(PyObject *parser, char *buf, int *result, int max_size);
 
