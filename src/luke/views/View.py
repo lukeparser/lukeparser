@@ -765,6 +765,10 @@ class View():
     def cmd_n(self, var, run):
         return "\n"
 
+    @apply_scope(getVars=["joinstr", "vars"])
+    def cmd_joinvars(self, var, run, joinstr, vars):
+        return run(joinstr.join(vars["nargs"]))
+
     @apply_scope()
     def cmd_block(self, var, run):
         return run(var("arguments")[0])
