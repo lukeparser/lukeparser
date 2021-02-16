@@ -11,6 +11,7 @@ import queue
 import threading
 import urllib.request
 import hashlib
+from copy import copy
 from tempfile import gettempdir
 from luke.defaults import defaults
 from luke.parser.markdown import MLList
@@ -192,6 +193,7 @@ class View():
 
     @apply_scope(getVars=True)
     def translate_attributes(self, attr, scopes, var, run):
+        attr = copy(attr)
         attr.pop("type", None)
         def walk(attr):
             for k,val in attr.items():
@@ -490,6 +492,7 @@ class View():
 
     @apply_scope(getVars=True)
     def translate_tikz(self, x, scopes, var, run):
+        x = copy(x)
         code = x.pop('tikz-code')
         usetikzlibrary = var('usetikzlibrary',"")
         additional_code = var('additional_code',"")
