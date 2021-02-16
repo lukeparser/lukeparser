@@ -681,8 +681,8 @@ class View():
         return run(content)
 
 
-    @apply_scope(getVars=["scopes","id","tempfile"])
-    def cmd_arxiv(self, var, run, scopes, id, tempfile=True):
+    @apply_scope(getVars=["scopes","id","tempfile","showarxivid","showpdflink", "showtitle"])
+    def cmd_arxiv(self, var, run, scopes, id, tempfile=True, showarxivid=True, showpdflink=True, showtitle=True):
 
         def deferred_arxiv(q,i,id):
 
@@ -708,7 +708,17 @@ class View():
             num = "["+strid+"]"
 
             # append
-            content = [{"type":"link","dest": "https://arxiv.org/abs/"+strid, "content": num}, " ", title, " ", {"type":"link","dest": "https://arxiv.org/pdf/"+strid+".pdf", "content": {"command": "icon", "nargs": ["document"],"type": "command"}}]
+            content = []
+            if showarxivid:
+                content.append({"type":"link","dest": "https://arxiv.org/abs/"+strid, "content": num})
+                if showtitle or showpdflink:
+                    content.append(" ")
+            if showtitle:
+                content.append(title)
+                if showpdflink:
+                    content.append(" ")
+            if showpdflink:
+                content.append({"type":"link","dest": "https://arxiv.org/pdf/"+strid+".pdf", "content": {"command": "icon", "nargs": ["document"],"type": "command"}})
 
             q.put((i,run(content)))
 
