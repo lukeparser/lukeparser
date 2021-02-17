@@ -684,8 +684,8 @@ class View():
         return run(content)
 
 
-    @apply_scope(getVars=["scopes","id","tempfile","showarxivid","showpdflink", "showtitle"])
-    def cmd_arxiv(self, var, run, scopes, id, tempfile=True, showarxivid=True, showpdflink=True, showtitle=True):
+    @apply_scope(getVars=["scopes","id","tempfile","showarxivid","showpdflink", "showtitle", "showauthors"])
+    def cmd_arxiv(self, var, run, scopes, id, tempfile=True, showarxivid=True, showpdflink=True, showtitle=True, showauthors=False):
 
         def deferred_arxiv(q,i,id):
 
@@ -704,24 +704,32 @@ class View():
                         with open(idfile,"w") as textfile:
                             textfile.write(xmltext)
 
+            # extract title
             titleRE = re.compile("<title>([^<]+?)</title>")
             title_groups = titleRE.search(xmltext)
             title = title_groups.group(1)
-            # num = title_groups.group(1)
-            num = "["+strid+"]"
 
             # append
             content = []
             if showarxivid:
+                num = "["+strid+"]"
                 content.append({"type":"link","dest": "https://arxiv.org/abs/"+strid, "content": num})
-                if showtitle or showpdflink:
-                    content.append(" ")
             if showtitle:
-                content.append(title)
-                if showpdflink:
+                if len(content):
                     content.append(" ")
+                content.append(title)
             if showpdflink:
+                if len(content):
+                    content.append(" ")
                 content.append({"type":"link","dest": "https://arxiv.org/pdf/"+strid+".pdf", "content": {"command": "icon", "nargs": ["document"],"type": "command"}})
+            # extract authors
+            if showauthors:
+                authorRE = re.compile("<author>\s*<name>\s*([^<]+?)\s*</name>\s*</author>")
+                authors = authorRE.findall(xmltext)
+                if len(content):
+                    content.append(" Authors: ")
+                content.append(", ".join(authors))
+
 
             q.put((i,run(content)))
 
