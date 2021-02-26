@@ -684,8 +684,8 @@ class View():
         return run(content)
 
 
-    @apply_scope(getVars=["scopes","id","tempfile","showarxivid","showpdflink", "showtitle", "showauthors"])
-    def cmd_arxiv(self, var, run, scopes, id, tempfile=True, showarxivid=True, showpdflink=True, showtitle=True, showauthors=False):
+    @apply_scope(getVars=["scopes","id","tempfile","showarxivid","showpdflink", "showtitle", "showauthors", "showyear"])
+    def cmd_arxiv(self, var, run, scopes, id, tempfile=True, showarxivid=True, showpdflink=True, showtitle=True, showauthors=False, showyear=False):
 
         def deferred_arxiv(q,i,id):
 
@@ -729,6 +729,14 @@ class View():
                 if len(content):
                     content.append(" Authors: ")
                 content.append(", ".join(authors))
+            # extract authors
+            if showyear:
+                yearRE = re.compile("<published>(\d+)-.*</published>")
+                year = yearRE.search(xmltext)
+                if len(content):
+                    content.append(" ")
+                content.append("(%s)" % year[1])
+
 
 
             q.put((i,run(content)))
