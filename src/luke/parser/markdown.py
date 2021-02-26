@@ -245,7 +245,7 @@ class MarkdownParser(BisonParser):
         <MATHINLINE_STATE>"%{"{placeholder}"}%"        { returntoken(MATHBLOCK_VERBATIM_PLACEHOLDER); }
         "%{"{placeholder}"}%"                   { returntoken(PLACEHOLDER); }
         "\\"{word}(\.{word})*                              { returntoken(LATEX_COMMAND); }
-        "\\"{word}(\.{word})*"{}"?"["{whitespace_nl}       { returntoken(LATEX_COMMAND_WITH_ARGUMENTS); }
+        "\\"{word}(\.{word})*"{}"?"["           { returntoken(LATEX_COMMAND_WITH_ARGUMENTS); }
         "\\"{word}(\.{word})*"{"{whitespace_nl}            { STATE_PUSH(ATTRIBUTE_STATE); returntoken(LATEX_COMMAND_WITH_OPTIONAL_ARGUMENT); }
 
         {whitespace}"|"{whitespace}             { returntoken(TABLE_DELIM); }
