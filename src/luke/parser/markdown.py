@@ -318,7 +318,7 @@ class MarkdownParser(BisonParser):
         "]^["                                   { returntoken(FOOTNOTE_INLINE_MID); }
         "!["                                    { returntoken(IMG_START); }
         "["                                     { returntoken(LINK_START); }
-        "]["{whitespace_nl}                     { returntoken(HYPERREF_REF_MID); }
+        "]["                                    { returntoken(HYPERREF_REF_MID); }
         "]("{whitespace_nl}"```"\w*{whitespace_nl}    {  STATE_PUSH(HYPERREF_CODE_STATE); returntoken(HYPERREF_CODE_START); }
         "]("{whitespace_nl}                     { STATE_PUSH(HYPERREF_LINK_STATE); returntoken(HYPERREF_LINK_MID); }
         "]"                                     { STATE_POP(); returntoken(HYPERREF_REF_END); }
