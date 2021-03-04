@@ -1,0 +1,911 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css" rel="stylesheet" />
+        <style>
+/*!
+ * Bootstrap Docs (https://getbootstrap.com)
+ * Copyright 2011-2018 The Bootstrap Authors
+ * Copyright 2011-2018 Twitter, Inc.
+ * Licensed under the Creative Commons Attribution 3.0 Unported License. For
+ * details, see https://creativecommons.org/licenses/by/3.0/.
+ */
+.bd-navbar {
+  min-height: 4rem;
+  background-color: #563d7c;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 991.98px) {
+  .bd-navbar {
+    padding-right: .5rem;
+    padding-left: .5rem;
+  }
+  .bd-navbar .navbar-nav-scroll {
+    max-width: 100%;
+    height: 2.5rem;
+    margin-top: .25rem;
+    overflow: hidden;
+    font-size: .875rem;
+  }
+  .bd-navbar .navbar-nav-scroll .navbar-nav {
+    padding-bottom: 2rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (min-width: 768px) {
+  @supports (position: sticky) {
+    .bd-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1071;
+    }
+  }
+}
+
+.bd-navbar .navbar-nav .nav-link {
+  padding-right: .5rem;
+  padding-left: .5rem;
+}
+
+
+.bd-navbar .navbar-nav li.nav-item {
+	margin-bottom: 0;
+}
+
+.bd-navbar .navbar-nav .nav-link.active, .bd-navbar .navbar-nav .nav-link:hover {
+  background-color: transparent;
+}
+
+.bd-navbar .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.bd-navbar .navbar-nav-svg {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: text-top;
+}
+
+.bd-navbar .dropdown-menu {
+  font-size: .875rem;
+}
+
+.bd-navbar .dropdown-item.active {
+  font-weight: 500;
+  color: #212529;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23292b2c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: .4rem .6rem;
+  background-size: .75rem .75rem;
+}
+
+
+
+/* ============ */
+/* left sidebar */
+/* ============ */
+
+.bd-sidebar {
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1em;
+}
+
+@media (min-width: 768px) {
+  .bd-sidebar {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  @supports (position: sticky) {
+    .bd-sidebar {
+      position: sticky;
+      top: 4rem;
+      z-index: 1000;
+      height: calc(100vh - 4rem);
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .bd-sidebar {
+    flex: 0 1 320px;
+  }
+}
+
+@media (min-width: 768px) {
+  @supports (position: sticky) {
+    .bd-links {
+      max-height: calc(100vh - 9rem);
+      overflow-y: auto;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .bd-links {
+    display: block !important;
+  }
+}
+
+.bd-sidebar ul {
+  padding: .25rem 1.5rem;
+  display: block;
+}
+
+.bd-sidebar a {
+  display: block;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.bd-sidebar a:hover {
+  color: rgba(0, 0, 0, 0.85);
+  text-decoration: none;
+}
+
+.bd-sidebar ul li {
+    display: block;
+    margin:.3rem;
+}
+
+.bd-sidebar ul > li.active {
+  margin-bottom: 1rem;
+}
+
+.bd-sidebar ul > li.active:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.bd-sidebar ul > li.active > a {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.bd-sidebar ul > li.active > a:hover {
+  background-color: transparent;
+}
+
+.bd-sidebar ul ul li > a {
+  display: block;
+  font-size: 90%;
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: 400;
+}
+
+.bd-sidebar ul ul li > a:hover {
+  color: rgba(0, 0, 0, 0.85);
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.bd-sidebar ul ul li.active > a,
+.bd-sidebar ul li.active:hover > a {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+  background-color: transparent;
+}
+
+
+/* ========= */
+/* right toc */
+/* ========= */
+
+.bd-toc {
+  order: 2;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  font-size: .875rem;
+}
+
+@supports (position: sticky) {
+  .bd-toc {
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
+.bd-toc ul {
+	padding: 0;
+}
+
+.bd-toc ul {
+	padding-left: 1.5em;
+}
+
+.bd-toc li {
+  display: block;
+}
+
+.bd-toc li a {
+  display: block;
+  padding: .125rem 1.5rem;
+  color: #99979c;
+}
+
+.bd-toc li a:hover {
+  color: #007bff;
+  text-decoration: none;
+}
+
+
+
+/* ===== */
+/* title */
+/* ===== */
+
+main > h1:first-of-type {
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+  font-weight: 300;
+}
+
+main > h1:first-of-type + h1,
+main > h1:first-of-type + h2,
+main > h1:first-of-type + h3,
+main > h1:first-of-type + h4,
+main > h1:first-of-type + h5,
+main > h1:first-of-type + h6
+{
+    margin-top: .2rem;
+}
+
+@media (min-width: 576px) {
+  main h1:first-of-type {
+    font-size: 3rem;
+  }
+}
+
+main h1:first-of-type + * {
+  font-size: 1.125rem;
+  font-weight: 300;
+}
+
+@media (min-width: 576px) {
+  main h1:first-of-type + * {
+    max-width: 80%;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1em;
+}
+
+
+/* ===== */
+/* Quote */
+/* ===== */
+blockquote {
+  font-size: 1.2em;
+  width:60%;
+  font-style:italic;
+  color: #555555;
+  padding:1.2em 30px 1.2em 75px;
+  border-left:8px solid #78C0A8 ;
+  line-height:1.6;
+  position: relative;
+  background:#EDEDED;
+}
+
+blockquote::before{
+  font-family:Arial;
+  content: "\201C";
+  color:#78C0A8;
+  font-size:4em;
+  position: absolute;
+  left: 10px;
+  top:-10px;
+}
+
+blockquote span{
+  display:block;
+  color:#333333;
+  font-style: normal;
+  font-weight: bold;
+  margin-top:1em;
+}
+
+
+/* ---- */
+/* code */
+/* ---- */
+
+h4.card-title {
+    margin-top:0;
+}
+
+/* ----- */
+/* lists */
+/* ----- */
+
+ul {
+	color: #DD8744; /* list-style-color */
+}
+
+li {
+	color: black;
+	line-height: 125%;
+	max-width: 55em;
+	text-align: left;
+	margin-bottom: 0.75em;
+}
+
+/* list-style: bold */
+ol.list-style-bold {
+	font-weight: bold;
+}
+ol.list-style-bold > li * {
+	font-weight: normal;
+}
+
+ul > li.icon:before {
+    font-family: Icons;
+    width: 1.5em;
+}
+
+ul > li.icon {
+  list-style: none;
+    margin-left:-0.40em;
+}
+
+ul > li:before {
+  display: inline-block;
+  margin-left: -1.1em; /* same as padding-left set on li */
+  width: 1.1em; /* same as padding-left set on li */
+  font-size: 1em;
+}
+
+ul.list-symbol-circ > li {
+	list-style: circle;
+}
+ul.list-symbol-none > li {
+	list-style: none;
+}
+ul.list-symbol-line > li {
+	list-style: none;
+}
+ul.list-symbol-line > li:before {
+	content: "-";
+}
+
+ul > li.icon-data,
+ul > li.icon {
+	list-style-type: none;
+}
+
+ul > li.icon-data:before {
+	font-family: Icons;
+	content: attr(data-icon);
+}
+
+ul > li.icon:before {
+	font-family: Icons;
+}
+
+ul > li.icon-data[data-icon='❑']:before {
+    font-family: Icons;
+    content: attr(data-icon);
+    margin-left: -1.45em;
+    margin-right: 0.45em;
+}
+
+ul > li.icon-data[data-icon='?']:before {
+    font-family: Icons;
+    content: attr(data-icon);
+    margin-left: -0.90em;
+    margin-right:-0.10em;
+}
+
+
+
+
+
+
+</style>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
+
+    </head>
+  <body>
+      <nav class="navbar navbar-expand navbar-light bg-light flex-column flex-md-row bd-navbar">
+          <button class="navbar-toggler d-block d-md-none" type="button" data-toggle="collapse" data-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand mr-0 mr-md-2" href="/"><img src="https://avatars2.githubusercontent.com/u/47249302?s=25&v=4" class="figure-img img-fluid rounded d-none d-lg-inline " alt='' style="">
+              <img src="https://avatars2.githubusercontent.com/u/47249302?s=25&v=4" class="figure-img img-fluid rounded d-none d-md-inline d-lg-none " alt='' style="">
+              <img src="https://avatars2.githubusercontent.com/u/47249302?s=25&v=4" class="figure-img img-fluid rounded d-none d-sm-inline d-md-none " alt='' style="">
+              <img src="https://avatars2.githubusercontent.com/u/47249302?s=25&v=4" class="figure-img img-fluid rounded d-inline d-sm-none " alt='' style="">
+             <em class="" >Lukeparser</em></a>
+          <div class="navbar-nav-scroll">
+          
+          </div>
+          <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex" ><li class="nav-item" ><a class="nav-link" class="" href="http://www.github.com/lukeparser/lukeparser"><span class="oi oi-fork" title="fork" aria-hidden="true"></span>&nbsp;Github</a></li></ul>
+      </nav>
+	  <div class="container-fluid">
+		  <div class="row flex-xl-nowrap">
+			  <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+
+				  <nav class="collapse bd-links" id="bd-docs-nav"><div class="bd-toc-item">
+						  <span class="tab"><ul class="list-symbol-none" ><li ><a class="" href="../01-Getting-Started/">Getting Started</a><ul class="list-symbol-none" ><li ><a class="" href="../01-Getting-Started/01-Introduction.html">Introduction</a></li><li ><a class="" href="../01-Getting-Started/02-Basics.html">Basics</a></li></ul></li><li ><a class="" href="../02-Components/"><strong class="" >Components</strong></a><ul class="list-symbol-none" ><li ><a class="" href="./01-Markdown-Overview.html">Markdown Overview</a></li><li ><a class="" href="./02-Variables-and-Templates.html">Variables and Templates</a></li><li ><a class="" href="./03-Attributes.html">Attributes</a></li><li ><a class="" href="./04-Sections.html">Sections</a></li><li ><a class="" href="./05-Links-and-References.html">Links and References</a></li><li ><a class="" href="./06-Footnotes-and-Notes.html">Footnotes and Notes</a></li><li ><a class="" href="./07-Lists.html">Lists</a></li><li ><a class="" href="./08-Images.html">Images</a></li><li ><a class="" href="./09-Tables.html">Tables</a></li><li ><a class="" href="./10-Blockquotes.html">Blockquotes</a></li><li ><a class="" href="./11-Math.html">Math</a></li><li ><a class="" href="./12-Code-and-Verbatim.html"><strong class="" >Code and Verbatim</strong></a></li></ul></li><li ><a class="" href="../03-Extra-Components/">Extra Components</a><ul class="list-symbol-none" ><li ><a class="" href="../03-Extra-Components/01-Card-Tables.html">Card Tables</a></li><li ><a class="" href="../03-Extra-Components/02-Tikz.html">Tikz</a></li><li ><a class="" href="../03-Extra-Components/03-Icons.html">Icons</a></li></ul></li><li ><a class="" href="../04-Commands/">Commands</a><ul class="list-symbol-none" ><li ><a class="" href="../04-Commands/01-Control-Flow.html">Control Flow</a></li><li ><a class="" href="../04-Commands/02-Content-List.html">Content List</a></li><li ><a class="" href="../04-Commands/03-Predefined-Commands.html">Predefined Commands</a></li><li ><a class="" href="../04-Commands/04-Custom-Commands.html">Custom Commands</a></li></ul></li><li ><a class="" href="../05-Themes-and-Views/">Themes and Views</a><ul class="list-symbol-none" ><li ><a class="" href="../05-Themes-and-Views/01-HTML.html">HTML</a></li><li ><a class="" href="../05-Themes-and-Views/02-Presentations.html">Presentations</a></li><li ><a class="" href="../05-Themes-and-Views/03-LaTeX.html">LaTeX</a></li></ul></li><li ><a class="" href="../06-Extend/">Extend</a><ul class="list-symbol-none" ><li ><a class="" href="../06-Extend/01-Define-Theme.html">Define Theme</a></li><li ><a class="" href="../06-Extend/02-Define-View.html">Define View</a></li><li ><a class="" href="../06-Extend/03-Define-Internal-Functions.html">Define Internal Functions</a></li></ul></li><li ><a class="" href="../07-Ecosystem/">Ecosystem</a><ul class="list-symbol-none" ><li ><a class="" href="../07-Ecosystem/01-Docker-Image.html">Docker Image</a></li><li ><a class="" href="../07-Ecosystem/02-Integrate-as-Webserver.html">Integrate as Webserver</a></li></ul></li></ul></span>
+				  </nav>
+			  </div>
+
+			  <div class="d-none d-xl-block col-xl-2 bd-toc">
+				  <span class="tab"><ul ><li data-icon='*'><a class="" href="#Plain-Markdown"> Plain Markdown</a></li><li data-icon='*'><a class="" href="#Custom-Syntax"> Custom Syntax</a></li><li data-icon='*'><a class="" href="#Text-Replace"> Text-Replace</a></li><li data-icon='*'><a class="" href="#Inject-Code"> Inject Code</a></li></ul></span>
+			  </div>
+
+			  <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5" role="main">
+<br style='display:block; margin:10px 0;'><br style='display:block; margin:10px 0;'><br style='display:block; margin:10px 0;'><h1 class=" text-left" > Code </h1>
+<h1 class=" text-left" > &amp; Verbatim Mode </h1>
+<br style='display:block; margin:10px 0;'><h2 id="Plain-Markdown" class=" text-left" > Plain Markdown</h2>
+<p class="" >Code or verbatim text is part of markdown.</p><br style='display:block; margin:10px 0;'><p class="" >Using <em class="" >highlight.js</em>, Lukeparser supports highlighting for dozens of languages (and not-really-languages, like diffs and HTTP headers); to see the complete list, and how to write the language names, see the <a class="" href="http://softwaremaniacs.org/media/soft/highlight/test.html">highlight.min.js demo page</a>.</p><br style='display:block; margin:10px 0;'><pre class="" style="margin:0" ><code class=markdown>Inline `code` has `back-ticks around` it.
+</code></pre> <div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapse4bc41d26fb" aria-expanded="False" aria-controls="collapse4bc41d26fb">
+                 Results in 
+              </a>
+              <div class="collapse " id="collapse4bc41d26fb">
+                  <div class="card-body" >
+                    Inline <code class="markdown" >code</code> has <code class="markdown" >back-ticks around</code> it.
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'><br style='display:block; margin:10px 0;'><p class="" >Blocks of code are fenced by lines with three back-ticks <code class="markdown" >```</code>.</p><br style='display:block; margin:10px 0;'><pre class="" style="margin:0" ><code class=markdown>```javascript
+var s = &quot;JavaScript syntax highlighting&quot;;
+alert(s);
+```
+</code></pre> <div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapse4bc41d26fb0" aria-expanded="False" aria-controls="collapse4bc41d26fb0">
+                 Results in 
+              </a>
+              <div class="collapse " id="collapse4bc41d26fb0">
+                  <div class="card-body" >
+                    <pre class="" style="margin:0" ><code class=javascript>var s = &quot;JavaScript syntax highlighting&quot;;
+alert(s);
+</code></pre>
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'><br style='display:block; margin:10px 0;'> <pre class="" style="margin:0" ><code class=markdown>```
+No language indicated, 
+so no syntax highlighting. 
+```
+</code></pre> <div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapse4bc41d26fb00" aria-expanded="False" aria-controls="collapse4bc41d26fb00">
+                 Results in 
+              </a>
+              <div class="collapse " id="collapse4bc41d26fb00">
+                  <div class="card-body" >
+                    <pre class="" style="margin:0" ><code class=markdown>No language indicated, 
+so no syntax highlighting. 
+</code></pre>
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'><h2 id="Custom-Syntax" class=" text-left" > Custom Syntax</h2>
+<p class="" >It is possible to define a custom &quot;semantic&quot; syntax highlighting. <br/> However, we will use the math-mode for that, as we would like to use latex-commands for the symantic definitions.</p><br style='display:block; margin:10px 0;'><p class="" ><pre class=" customsyntax" style="margin:0" ><code class="hljs nohighlight">{.customsyntax}$$
+#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    unsigned int n;
+    unsigned long long factorial = 1;
+
+    <span class="hljs-title">\meta{</span>cout &lt;&lt; &quot;Enter a positive integer: &quot;;<span class="hljs-title">}</span>
+    cin &gt;&gt; n;
+
+    <span class="hljs-title">\title{</span>for(int i = 1; i &lt;=n; ++i) {<span class="hljs-title">}</span>
+        <span class="hljs-title">\keyword{</span>factorial *= i;<span class="hljs-title">}</span>
+    <span class="hljs-title">\title{</span>}<span class="hljs-title">}</span>
+
+    <span class="hljs-title">\meta{</span>cout &lt;&lt; &quot;Factorial of &quot; &lt;&lt; n &lt;&lt; &quot; = &quot; &lt;&lt; factorial;<span class="hljs-title">}</span>
+    return 0;
+}
+$$
+</code></pre> <div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapse4bc41d26fb000" aria-expanded="False" aria-controls="collapse4bc41d26fb000">
+                 Results in 
+              </a>
+              <div class="collapse " id="collapse4bc41d26fb000">
+                  <div class="card-body" >
+                    <pre class=" customsyntax" style="margin:0" ><code class="hljs nohighlight">#include &lt;iostream&gt;
+using namespace std;
+int main(){
+    unsigned int n;
+    unsigned long long factorial = 1;
+
+    <span class="hljs-meta">cout &lt;&lt; &quot;Enter a positive integer: &quot;;</span>
+    cin &gt;&gt; n;
+
+    <span class="hljs-title">for(int i = 1; i &lt;=n; ++i) {</span>
+        <span class="hljs-keyword">factorial *= i;</span>
+    <span class="hljs-title">}</span>
+
+    <span class="hljs-meta">cout &lt;&lt; &quot;Factorial of &quot; &lt;&lt; n &lt;&lt; &quot; = &quot; &lt;&lt; factorial;</span>
+    return 0;
+}
+</code></pre>
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'></p><br style='display:block; margin:10px 0;'><div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapse5da33e9103" aria-expanded="False" aria-controls="collapse5da33e9103">
+                 Syntax-Commands 
+              </a>
+              <div class="collapse " id="collapse5da33e9103">
+                  <div class="card-body" >
+                    This Tables are taken from the official <a class="" href="https://highlightjs.readthedocs.io/en/latest/css-classes-reference.html">highlightjs-Documentation</a>.<br style='display:block; margin:10px 0;'><strong class="" >General-purpose</strong><br style='display:block; margin:10px 0;'><table class="table table-striped" >
+          <thead>
+            <tr>
+        <th>command</th><th>purpose</th>
+            </tr>
+          </thead>
+        <tbody>
+        <tr>
+                <td class="text-left">keyword</td>
+                
+                <td class="text-left">keyword in a regular Algol-style language</td>
+                </tr><tr>
+                <td class="text-left">built_in</td>
+                
+                <td class="text-left">built-in or library object (constant, class, function)</td>
+                </tr><tr>
+                <td class="text-left">type</td>
+                
+                <td class="text-left">user-defined type in a language with first-class syntactically significant types, like Haskell</td>
+                </tr><tr>
+                <td class="text-left">literal</td>
+                
+                <td class="text-left">special identifier for a built-in value (&quot;true&quot;, &quot;false&quot;, &quot;null&quot;)</td>
+                </tr><tr>
+                <td class="text-left">number</td>
+                
+                <td class="text-left">number, including units and modifiers, if any.</td>
+                </tr><tr>
+                <td class="text-left">regexp</td>
+                
+                <td class="text-left">literal regular expression</td>
+                </tr><tr>
+                <td class="text-left">string</td>
+                
+                <td class="text-left">literal string, character</td>
+                </tr><tr>
+                <td class="text-left">subst</td>
+                
+                <td class="text-left">parsed section inside a literal string</td>
+                </tr><tr>
+                <td class="text-left">symbol</td>
+                
+                <td class="text-left">symbolic constant, interned string, goto label</td>
+                </tr><tr>
+                <td class="text-left">class</td>
+                
+                <td class="text-left">class or class-level declaration (interfaces, traits, modules, etc)</td>
+                </tr><tr>
+                <td class="text-left">function</td>
+                
+                <td class="text-left">function or method declaration</td>
+                </tr><tr>
+                <td class="text-left">title</td>
+                
+                <td class="text-left">name of a class or a function at the place of declaration</td>
+                </tr><tr>
+                <td class="text-left">params</td>
+                
+                <td class="text-left">block of function arguments (parameters) at the place of declaration</td>
+                </tr>
+          </tbody>
+        </table>
+        <br style='display:block; margin:10px 0;'><strong class="" >Meta</strong> <br/> <table class="table table-striped" >
+          <thead>
+            <tr>
+        <th>command</th><th>purpose</th>
+            </tr>
+          </thead>
+        <tbody>
+        <tr>
+                <td class="text-left">comment</td>
+                
+                <td class="text-left">comment</td>
+                </tr><tr>
+                <td class="text-left">doctag</td>
+                
+                <td class="text-left">documentation markup within comments</td>
+                </tr><tr>
+                <td class="text-left">meta</td>
+                
+                <td class="text-left">flags, modifiers, annotations, processing instructions, preprocessor directive, etc</td>
+                </tr><tr>
+                <td class="text-left">meta-keyword</td>
+                
+                <td class="text-left">keyword or built-in within meta construct</td>
+                </tr><tr>
+                <td class="text-left">meta-string</td>
+                
+                <td class="text-left">string within meta construct</td>
+                </tr>
+          </tbody>
+        </table>
+        <br style='display:block; margin:10px 0;'><strong class="" >Tags, attributes, configs</strong> <table class="table table-striped" >
+          <thead>
+            <tr>
+        <th>command</th><th>purpose</th>
+            </tr>
+          </thead>
+        <tbody>
+        <tr>
+                <td class="text-left">section</td>
+                
+                <td class="text-left">heading of a section in a config file, heading in text markup</td>
+                </tr><tr>
+                <td class="text-left">tag</td>
+                
+                <td class="text-left">XML/HTML tag</td>
+                </tr><tr>
+                <td class="text-left">name</td>
+                
+                <td class="text-left">name of an XML tag, the first word in an s-expression</td>
+                </tr><tr>
+                <td class="text-left">builtin-name</td>
+                
+                <td class="text-left">s-expression name from the language standard library</td>
+                </tr><tr>
+                <td class="text-left">attr</td>
+                
+                <td class="text-left">name of an attribute with no language defined semantics (keys in JSON, setting names in .ini), also sub-attribute within another highlighted object, like XML tag</td>
+                </tr><tr>
+                <td class="text-left">attribute</td>
+                
+                <td class="text-left">name of an attribute followed by a structured value part, like CSS properties</td>
+                </tr><tr>
+                <td class="text-left">variable</td>
+                
+                <td class="text-left">variable in a config or a template file, environment var expansion in a script</td>
+                </tr>
+          </tbody>
+        </table>
+        <br style='display:block; margin:10px 0;'><div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapsea2a0f5cd87" aria-expanded="False" aria-controls="collapsea2a0f5cd87">
+                 Special 
+              </a>
+              <div class="collapse " id="collapsea2a0f5cd87">
+                  <div class="card-body" >
+                    <strong class="" >Markup</strong> <table class="table table-striped" >
+          <thead>
+            <tr>
+        <th>command</th><th>purpose</th>
+            </tr>
+          </thead>
+        <tbody>
+        <tr>
+                <td class="text-left">bullet</td>
+                
+                <td class="text-left">list item bullet in text markup</td>
+                </tr><tr>
+                <td class="text-left">code</td>
+                
+                <td class="text-left">code block in text markup</td>
+                </tr><tr>
+                <td class="text-left">emphasis</td>
+                
+                <td class="text-left">emphasis in text markup</td>
+                </tr><tr>
+                <td class="text-left">strong</td>
+                
+                <td class="text-left">strong emphasis in text markup</td>
+                </tr><tr>
+                <td class="text-left">formula</td>
+                
+                <td class="text-left">mathematical formula in text markup</td>
+                </tr><tr>
+                <td class="text-left">link</td>
+                
+                <td class="text-left">hyperlink in text markup</td>
+                </tr><tr>
+                <td class="text-left">quote</td>
+                
+                <td class="text-left">quotation in text markup</td>
+                </tr>
+          </tbody>
+        </table>
+        <br style='display:block; margin:10px 0;'><strong class="" >CSS</strong> <table class="table table-striped" >
+          <thead>
+            <tr>
+        <th>command</th><th>purpose</th>
+            </tr>
+          </thead>
+        <tbody>
+        <tr>
+                <td class="text-left">selector-tag</td>
+                
+                <td class="text-left">tag selector in CSS</td>
+                </tr><tr>
+                <td class="text-left">selector-id</td>
+                
+                <td class="text-left">#id selector in CSS</td>
+                </tr><tr>
+                <td class="text-left">selector-class</td>
+                
+                <td class="text-left">.class selector in CSS</td>
+                </tr><tr>
+                <td class="text-left">selector-attr</td>
+                
+                <td class="text-left"><a class="" href="">attr</a> selector in CSS</td>
+                </tr><tr>
+                <td class="text-left">selector-pseudo</td>
+                
+                <td class="text-left">:pseudo selector in CSS</td>
+                </tr>
+          </tbody>
+        </table>
+        <br style='display:block; margin:10px 0;'><strong class="" >Templates</strong> <table class="table table-striped" >
+          <thead>
+            <tr>
+        <th>command</th><th>purpose</th>
+            </tr>
+          </thead>
+        <tbody>
+        <tr>
+                <td class="text-left">template-tag</td>
+                
+                <td class="text-left">tag of a template language</td>
+                </tr><tr>
+                <td class="text-left">template-variable</td>
+                
+                <td class="text-left">variable in a template language</td>
+                </tr>
+          </tbody>
+        </table>
+        <br style='display:block; margin:10px 0;'><strong class="" >diff</strong> <table class="table table-striped" >
+          <thead>
+            <tr>
+        <th>command</th><th>purpose</th>
+            </tr>
+          </thead>
+        <tbody>
+        <tr>
+                <td class="text-left">addition</td>
+                
+                <td class="text-left">added or changed line in a diff</td>
+                </tr><tr>
+                <td class="text-left">deletion</td>
+                
+                <td class="text-left">deleted line in a diff</td>
+                </tr>
+          </tbody>
+        </table>
+        <br style='display:block; margin:10px 0;'><strong class="" >ReasonML</strong> <table class="table table-striped" >
+          <thead>
+            <tr>
+        <th>command</th><th>purpose</th>
+            </tr>
+          </thead>
+        <tbody>
+        <tr>
+                <td class="text-left">operator</td>
+                
+                <td class="text-left">reasonml operator such as pipe</td>
+                </tr><tr>
+                <td class="text-left">pattern-match</td>
+                
+                <td class="text-left">reasonml pattern matching matchers</td>
+                </tr><tr>
+                <td class="text-left">typing</td>
+                
+                <td class="text-left">type signatures on function parameters</td>
+                </tr><tr>
+                <td class="text-left">constructor</td>
+                
+                <td class="text-left">type constructors</td>
+                </tr><tr>
+                <td class="text-left">module-access</td>
+                
+                <td class="text-left">scope access into a ReasonML module</td>
+                </tr><tr>
+                <td class="text-left">module</td>
+                
+                <td class="text-left">ReasonML module reference within scope access</td>
+                </tr>
+          </tbody>
+        </table>
+        
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'>
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'><h2 id="Text-Replace" class=" text-left" > Text-Replace</h2>
+<pre class="" style="margin:0" ><code class=markdown>{emotion=happy}
+
+``` {replace={&quot;All work&quot;=&quot;Only play&quot; &quot;no play&quot;=&quot;no work&quot; dull=%{emotion}%}}
+All work and no play makes Jake a dull boy.
+All work and no play makes Jake a dull boy.
+All work and no play makes Jake a dull boy.
+All work and no play makes Jake a dull boy.
+All work and no play makes Jake a dull boy.
+```
+</code></pre> <div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapse4bc41d26fb0000" aria-expanded="False" aria-controls="collapse4bc41d26fb0000">
+                 Results in 
+              </a>
+              <div class="collapse " id="collapse4bc41d26fb0000">
+                  <div class="card-body" >
+                    <pre class="" style="margin:0" ><code class=markdown>Only play and no work makes Jake a happy boy.
+Only play and no work makes Jake a happy boy.
+Only play and no work makes Jake a happy boy.
+Only play and no work makes Jake a happy boy.
+Only play and no work makes Jake a happy boy.
+</code></pre>
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'><h2 id="Inject-Code" class=" text-left" > Inject Code</h2>
+<p class="" >To inject code directly into the destination file, use the syntax <code class="markdown" >inject</code>. Of course this does only work, if you know the destination view.</p> <pre class="" style="margin:0" ><code class=markdown>```inject
+&lt;b&gt;Directly injected&lt;/b&gt;
+```
+</code></pre> <div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapse4bc41d26fb00000" aria-expanded="False" aria-controls="collapse4bc41d26fb00000">
+                 Results in 
+              </a>
+              <div class="collapse " id="collapse4bc41d26fb00000">
+                  <div class="card-body" >
+                    <b>Directly injected</b>
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'><br style='display:block; margin:10px 0;'><p class="" >Using <a class="" href="../04-Commands/01-Control-Flow.html">control flow commands</a> it is possible to specify the inject code based on the view.</p> <pre class="" style="margin:0" ><code class=latex>\ifeq{%{view}% html}[
+	```inject
+	&lt;b&gt;Directly injected HTML.&lt;/b&gt;
+	```
+][
+	```inject
+	\textbf{Directly injected LaTeX.}
+	```
+]
+</code></pre> <div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapse4bc41d26fb000000" aria-expanded="False" aria-controls="collapse4bc41d26fb000000">
+                 Results in 
+              </a>
+              <div class="collapse " id="collapse4bc41d26fb000000">
+                  <div class="card-body" >
+                    <b>Directly injected HTML.</b>
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'>
+        </main>
+      </div>
+    </div>
+
+
+		<script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.3.1.min.js"><\/script>')</script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/esm/popper.min.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js" type="text/javascript"></script>
+
+		<!-- <script src="luke_resources/documentation.html/js/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local"></script> -->
+        <script>
+			$(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+			})
+        </script>
+        <script>
+            hljs.initHighlightingOnLoad();
+        </script>
+        <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    </body>
+</html>

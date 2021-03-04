@@ -1,0 +1,1380 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css" rel="stylesheet" />
+        <style>
+/*!
+ * Bootstrap Docs (https://getbootstrap.com)
+ * Copyright 2011-2018 The Bootstrap Authors
+ * Copyright 2011-2018 Twitter, Inc.
+ * Licensed under the Creative Commons Attribution 3.0 Unported License. For
+ * details, see https://creativecommons.org/licenses/by/3.0/.
+ */
+.bd-navbar {
+  min-height: 4rem;
+  background-color: #563d7c;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 991.98px) {
+  .bd-navbar {
+    padding-right: .5rem;
+    padding-left: .5rem;
+  }
+  .bd-navbar .navbar-nav-scroll {
+    max-width: 100%;
+    height: 2.5rem;
+    margin-top: .25rem;
+    overflow: hidden;
+    font-size: .875rem;
+  }
+  .bd-navbar .navbar-nav-scroll .navbar-nav {
+    padding-bottom: 2rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (min-width: 768px) {
+  @supports (position: sticky) {
+    .bd-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1071;
+    }
+  }
+}
+
+.bd-navbar .navbar-nav .nav-link {
+  padding-right: .5rem;
+  padding-left: .5rem;
+}
+
+
+.bd-navbar .navbar-nav li.nav-item {
+	margin-bottom: 0;
+}
+
+.bd-navbar .navbar-nav .nav-link.active, .bd-navbar .navbar-nav .nav-link:hover {
+  background-color: transparent;
+}
+
+.bd-navbar .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.bd-navbar .navbar-nav-svg {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: text-top;
+}
+
+.bd-navbar .dropdown-menu {
+  font-size: .875rem;
+}
+
+.bd-navbar .dropdown-item.active {
+  font-weight: 500;
+  color: #212529;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23292b2c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: .4rem .6rem;
+  background-size: .75rem .75rem;
+}
+
+
+
+/* ============ */
+/* left sidebar */
+/* ============ */
+
+.bd-sidebar {
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1em;
+}
+
+@media (min-width: 768px) {
+  .bd-sidebar {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  @supports (position: sticky) {
+    .bd-sidebar {
+      position: sticky;
+      top: 4rem;
+      z-index: 1000;
+      height: calc(100vh - 4rem);
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .bd-sidebar {
+    flex: 0 1 320px;
+  }
+}
+
+@media (min-width: 768px) {
+  @supports (position: sticky) {
+    .bd-links {
+      max-height: calc(100vh - 9rem);
+      overflow-y: auto;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .bd-links {
+    display: block !important;
+  }
+}
+
+.bd-sidebar ul {
+  padding: .25rem 1.5rem;
+  display: block;
+}
+
+.bd-sidebar a {
+  display: block;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.bd-sidebar a:hover {
+  color: rgba(0, 0, 0, 0.85);
+  text-decoration: none;
+}
+
+.bd-sidebar ul li {
+    display: block;
+    margin:.3rem;
+}
+
+.bd-sidebar ul > li.active {
+  margin-bottom: 1rem;
+}
+
+.bd-sidebar ul > li.active:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.bd-sidebar ul > li.active > a {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.bd-sidebar ul > li.active > a:hover {
+  background-color: transparent;
+}
+
+.bd-sidebar ul ul li > a {
+  display: block;
+  font-size: 90%;
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: 400;
+}
+
+.bd-sidebar ul ul li > a:hover {
+  color: rgba(0, 0, 0, 0.85);
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.bd-sidebar ul ul li.active > a,
+.bd-sidebar ul li.active:hover > a {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+  background-color: transparent;
+}
+
+
+/* ========= */
+/* right toc */
+/* ========= */
+
+.bd-toc {
+  order: 2;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  font-size: .875rem;
+}
+
+@supports (position: sticky) {
+  .bd-toc {
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
+.bd-toc ul {
+	padding: 0;
+}
+
+.bd-toc ul {
+	padding-left: 1.5em;
+}
+
+.bd-toc li {
+  display: block;
+}
+
+.bd-toc li a {
+  display: block;
+  padding: .125rem 1.5rem;
+  color: #99979c;
+}
+
+.bd-toc li a:hover {
+  color: #007bff;
+  text-decoration: none;
+}
+
+
+
+/* ===== */
+/* title */
+/* ===== */
+
+main > h1:first-of-type {
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+  font-weight: 300;
+}
+
+main > h1:first-of-type + h1,
+main > h1:first-of-type + h2,
+main > h1:first-of-type + h3,
+main > h1:first-of-type + h4,
+main > h1:first-of-type + h5,
+main > h1:first-of-type + h6
+{
+    margin-top: .2rem;
+}
+
+@media (min-width: 576px) {
+  main h1:first-of-type {
+    font-size: 3rem;
+  }
+}
+
+main h1:first-of-type + * {
+  font-size: 1.125rem;
+  font-weight: 300;
+}
+
+@media (min-width: 576px) {
+  main h1:first-of-type + * {
+    max-width: 80%;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1em;
+}
+
+
+/* ===== */
+/* Quote */
+/* ===== */
+blockquote {
+  font-size: 1.2em;
+  width:60%;
+  font-style:italic;
+  color: #555555;
+  padding:1.2em 30px 1.2em 75px;
+  border-left:8px solid #78C0A8 ;
+  line-height:1.6;
+  position: relative;
+  background:#EDEDED;
+}
+
+blockquote::before{
+  font-family:Arial;
+  content: "\201C";
+  color:#78C0A8;
+  font-size:4em;
+  position: absolute;
+  left: 10px;
+  top:-10px;
+}
+
+blockquote span{
+  display:block;
+  color:#333333;
+  font-style: normal;
+  font-weight: bold;
+  margin-top:1em;
+}
+
+
+/* ---- */
+/* code */
+/* ---- */
+
+h4.card-title {
+    margin-top:0;
+}
+
+/* ----- */
+/* lists */
+/* ----- */
+
+ul {
+	color: #DD8744; /* list-style-color */
+}
+
+li {
+	color: black;
+	line-height: 125%;
+	max-width: 55em;
+	text-align: left;
+	margin-bottom: 0.75em;
+}
+
+/* list-style: bold */
+ol.list-style-bold {
+	font-weight: bold;
+}
+ol.list-style-bold > li * {
+	font-weight: normal;
+}
+
+ul > li.icon:before {
+    font-family: Icons;
+    width: 1.5em;
+}
+
+ul > li.icon {
+  list-style: none;
+    margin-left:-0.40em;
+}
+
+ul > li:before {
+  display: inline-block;
+  margin-left: -1.1em; /* same as padding-left set on li */
+  width: 1.1em; /* same as padding-left set on li */
+  font-size: 1em;
+}
+
+ul.list-symbol-circ > li {
+	list-style: circle;
+}
+ul.list-symbol-none > li {
+	list-style: none;
+}
+ul.list-symbol-line > li {
+	list-style: none;
+}
+ul.list-symbol-line > li:before {
+	content: "-";
+}
+
+ul > li.icon-data,
+ul > li.icon {
+	list-style-type: none;
+}
+
+ul > li.icon-data:before {
+	font-family: Icons;
+	content: attr(data-icon);
+}
+
+ul > li.icon:before {
+	font-family: Icons;
+}
+
+ul > li.icon-data[data-icon='❑']:before {
+    font-family: Icons;
+    content: attr(data-icon);
+    margin-left: -1.45em;
+    margin-right: 0.45em;
+}
+
+ul > li.icon-data[data-icon='?']:before {
+    font-family: Icons;
+    content: attr(data-icon);
+    margin-left: -0.90em;
+    margin-right:-0.10em;
+}
+
+
+
+
+
+
+</style>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
+
+    </head>
+  <body>
+      <nav class="navbar navbar-expand navbar-light bg-light flex-column flex-md-row bd-navbar">
+          <button class="navbar-toggler d-block d-md-none" type="button" data-toggle="collapse" data-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand mr-0 mr-md-2" href="/"><img src="https://avatars2.githubusercontent.com/u/47249302?s=25&v=4" class="figure-img img-fluid rounded d-none d-lg-inline " alt='' style="">
+              <img src="https://avatars2.githubusercontent.com/u/47249302?s=25&v=4" class="figure-img img-fluid rounded d-none d-md-inline d-lg-none " alt='' style="">
+              <img src="https://avatars2.githubusercontent.com/u/47249302?s=25&v=4" class="figure-img img-fluid rounded d-none d-sm-inline d-md-none " alt='' style="">
+              <img src="https://avatars2.githubusercontent.com/u/47249302?s=25&v=4" class="figure-img img-fluid rounded d-inline d-sm-none " alt='' style="">
+             <em class="" >Lukeparser</em></a>
+          <div class="navbar-nav-scroll">
+          
+          </div>
+          <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex" ><li class="nav-item" ><a class="nav-link" class="" href="http://www.github.com/lukeparser/lukeparser"><span class="oi oi-fork" title="fork" aria-hidden="true"></span>&nbsp;Github</a></li></ul>
+      </nav>
+	  <div class="container-fluid">
+		  <div class="row flex-xl-nowrap">
+			  <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+
+				  <nav class="collapse bd-links" id="bd-docs-nav"><div class="bd-toc-item">
+						  <span class="tab"><ul class="list-symbol-none" ><li ><a class="" href="../01-Getting-Started/">Getting Started</a><ul class="list-symbol-none" ><li ><a class="" href="../01-Getting-Started/01-Introduction.html">Introduction</a></li><li ><a class="" href="../01-Getting-Started/02-Basics.html">Basics</a></li></ul></li><li ><a class="" href="../02-Components/">Components</a><ul class="list-symbol-none" ><li ><a class="" href="../02-Components/01-Markdown-Overview.html">Markdown Overview</a></li><li ><a class="" href="../02-Components/02-Variables-and-Templates.html">Variables and Templates</a></li><li ><a class="" href="../02-Components/03-Attributes.html">Attributes</a></li><li ><a class="" href="../02-Components/04-Sections.html">Sections</a></li><li ><a class="" href="../02-Components/05-Links-and-References.html">Links and References</a></li><li ><a class="" href="../02-Components/06-Footnotes-and-Notes.html">Footnotes and Notes</a></li><li ><a class="" href="../02-Components/07-Lists.html">Lists</a></li><li ><a class="" href="../02-Components/08-Images.html">Images</a></li><li ><a class="" href="../02-Components/09-Tables.html">Tables</a></li><li ><a class="" href="../02-Components/10-Blockquotes.html">Blockquotes</a></li><li ><a class="" href="../02-Components/11-Math.html">Math</a></li><li ><a class="" href="../02-Components/12-Code-and-Verbatim.html">Code and Verbatim</a></li></ul></li><li ><a class="" href="../03-Extra-Components/"><strong class="" >Extra Components</strong></a><ul class="list-symbol-none" ><li ><a class="" href="./01-Card-Tables.html">Card Tables</a></li><li ><a class="" href="./02-Tikz.html">Tikz</a></li><li ><a class="" href="./03-Icons.html"><strong class="" >Icons</strong></a></li></ul></li><li ><a class="" href="../04-Commands/">Commands</a><ul class="list-symbol-none" ><li ><a class="" href="../04-Commands/01-Control-Flow.html">Control Flow</a></li><li ><a class="" href="../04-Commands/02-Content-List.html">Content List</a></li><li ><a class="" href="../04-Commands/03-Predefined-Commands.html">Predefined Commands</a></li><li ><a class="" href="../04-Commands/04-Custom-Commands.html">Custom Commands</a></li></ul></li><li ><a class="" href="../05-Themes-and-Views/">Themes and Views</a><ul class="list-symbol-none" ><li ><a class="" href="../05-Themes-and-Views/01-HTML.html">HTML</a></li><li ><a class="" href="../05-Themes-and-Views/02-Presentations.html">Presentations</a></li><li ><a class="" href="../05-Themes-and-Views/03-LaTeX.html">LaTeX</a></li></ul></li><li ><a class="" href="../06-Extend/">Extend</a><ul class="list-symbol-none" ><li ><a class="" href="../06-Extend/01-Define-Theme.html">Define Theme</a></li><li ><a class="" href="../06-Extend/02-Define-View.html">Define View</a></li><li ><a class="" href="../06-Extend/03-Define-Internal-Functions.html">Define Internal Functions</a></li></ul></li><li ><a class="" href="../07-Ecosystem/">Ecosystem</a><ul class="list-symbol-none" ><li ><a class="" href="../07-Ecosystem/01-Docker-Image.html">Docker Image</a></li><li ><a class="" href="../07-Ecosystem/02-Integrate-as-Webserver.html">Integrate as Webserver</a></li></ul></li></ul></span>
+				  </nav>
+			  </div>
+
+			  <div class="d-none d-xl-block col-xl-2 bd-toc">
+				  <span class="tab"><ul ><li data-icon='*'><a class="" href="#Icon-List"> Icon List</a></li></ul></span>
+			  </div>
+
+			  <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5" role="main">
+<br style='display:block; margin:10px 0;'><br style='display:block; margin:10px 0;'><br style='display:block; margin:10px 0;'><h1 class=" text-left" > Icons </h1>
+<h1 class=" text-left" > with OpenIconic </h1>
+<br style='display:block; margin:10px 0;'><div class="alert alert-info" role="alert">
+                            These functions are intended to be used only together with the html view.
+                      </div><br style='display:block; margin:10px 0;'><p class="" ><a class="" href="https://useiconic.com">Iconic</a> is a beautiful icon set. <br/> It&#x27;s open source part is prebuilt right into luke and serves currently 223 marks.</p><br style='display:block; margin:10px 0;'><p class="" >To see a list of all available icons, go to: <a class="" href="https://useiconic.com/open">OpenIconic List</a></p><br style='display:block; margin:10px 0;'><pre class="" style="margin:0" ><code class=latex>\icon{headphones} + \icon{musical-note} = \icon{heart}
+</code></pre><br style='display:block; margin:10px 0;'><p class="" ><strong class="" >Results In</strong> <br/> <span class="oi oi-headphones" title="headphones" aria-hidden="true"></span>&nbsp; + <span class="oi oi-musical-note" title="musical-note" aria-hidden="true"></span>&nbsp; = <span class="oi oi-heart" title="heart" aria-hidden="true"></span>&nbsp;</p><br style='display:block; margin:10px 0;'><h2 id="Icon-List" class=" text-left" > Icon List</h2>
+<table class="table table-striped" >
+          <thead>
+            <tr>
+        <th>Icon</th><th>Name</th>
+            </tr>
+          </thead>
+        <tbody>
+        <tr>
+                <td class="text-center"><span class="oi oi-account-login" title="account-login" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >account-login</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-account-logout" title="account-logout" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >account-logout</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-action-redo" title="action-redo" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >action-redo</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-action-undo" title="action-undo" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >action-undo</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-align-center" title="align-center" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >align-center</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-align-left" title="align-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >align-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-align-right" title="align-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >align-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-aperture" title="aperture" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >aperture</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-bottom" title="arrow-bottom" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-bottom</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-circle-bottom" title="arrow-circle-bottom" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-circle-bottom</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-circle-left" title="arrow-circle-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-circle-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-circle-right" title="arrow-circle-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-circle-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-circle-top" title="arrow-circle-top" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-circle-top</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-right" title="arrow-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-thick-bottom" title="arrow-thick-bottom" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-thick-bottom</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-thick-left" title="arrow-thick-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-thick-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-thick-right" title="arrow-thick-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-thick-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-thick-top" title="arrow-thick-top" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-thick-top</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-arrow-top" title="arrow-top" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >arrow-top</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-audio" title="audio" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >audio</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-audio-spectrum" title="audio-spectrum" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >audio-spectrum</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-badge" title="badge" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >badge</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-ban" title="ban" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >ban</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-bar-chart" title="bar-chart" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >bar-chart</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-basket" title="basket" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >basket</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-battery-empty" title="battery-empty" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >battery-empty</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-battery-full" title="battery-full" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >battery-full</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-beaker" title="beaker" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >beaker</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-bell" title="bell" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >bell</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-bluetooth" title="bluetooth" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >bluetooth</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-bold" title="bold" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >bold</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-bolt" title="bolt" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >bolt</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-book" title="book" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >book</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-bookmark" title="bookmark" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >bookmark</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-box" title="box" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >box</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-briefcase" title="briefcase" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >briefcase</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-british-pound" title="british-pound" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >british-pound</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-browser" title="browser" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >browser</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-brush" title="brush" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >brush</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-bug" title="bug" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >bug</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-bullhorn" title="bullhorn" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >bullhorn</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-calculator" title="calculator" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >calculator</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-calendar" title="calendar" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >calendar</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-camera-slr" title="camera-slr" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >camera-slr</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-caret-bottom" title="caret-bottom" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >caret-bottom</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-caret-left" title="caret-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >caret-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-caret-right" title="caret-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >caret-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-caret-top" title="caret-top" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >caret-top</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-cart" title="cart" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >cart</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-chat" title="chat" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >chat</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-check" title="check" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >check</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-chevron-bottom" title="chevron-bottom" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >chevron-bottom</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-chevron-left" title="chevron-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >chevron-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-chevron-right" title="chevron-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >chevron-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-chevron-top" title="chevron-top" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >chevron-top</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-circle-check" title="circle-check" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >circle-check</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-circle-x" title="circle-x" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >circle-x</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-clipboard" title="clipboard" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >clipboard</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-clock" title="clock" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >clock</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-cloud" title="cloud" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >cloud</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-cloud-download" title="cloud-download" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >cloud-download</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-cloud-upload" title="cloud-upload" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >cloud-upload</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-cloudy" title="cloudy" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >cloudy</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-code" title="code" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >code</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-cog" title="cog" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >cog</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-collapse-down" title="collapse-down" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >collapse-down</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-collapse-left" title="collapse-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >collapse-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-collapse-right" title="collapse-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >collapse-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-collapse-up" title="collapse-up" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >collapse-up</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-command" title="command" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >command</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-comment-square" title="comment-square" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >comment-square</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-compass" title="compass" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >compass</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-contrast" title="contrast" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >contrast</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-copywriting" title="copywriting" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >copywriting</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-credit-card" title="credit-card" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >credit-card</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-crop" title="crop" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >crop</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-dashboard" title="dashboard" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >dashboard</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-data-transfer-download" title="data-transfer-download" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >data-transfer-download</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-data-transfer-upload" title="data-transfer-upload" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >data-transfer-upload</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-delete" title="delete" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >delete</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-dial" title="dial" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >dial</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-document" title="document" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >document</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-dollar" title="dollar" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >dollar</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-double-quote-sans-left" title="double-quote-sans-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >double-quote-sans-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-double-quote-sans-right" title="double-quote-sans-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >double-quote-sans-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-double-quote-serif-left" title="double-quote-serif-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >double-quote-serif-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-double-quote-serif-right" title="double-quote-serif-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >double-quote-serif-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-droplet" title="droplet" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >droplet</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-eject" title="eject" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >eject</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-elevator" title="elevator" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >elevator</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-ellipses" title="ellipses" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >ellipses</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-envelope-closed" title="envelope-closed" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >envelope-closed</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-envelope-open" title="envelope-open" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >envelope-open</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-euro" title="euro" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >euro</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-excerpt" title="excerpt" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >excerpt</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-expand-down" title="expand-down" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >expand-down</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-expand-left" title="expand-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >expand-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-expand-right" title="expand-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >expand-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-expand-up" title="expand-up" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >expand-up</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-external-link" title="external-link" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >external-link</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-eye" title="eye" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >eye</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-eyedropper" title="eyedropper" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >eyedropper</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-file" title="file" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >file</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-fire" title="fire" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >fire</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-flag" title="flag" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >flag</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-flash" title="flash" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >flash</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-folder" title="folder" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >folder</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-fork" title="fork" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >fork</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-fullscreen-enter" title="fullscreen-enter" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >fullscreen-enter</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-fullscreen-exit" title="fullscreen-exit" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >fullscreen-exit</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-globe" title="globe" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >globe</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-graph" title="graph" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >graph</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-grid-four-up" title="grid-four-up" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >grid-four-up</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-grid-three-up" title="grid-three-up" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >grid-three-up</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-grid-two-up" title="grid-two-up" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >grid-two-up</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-hard-drive" title="hard-drive" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >hard-drive</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-header" title="header" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >header</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-headphones" title="headphones" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >headphones</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-heart" title="heart" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >heart</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-home" title="home" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >home</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-image" title="image" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >image</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-inbox" title="inbox" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >inbox</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-infinity" title="infinity" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >infinity</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-info" title="info" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >info</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-italic" title="italic" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >italic</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-justify-center" title="justify-center" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >justify-center</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-justify-left" title="justify-left" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >justify-left</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-justify-right" title="justify-right" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >justify-right</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-key" title="key" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >key</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-laptop" title="laptop" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >laptop</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-layers" title="layers" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >layers</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-lightbulb" title="lightbulb" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >lightbulb</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-link-broken" title="link-broken" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >link-broken</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-link-intact" title="link-intact" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >link-intact</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-list" title="list" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >list</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-list-rich" title="list-rich" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >list-rich</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-location" title="location" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >location</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-lock-locked" title="lock-locked" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >lock-locked</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-lock-unlocked" title="lock-unlocked" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >lock-unlocked</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-loop" title="loop" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >loop</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-loop-circular" title="loop-circular" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >loop-circular</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-loop-square" title="loop-square" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >loop-square</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-magnifying-glass" title="magnifying-glass" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >magnifying-glass</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-map" title="map" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >map</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-map-marker" title="map-marker" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >map-marker</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-media-pause" title="media-pause" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >media-pause</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-media-play" title="media-play" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >media-play</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-media-record" title="media-record" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >media-record</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-media-skip-backward" title="media-skip-backward" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >media-skip-backward</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-media-skip-forward" title="media-skip-forward" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >media-skip-forward</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-media-step-backward" title="media-step-backward" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >media-step-backward</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-media-step-forward" title="media-step-forward" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >media-step-forward</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-media-stop" title="media-stop" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >media-stop</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-medical-cross" title="medical-cross" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >medical-cross</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-menu" title="menu" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >menu</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-microphone" title="microphone" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >microphone</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-minus" title="minus" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >minus</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-monitor" title="monitor" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >monitor</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-moon" title="moon" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >moon</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-move" title="move" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >move</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-musical-note" title="musical-note" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >musical-note</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-paperclip" title="paperclip" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >paperclip</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-pencil" title="pencil" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >pencil</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-people" title="people" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >people</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-person" title="person" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >person</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-phone" title="phone" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >phone</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-pie-chart" title="pie-chart" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >pie-chart</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-pin" title="pin" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >pin</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >play-circle</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-plus" title="plus" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >plus</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-power-standby" title="power-standby" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >power-standby</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-print" title="print" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >print</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-project" title="project" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >project</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-pulse" title="pulse" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >pulse</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-puzzle-piece" title="puzzle-piece" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >puzzle-piece</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-question-mark" title="question-mark" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >question-mark</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-rain" title="rain" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >rain</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-random" title="random" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >random</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-reload" title="reload" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >reload</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-resize-both" title="resize-both" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >resize-both</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-resize-height" title="resize-height" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >resize-height</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-resize-width" title="resize-width" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >resize-width</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-rss" title="rss" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >rss</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-rss-alt" title="rss-alt" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >rss-alt</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-script" title="script" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >script</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-share" title="share" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >share</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-share-boxed" title="share-boxed" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >share-boxed</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-shield" title="shield" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >shield</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-signal" title="signal" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >signal</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-signpost" title="signpost" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >signpost</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-sort-ascending" title="sort-ascending" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >sort-ascending</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-sort-descending" title="sort-descending" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >sort-descending</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-spreadsheet" title="spreadsheet" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >spreadsheet</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-star" title="star" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >star</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-sun" title="sun" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >sun</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-tablet" title="tablet" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >tablet</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-tag" title="tag" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >tag</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-tags" title="tags" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >tags</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-target" title="target" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >target</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-task" title="task" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >task</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-terminal" title="terminal" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >terminal</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-text" title="text" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >text</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-thumb-down" title="thumb-down" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >thumb-down</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-thumb-up" title="thumb-up" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >thumb-up</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-timer" title="timer" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >timer</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-transfer" title="transfer" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >transfer</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-trash" title="trash" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >trash</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-underline" title="underline" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >underline</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-vertical-align-bottom" title="vertical-align-bottom" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >vertical-align-bottom</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-vertical-align-center" title="vertical-align-center" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >vertical-align-center</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-vertical-align-top" title="vertical-align-top" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >vertical-align-top</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-video" title="video" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >video</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-volume-high" title="volume-high" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >volume-high</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-volume-low" title="volume-low" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >volume-low</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-volume-off" title="volume-off" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >volume-off</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-warning" title="warning" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >warning</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-wifi" title="wifi" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >wifi</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-wrench" title="wrench" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >wrench</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-x" title="x" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >x</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-yen" title="yen" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >yen</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-zoom-in" title="zoom-in" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >zoom-in</code></td>
+                </tr><tr>
+                <td class="text-center"><span class="oi oi-zoom-out" title="zoom-out" aria-hidden="true"></span>&nbsp;</td>
+                
+                <td class="text-left"><code class="markdown" >zoom-out</code></td>
+                </tr>
+          </tbody>
+        </table>
+        </main>
+      </div>
+    </div>
+
+
+		<script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.3.1.min.js"><\/script>')</script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/esm/popper.min.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js" type="text/javascript"></script>
+
+		<!-- <script src="luke_resources/documentation.html/js/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local"></script> -->
+        <script>
+			$(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+			})
+        </script>
+        <script>
+            hljs.initHighlightingOnLoad();
+        </script>
+        <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    </body>
+</html>
