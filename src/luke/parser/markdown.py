@@ -222,6 +222,8 @@ class MarkdownParser(BisonParser):
         <INITIAL>"//"                           { STATE_PUSH(COMMENT); }
         <COMMENT>./\n                           { STATE_POP(); }
         <COMMENT>{any}                          { }
+        <ATTRIBUTE_STATE>{whitespace}"/*"       { STATE_PUSH(ML_COMMENT); }
+        <ATTRIBUTE_STATE>"//"                           { STATE_PUSH(COMMENT); }
 
         ^" "" "+\n                              { returntoken( BR ); }
         " "" "+\n                               { returntoken( NEWLINE ); }
