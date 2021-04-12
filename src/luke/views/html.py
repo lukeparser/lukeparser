@@ -504,8 +504,9 @@ class html(View):
     def translate_quote(self, var, run):
         name = var("name", "")
         source = var("source", "")
+        source_text = View.rawtext(source).strip()
         if source != "":
-            source = '<cite title="{source}">{source}</cite>'.format(source=source)
+            source = '<cite title="{sourcetext}">{source}</cite>'.format(sourcetext=source_text, source=run(source, add_scope={"internal": {"paragraphmode": True}}).strip())
         footer=""
         if name != "" or source != "":
             if name != "" and source != "":
