@@ -100,6 +100,8 @@ class MarkdownParser(BisonParser):
         // chars to replace
         const char *chr_sqr_open = (char *)"[\0";
         const char *chr_sqr_close = (char *)"]\0";
+        const char *chr_rnd_open = (char *)"(\0";
+        const char *chr_rnd_close = (char *)")\0";
         const char *chr_curly_open = (char *)"{\0";
         const char *chr_bs_curly_open = (char *)"\\{\0";
         const char *chr_curly_close = (char *)"}\0";
@@ -325,6 +327,7 @@ class MarkdownParser(BisonParser):
         "]("{whitespace_nl}                     { STATE_PUSH(HYPERREF_LINK_STATE); returntoken(HYPERREF_LINK_MID); }
         "]"                                     { STATE_POP(); returntoken(HYPERREF_REF_END); }
 
+        <HYPERREF_LINK_STATE>"\\)"              { returntokenFromString(chr_rnd_close, HYPERREF_LINK_CHAR); }
         <HYPERREF_LINK_STATE>{whitespace_nl}")" { STATE_POP(); returntoken(HYPERREF_LINK_END); }
         <HYPERREF_LINK_STATE>{whitespace_nl}\"  { STATE_POP(); STATE_PUSH(HYPERREF_LINK_ALT_STATE); returntoken(HYPERREF_LINK_ALT_START); }
         <HYPERREF_LINK_STATE>{any}              { returntokenFromString(yytext,HYPERREF_LINK_CHAR); }
@@ -950,6 +953,7 @@ class MarkdownParser(BisonParser):
                  | FOOTNOTE_INLINE_START error
         """
         if option == 0:
+            print(values[3])
             return {'type': values[0], 'content': MLList(values[1]), 'dest': MarkdownParser.parseUrl(values[3])}
         elif option == 1:
             return {'type': values[0], 'alt_text': values[5], 'dest': MarkdownParser.parseUrl(values[3]), 'content': MLList(values[1])}
