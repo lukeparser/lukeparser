@@ -85,6 +85,7 @@ jobs:
       matrix:
         platform:
           - manylinux2010_x86_64
+          - manylinux2014_x86_64
           - manylinux2014_aarch64
     steps:
       - name: Checkout
@@ -94,27 +95,35 @@ jobs:
         uses: docker/setup-qemu-action@v1
       - name: Build wheel for manylinux2010_x86_64
         if: matrix.platform == 'manylinux2010_x86_64'
-        uses: RalfG/python-wheels-manylinux-build@v0.3.3-manylinux2010_x86_64
+        uses: RalfG/python-wheels-manylinux-build@v0.3.4-manylinux2010_x86_64
         with:
           python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39'
-          build-requirements: 'pybison>=0.2.8 six>=1.10.0 watchdog tqdm tornado livereload'
+          build-requirements: 'pybison>=0.2.8 six>=1.10.0 watchdog tqdm tornado livereload cython'
+          system-packages: 'atlas-devel flex'
+          pre-build-command: 'sh .github/workflows/pre-build-script-manylinux.sh'
+      - name: Build wheel for manylinux2014_x86_64
+        if: matrix.platform == 'manylinux2014_x86_64'
+        uses: RalfG/python-wheels-manylinux-build@v0.3.4-manylinux2014_x86_64
+        with:
+          python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39'
+          build-requirements: 'pybison>=0.2.8 six>=1.10.0 watchdog tqdm tornado livereload cython'
           system-packages: 'atlas-devel flex'
           pre-build-command: 'sh .github/workflows/pre-build-script-manylinux.sh'
       - name: Build wheel for manylinux2014_aarch64
         if: matrix.platform == 'manylinux2014_aarch64'
-        uses: RalfG/python-wheels-manylinux-build@v0.3.3-manylinux2014_aarch64
+        uses: RalfG/python-wheels-manylinux-build@v0.3.4-manylinux2014_aarch64
         with:
           python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39'
-          build-requirements: 'pybison>=0.2.8 six>=1.10.0 watchdog tqdm tornado livereload'
+          build-requirements: 'pybison>=0.2.8 six>=1.10.0 watchdog tqdm tornado livereload cython'
           system-packages: 'atlas-devel flex'
           pre-build-command: 'sh .github/workflows/pre-build-script-manylinux.sh'
       - name: List builds
         run: ls -la ./dist/
-      - name: Store ${{ matrix.pep-425-tag }} wheel
+      - name: Store ${{ matrix.platform }} wheel
         uses: actions/upload-artifact@v2
         with:
           name: python-package-distributions
-          path: dist/*-manylinux*.whl
+          path: dist/*manylinux*.whl
 
   build-macos:
     name: macOS (py${{ matrix.python-version }})
