@@ -165,8 +165,6 @@ jobs:
             apt-get -o Acquire::Check-Valid-Until=false update &&
             apt-get install --yes --allow-downgrades --allow-remove-essential bison=2:3.4.2+dfsg-1
           CIBW_BEFORE_BUILD: >
-            which python &&
-            which python &&
             python -m pip install -U pip wheel setuptools Cython &&
             python -m pip install -r requirements.txt
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
@@ -204,8 +202,6 @@ jobs:
             make install &&
             bison --version
           CIBW_BEFORE_BUILD: >
-            which python &&
-            which python &&
             python -m pip install -U pip wheel setuptools Cython &&
             python -m pip install -r requirements.txt
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
