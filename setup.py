@@ -1,6 +1,9 @@
 import codecs
 import os
 import re
+import sys
+import shutil
+from pathlib import Path
 
 from setuptools import setup, find_packages, Extension
 
@@ -9,7 +12,7 @@ from setuptools import setup, find_packages, Extension
 
 NAME = "lukeparser"
 PACKAGES = find_packages(where="src")
-META_PATH = os.path.join("src", "luke", "__init__.py")
+META_PATH = Path("src") / "luke" / "__init__.py"
 KEYWORDS = ["markdown", "html", "latex", "parser"]
 CLASSIFIERS = [
     "Development Status :: 3 - Alpha",
@@ -68,19 +71,18 @@ def find_meta(meta):
 
 # Compile the parser
 # ==================
-import sys
-import shutil
+# add source root to PYTHONPATH
 sys.path.insert(0, "src")
 
 # remake the C files every time
-buildDir = os.path.join("src","luke","parser","compiled")+os.path.sep
+buildDir = Path("src") / "luke" / "parser" / "compiled"
 if os.path.exists(buildDir):
     shutil.rmtree(buildDir)
     os.makedirs(buildDir)
 
 # rebuild the extension again
 from luke.parser.markdown import MarkdownParser
-parser = MarkdownParser(_buildOnlyCFiles=True)
+parser = MarkdownParser(_buildOnlyCFiles=True, debug=True, verbose=True)
 
 extension_module = Extension(
     'luke.parser.compiled.markdown_parser',
