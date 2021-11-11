@@ -149,7 +149,8 @@ jobs:
             make install &&
             brew install flex &&
             export PATH="/usr/local/opt/bison/bin:/usr/local/opt/flex/bin:$PATH" &&
-            bison --version
+            bison --version &&
+            flex --version
           # Win flex-bison (bison 3.3.2, flex 2.6.4) 2.5.18.20190508
           # https://community.chocolatey.org/packages/winflexbison3/2.5.18.20190508
           CIBW_BEFORE_ALL_WINDOWS: >
