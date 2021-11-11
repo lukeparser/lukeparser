@@ -142,6 +142,7 @@ jobs:
           CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_24
           # Install bison 3.4 from sources
           CIBW_BEFORE_ALL_MACOS: >
+            which bison &&
             cd /tmp &&
             curl -o bison.tar.gz https://ftp.gnu.org/gnu/bison/bison-3.4.tar.gz &&
             tar -xzf bison.tar.gz &&
