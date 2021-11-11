@@ -154,3 +154,8 @@ jobs:
             python3 -m pip install -U pip wheel setuptools &&
             python3 -m pip install -r requirements.txt
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: wheels
+          path: ./dist/*.whl
