@@ -135,7 +135,6 @@ jobs:
       - name: Build wheels for CPython 3.10
         continue-on-error: true
         run: |
-          python3 -m pip freeze &&
           python3 -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: "cp310-*"
@@ -173,7 +172,6 @@ jobs:
 
       - name: Build wheels for CPython 3.7 / 3.8 / 3.9
         run: |
-          python3 -m pip freeze &&
           python3 -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: "cp37-* cp38-* cp39-*"
