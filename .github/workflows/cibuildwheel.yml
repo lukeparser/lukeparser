@@ -120,7 +120,6 @@ jobs:
           python3 -m pip install cibuildwheel==2.2.2
 
       - name: Build wheels for CPython 3.9
-        continue-on-error: true
         run: |
           python3 -m cibuildwheel --output-dir dist
         env:
