@@ -77,11 +77,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python3 -m pip install --upgrade pip Cython
-          python3 -m pip install -r requirements.txt
+          python -m pip install --upgrade pip Cython
+          python -m pip install -r requirements.txt
 
       - name: Build sdist
-        run: python3 setup.py sdist
+        run: python setup.py sdist
 
       - name: Store source distribution
         uses: actions/upload-artifact@v2
@@ -130,12 +130,12 @@ jobs:
 
       - name: Install cibuildwheel
         run: |
-          python3 -m pip install cibuildwheel==2.2.2
+          python -m pip install cibuildwheel==2.2.2
 
       - name: Build wheels for CPython 3.10
         continue-on-error: true
         run: |
-          python3 -m cibuildwheel --output-dir dist
+          python -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: "cp310-*"
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_24
@@ -165,15 +165,15 @@ jobs:
             apt-get -o Acquire::Check-Valid-Until=false update &&
             apt-get install --yes --allow-downgrades --allow-remove-essential bison=2:3.4.2+dfsg-1
           CIBW_BEFORE_BUILD: >
-            which python3 &&
             which python &&
-            python3 -m pip install -U pip wheel setuptools Cython &&
-            python3 -m pip install -r requirements.txt
+            which python &&
+            python -m pip install -U pip wheel setuptools Cython &&
+            python -m pip install -r requirements.txt
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
 
       - name: Build wheels for CPython 3.7 / 3.8 / 3.9
         run: |
-          python3 -m cibuildwheel --output-dir dist
+          python -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: "cp37-* cp38-* cp39-*"
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
@@ -204,10 +204,10 @@ jobs:
             make install &&
             bison --version
           CIBW_BEFORE_BUILD: >
-            which python3 &&
             which python &&
-            python3 -m pip install -U pip wheel setuptools Cython &&
-            python3 -m pip install -r requirements.txt
+            which python &&
+            python -m pip install -U pip wheel setuptools Cython &&
+            python -m pip install -r requirements.txt
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
 
       - uses: actions/upload-artifact@v2
