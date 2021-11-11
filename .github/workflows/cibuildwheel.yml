@@ -145,10 +145,10 @@ jobs:
           # Install bison 3.4.2 from old package list
           CIBW_BEFORE_ALL_LINUX: >
             apt-get update &&
-            apt-get --yes --force-yes install libatlas-base-dev flex &&
+            apt-get --yes --allow-downgrades --allow-remove-essential install libatlas-base-dev flex &&
             echo "deb http://snapshot.debian.org/archive/debian/20190922T091138Z/ unstable main" > /etc/apt/sources.list.d/snapshots.list &&
             apt-get -o Acquire::Check-Valid-Until=false update &&
-            apt-get install --yes --force-yes bison=2:3.4.2+dfsg-1
+            apt-get install --yes --allow-downgrades --allow-remove-essential bison=2:3.4.2+dfsg-1
           CIBW_BEFORE_BUILD: >
             python3 -m pip install -U pip wheel setuptools Cython &&
             python3 -m pip install -r requirements.txt
