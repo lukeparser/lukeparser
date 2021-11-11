@@ -133,7 +133,7 @@ jobs:
           python -m pip install cibuildwheel==2.2.2
 
       - name: Build wheels for CPython 3.10
-        continue-on-error: true
+        continue-on-error: false
         run: |
           python -m cibuildwheel --output-dir dist
         env:

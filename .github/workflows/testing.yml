@@ -11,5 +11,5 @@ jobs:
   CIBW:
     uses: lukeparser/lukeparser/.github/workflows/cibuildwheel.yml@dev-cibw
     with:
-      fail-fast: false
+      fail-fast: true
       deploy: false
