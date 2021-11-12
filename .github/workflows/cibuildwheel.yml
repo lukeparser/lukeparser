@@ -1,0 +1,213 @@
+name: Build CI wheels
+
+on:
+  workflow_call:
+    inputs:
+      fail-fast:
+        description: "Fail fast setting for building wheels."
+        default: true
+        required: false
+        type: boolean
+      deploy:
+        description: "Allow deployment of build wheels."
+        default: true
+        required: false
+        type: boolean
+    secrets:
+      PYPI_PASSWORD:
+        description: "Token for pypi."
+        required: false
+
+jobs:
+
+  auto-tag:
+    name: Add release tag
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.autotag.outputs.tagsha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Autoadd release Tags
+        uses: jaliborc/action-general-autotag@1.0.1
+        id: autotag
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          source_file: "src/luke/__init__.py"
+          # this is the semver regex https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+          # with an capture group (around everything), but all other groups are non capturing
+          # double escape's where necessary
+          extraction_regex: "__version__\\s*=\\s*[\\'\"]((?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-(?:(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)[\\'\"]"
+          tag_message: "Alpha Release"
+          tag_format: "v{version}"
+      - name: Show version
+        if: steps.autotag.outputs.tagsha
+        run: echo ${{ steps.autotag.outputs.tagsha }}
+
+  deploy:
+    name: Deploy to PyPI
+    runs-on: ubuntu-latest
+    needs: [auto-tag, build-wheels]
+    if: ${{ needs.auto-tag.outputs.sha && inputs.deploy }}
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v2
+        with:
+          name: wheels
+          path: ./dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          skip_existing: true
+          user: __token__
+          password: ${{ secrets.PYPI_PASSWORD }}
+
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    needs: [auto-tag]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Switch to using Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip Cython
+          python -m pip install -r requirements.txt
+
+      - name: Build sdist
+        run: python setup.py sdist
+
+      - name: Store source distribution
+        uses: actions/upload-artifact@v2
+        with:
+          name: wheels
+          path: ./dist/*.tar.gz
+
+      - name: Publish to PyPI
+        if: ${{ needs.auto-tag.outputs.sha && inputs.deploy }}
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          skip_existing: true
+          user: __token__
+          password: ${{ secrets.PYPI_PASSWORD }}
+
+  build-wheels:
+    needs: [build_sdist]
+    name: Build wheels on ${{ matrix.os }} (${{ matrix.cibw_archs }})
+    runs-on: ${{ matrix.os }}
+    env:
+      CIBW_ARCHS_MACOS: "x86_64 arm64"
+      CIBW_SKIP: "*_i686 *-win32 pp* *-musllinux_*"
+    strategy:
+      fail-fast: ${{ inputs.fail-fast }}
+      matrix:
+        os: [ubuntu-20.04, windows-2019, macos-10.15]
+        cibw_archs: ["auto"]
+        include:
+          - os: ubuntu-20.04
+            cibw_archs: "aarch64"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version:  3.x
+
+      - name: Set up QEMU
+        if: matrix.cibw_archs == 'aarch64'
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: arm64
+
+      - name: Install cibuildwheel
+        run: |
+          python -m pip install cibuildwheel==2.2.2
+
+      - name: Build wheels for CPython 3.10
+        continue-on-error: false
+        run: |
+          python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp310-*"
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_24
+          CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_24
+          # Install bison 3.4 from sources
+          CIBW_BEFORE_ALL_MACOS: >
+            cd /tmp &&
+            curl -o bison.tar.gz https://ftp.gnu.org/gnu/bison/bison-3.4.tar.gz &&
+            tar -xzf bison.tar.gz &&
+            cd bison-3.4 && ./configure --prefix=/usr/local &&
+            make install &&
+            brew install flex &&
+            bison --version &&
+            flex --version
+          # Win flex-bison (bison 3.3.2, flex 2.6.4) 2.5.18.20190508
+          # https://community.chocolatey.org/packages/winflexbison3/2.5.18.20190508
+          CIBW_BEFORE_ALL_WINDOWS: >
+            choco install mingw &&
+            choco install winflexbison3 --version=2.5.18.20190508 &&
+            win_bison --version
+          # Install bison 3.4.2 from old package list
+          CIBW_BEFORE_ALL_LINUX: >
+            apt-get update &&
+            apt-get --yes --allow-downgrades --allow-remove-essential install libatlas-base-dev flex &&
+            echo "deb http://snapshot.debian.org/archive/debian/20190922T091138Z/ unstable main" > /etc/apt/sources.list.d/snapshots.list &&
+            apt-get -o Acquire::Check-Valid-Until=false update &&
+            apt-get install --yes --allow-downgrades --allow-remove-essential bison=2:3.4.2+dfsg-1
+          CIBW_BEFORE_BUILD: >
+            python -m pip install -U pip wheel setuptools Cython &&
+            python -m pip install -r requirements.txt &&
+            (bison --version || win_bison --version) &&
+            (flex --version || win_flex --version)
+          CIBW_ARCHS: ${{ matrix.cibw_archs }}
+
+      - name: Build wheels for CPython 3.7 / 3.8 / 3.9
+        run: |
+          python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp37-* cp38-* cp39-*"
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+          CIBW_MANYLINUX_AARCH64_IMAGE: manylinux2014
+          # Install bison 3.4 from sources
+          CIBW_BEFORE_ALL_MACOS: >
+            cd /tmp &&
+            curl -o bison.tar.gz https://ftp.gnu.org/gnu/bison/bison-3.4.tar.gz &&
+            tar -xzf bison.tar.gz &&
+            cd bison-3.4 && ./configure --prefix=/usr/local/opt/bison &&
+            make install &&
+            brew install flex &&
+            export PATH="/usr/local/opt/bison/bin:/usr/local/opt/flex/bin:$PATH" &&
+            bison --version
+          # Win flex-bison (bison 3.3.2, flex 2.6.4) 2.5.18.20190508
+          # https://community.chocolatey.org/packages/winflexbison3/2.5.18.20190508
+          CIBW_BEFORE_ALL_WINDOWS: >
+            choco install mingw &&
+            choco install winflexbison3 --version=2.5.18.20190508 &&
+            win_bison --version
+          # Install bison 3.4 from sources
+          CIBW_BEFORE_ALL_LINUX: >
+            yum install -y atlas-devel flex &&
+            cd /tmp &&
+            curl -o bison.tar.gz https://ftp.gnu.org/gnu/bison/bison-3.4.tar.gz &&
+            tar -xzf bison.tar.gz &&
+            cd bison-3.4 && ./configure --prefix=/usr/local/ &&
+            make install &&
+            bison --version
+          CIBW_BEFORE_BUILD: >
+            python -m pip install -U pip wheel setuptools Cython &&
+            python -m pip install -r requirements.txt
+          CIBW_ARCHS: ${{ matrix.cibw_archs }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: wheels
+          path: ./dist/*.whl

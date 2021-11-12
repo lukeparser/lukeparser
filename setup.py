@@ -1,6 +1,9 @@
 import codecs
 import os
 import re
+import sys
+import shutil
+from pathlib import Path
 
 from setuptools import setup, find_packages, Extension
 
@@ -9,7 +12,7 @@ from setuptools import setup, find_packages, Extension
 
 NAME = "lukeparser"
 PACKAGES = find_packages(where="src")
-META_PATH = os.path.join("src", "luke", "__init__.py")
+META_PATH = Path("src") / "luke" / "__init__.py"
 KEYWORDS = ["markdown", "html", "latex", "parser"]
 CLASSIFIERS = [
     "Development Status :: 3 - Alpha",
@@ -21,7 +24,6 @@ CLASSIFIERS = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -69,12 +71,11 @@ def find_meta(meta):
 
 # Compile the parser
 # ==================
-import sys
-import shutil
+# add source root to PYTHONPATH
 sys.path.insert(0, "src")
 
 # remake the C files every time
-buildDir = os.path.join("src","luke","parser","compiled")+os.path.sep
+buildDir = Path("src") / "luke" / "parser" / "compiled"
 if os.path.exists(buildDir):
     shutil.rmtree(buildDir)
     os.makedirs(buildDir)
@@ -126,5 +127,5 @@ if __name__ == "__main__":
         },
         include_package_data=True,
         ext_modules=[extension_module],
-        python_requires='>=3.6',
+        python_requires='>=3.7',
     )

@@ -1,0 +1,13 @@
+name: CI build
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'main'
+
+jobs:
+  CIBW:
+    uses: lukeparser/lukeparser/.github/workflows/cibuildwheel.yml@master
+    secrets:
+      PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
