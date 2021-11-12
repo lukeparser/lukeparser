@@ -82,7 +82,7 @@ if os.path.exists(buildDir):
 
 # rebuild the extension again
 from luke.parser.markdown import MarkdownParser
-parser = MarkdownParser(_buildOnlyCFiles=True, debug=True, verbose=True)
+parser = MarkdownParser(_buildOnlyCFiles=True)
 
 extension_module = Extension(
     'luke.parser.compiled.markdown_parser',
