@@ -8,6 +8,6 @@ on:
 
 jobs:
   CIBW:
-    uses: lukeparser/lukeparser/.github/workflows/cibuildwheel.yml@dev-cibw
+    uses: lukeparser/lukeparser/.github/workflows/cibuildwheel.yml@master
     secrets:
       PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
