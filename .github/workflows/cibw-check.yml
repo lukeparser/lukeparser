@@ -20,7 +20,7 @@ jobs:
         (bison --version || win_bison --version) &&
         (flex --version || win_flex --version)
       CIBW_BEFORE_BUILD: >
-        echo $PATH &&
+        echo %path:;=&echo.% &&
         echo ":: which PYTHON :: " && which python &&
         echo ":: which PYTHON3 :: " && which python3 &&
         echo ":: where PYTHON :: " && where python &&
