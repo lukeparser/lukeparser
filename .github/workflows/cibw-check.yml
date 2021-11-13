@@ -1,0 +1,114 @@
+name: CIBW Check
+
+on:
+  push:
+    branches:
+      - 'dev-cibw'
+
+jobs:
+
+  build-wheels:
+    name: ${{ matrix.os }} (${{ matrix.cibw_archs }})
+    runs-on: ${{ matrix.os }}
+    env:
+      CIBW_SKIP: "*_i686 *-win32 pp* *-musllinux_*"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2019]
+        cibw_archs: ["auto"]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version:  3.x
+
+      - name: Install cibuildwheel
+        run: |
+          python3 -m pip install cibuildwheel==2.2.2
+
+      - name: Build wheels for CPython 3.10
+        run: |
+          python3 -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp310-*"
+          # Win flex-bison (bison 3.3.2, flex 2.6.4) 2.5.18.20190508
+          # https://community.chocolatey.org/packages/winflexbison3/2.5.18.20190508
+          CIBW_BEFORE_ALL_WINDOWS: >
+            choco install mingw &&
+            choco install winflexbison3 --version=2.5.18.20190508 &&
+            win_bison --version
+          CIBW_BEFORE_BUILD: >
+            which python &&
+            which python3 &&
+            python3 -m pip install -U pip wheel setuptools Cython &&
+            python3 -m pip install -r requirements.txt &&
+            (bison --version || win_bison --version) &&
+            (flex --version || win_flex --version)
+          CIBW_ARCHS: ${{ matrix.cibw_archs }}
+
+      - name: Build wheels for CPython 3.9
+        run: |
+          python3 -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp39-*"
+          # Win flex-bison (bison 3.3.2, flex 2.6.4) 2.5.18.20190508
+          # https://community.chocolatey.org/packages/winflexbison3/2.5.18.20190508
+          CIBW_BEFORE_ALL_WINDOWS: >
+            choco install mingw &&
+            choco install winflexbison3 --version=2.5.18.20190508 &&
+            win_bison --version
+          CIBW_BEFORE_BUILD: >
+            which python &&
+            which python3 &&
+            python3 -m pip install -U pip wheel setuptools Cython &&
+            python3 -m pip install -r requirements.txt &&
+            (bison --version || win_bison --version) &&
+            (flex --version || win_flex --version)
+          CIBW_ARCHS: ${{ matrix.cibw_archs }}
+
+      - name: Build wheels for CPython 3.8
+        run: |
+          python3 -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp38-*"
+          # Win flex-bison (bison 3.3.2, flex 2.6.4) 2.5.18.20190508
+          # https://community.chocolatey.org/packages/winflexbison3/2.5.18.20190508
+          CIBW_BEFORE_ALL_WINDOWS: >
+            choco install mingw &&
+            choco install winflexbison3 --version=2.5.18.20190508 &&
+            win_bison --version
+          CIBW_BEFORE_BUILD: >
+            which python &&
+            which python3 &&
+            python3 -m pip install -U pip wheel setuptools Cython &&
+            python3 -m pip install -r requirements.txt &&
+            (bison --version || win_bison --version) &&
+            (flex --version || win_flex --version)
+          CIBW_ARCHS: ${{ matrix.cibw_archs }}
+
+      - name: Build wheels for CPython 3.7
+        run: |
+          python3 -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp37-*"
+          # Win flex-bison (bison 3.3.2, flex 2.6.4) 2.5.18.20190508
+          # https://community.chocolatey.org/packages/winflexbison3/2.5.18.20190508
+          CIBW_BEFORE_ALL_WINDOWS: >
+            choco install mingw &&
+            choco install winflexbison3 --version=2.5.18.20190508 &&
+            win_bison --version
+          CIBW_BEFORE_BUILD: >
+            which python &&
+            which python3 &&
+            python3 -m pip install -U pip wheel setuptools Cython &&
+            python3 -m pip install -r requirements.txt &&
+            (bison --version || win_bison --version) &&
+            (flex --version || win_flex --version)
+          CIBW_ARCHS: ${{ matrix.cibw_archs }}
