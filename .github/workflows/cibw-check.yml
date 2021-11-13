@@ -11,7 +11,7 @@ jobs:
     name: ${{ matrix.os }} for (${{ matrix.cpv }})
     runs-on: ${{ matrix.os }}
     env:
-      CIBW_SKIP: "*_i686 *-win32 pp* *-musllinux_*"
+      CIBW_SKIP: "pp* *-musllinux_*"
       # Win flex-bison (bison 3.3.2, flex 2.6.4) 2.5.18.20190508
       # https://community.chocolatey.org/packages/winflexbison3/2.5.18.20190508
       CIBW_BEFORE_ALL_WINDOWS: >
