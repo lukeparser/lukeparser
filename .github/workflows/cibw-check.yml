@@ -8,7 +8,7 @@ on:
 jobs:
 
   build-wheels:
-    name: ${{ matrix.os }} (${{ matrix.cibw_archs }})
+    name: ${{ matrix.os }} for (${{ matrix.cpv }})
     runs-on: ${{ matrix.os }}
     env:
       CIBW_SKIP: "*_i686 *-win32 pp* *-musllinux_*"
