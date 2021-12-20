@@ -11,7 +11,7 @@ jobs:
     name: Deploy Documentation
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
     - uses: ./.github/actions/build-documentation
     - name: GitHub Pages Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.5
