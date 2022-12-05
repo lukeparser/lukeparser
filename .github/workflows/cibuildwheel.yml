@@ -29,7 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Autoadd release Tags
-        uses: jaliborc/action-general-autotag@1.0.1
+        uses: sbrodehl/action-autotag@v2.0.0
         id: autotag
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,6 +38,7 @@ jobs:
           # with an capture group (around everything), but all other groups are non capturing
           # double escape's where necessary
           extraction_regex: "__version__\\s*=\\s*[\\'\"]((?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-(?:(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)[\\'\"]"
+          capture_group: 1
           tag_message: "Alpha Release"
           tag_format: "v{version}"
       - name: Show version
