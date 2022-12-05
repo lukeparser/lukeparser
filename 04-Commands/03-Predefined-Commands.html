@@ -470,7 +470,7 @@ ul > li.icon-data[data-icon='?']:before {
               </a>
               <div class="collapse " id="collapse4bc41d26fb">
                   <div class="card-body" >
-                    20. December 2021<br style='display:block; margin:10px 0;'>Mon Dec 20 09:27:09 2021<br style='display:block; margin:10px 0;'>12/20/21<br style='display:block; margin:10px 0;'>09:27:09<br style='display:block; margin:10px 0;'>20.12.21
+                    05. December 2022<br style='display:block; margin:10px 0;'>Mon Dec  5 09:57:48 2022<br style='display:block; margin:10px 0;'>12/05/22<br style='display:block; margin:10px 0;'>09:57:48<br style='display:block; margin:10px 0;'>05.12.22
                   </div>
               </div>
             </div>
@@ -484,7 +484,7 @@ ul > li.icon-data[data-icon='?']:before {
               </a>
               <div class="collapse " id="collapse4bc41d26fb0">
                   <div class="card-body" >
-                    20. December 2021, 09:26:35<br style='display:block; margin:10px 0;'>Mon Dec 20 09:26:35 2021
+                    05. December 2022, 09:57:12<br style='display:block; margin:10px 0;'>Mon Dec  5 09:57:12 2022
                   </div>
               </div>
             </div>
@@ -583,7 +583,34 @@ ul > li.icon-data[data-icon='?']:before {
               </a>
               <div class="collapse " id="collapse4bc41d26fb000000">
                   <div class="card-body" >
-                    <span class="tab"><a class="" href="https://arxiv.org/abs/hep-th/9711200">[hep-th/9711200]</a> The Large N Limit of Superconformal Field Theories and Supergravity <a class="" href="https://arxiv.org/pdf/hep-th/9711200.pdf"><span class="oi oi-document" title="document" aria-hidden="true"></span>&nbsp;</a></span>
+                    <span class="tab"><div class="alert alert-danger" role="alert">
+                            <b>View Exception</b><hr>
+                            An Error occured during translation in &#x27;html&#x27;-View<br style='display:block; margin:10px 0;'><div class="card collapsible" >
+              <a class="card-header " style="cursor: pointer;" data-toggle="collapse" data-target="#collapse3ed81eee21" aria-expanded="False" aria-controls="collapse3ed81eee21">
+                Traceback
+              </a>
+              <div class="collapse " id="collapse3ed81eee21">
+                  <div class="card-body" >
+                    <pre class="" style="margin:0" ><code class=markdown>Traceback (most recent call last):
+  File &quot;/github/workspace/src/luke/views/View.py&quot;, line 315, in handle_dict
+    return &quot;{}&quot;.format(self.translator[mytype](adict, scopes))
+  File &quot;/github/workspace/src/luke/views/View.py&quot;, line 81, in translate_x_with_scope
+    return translate_x(self, x, scopes, var, run)
+  File &quot;/github/workspace/src/luke/views/View.py&quot;, line 338, in translate_command
+    return &quot;{}&quot;.format(fn(x, scopes))
+  File &quot;/github/workspace/src/luke/views/View.py&quot;, line 113, in translate_x_with_scope
+    return translate_x(self, var, run, **args)
+  File &quot;/github/workspace/src/luke/views/View.py&quot;, line 690, in cmd_arxiv
+    datadir = var(&quot;datadir&quot;, None)
+  File &quot;/github/workspace/src/luke/views/View.py&quot;, line 65, in var
+    raise ValueError(&quot;Variable &quot; + name + &quot; not found in Object of type &quot; + x[&quot;type&quot;])
+ValueError: Variable datadir not found in Object of type command
+</code></pre>
+                  </div>
+              </div>
+            </div>
+<br style='display:block; margin:10px 0;'>
+                      </div></span>
                   </div>
               </div>
             </div>
@@ -595,7 +622,7 @@ ul > li.icon-data[data-icon='?']:before {
               </a>
               <div class="collapse " id="collapse4bc41d26fb0000000">
                   <div class="card-body" >
-                    <span class="tab">0.3.28</span>
+                    <span class="tab">0.3.29</span>
                   </div>
               </div>
             </div>
