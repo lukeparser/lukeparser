@@ -684,13 +684,15 @@ class View():
         return run(content)
 
 
-    @apply_scope(getVars=["scopes","id","tempfile","showarxivid","showpdflink", "showtitle", "showauthors", "showyear"])
-    def cmd_arxiv(self, var, run, scopes, id, tempfile=True, showarxivid=True, showpdflink=True, showtitle=True, showauthors=False, showyear=False):
+    @apply_scope(getVars=["scopes","id","tempfile","showarxivid","showpdflink", "showtitle", "showauthors", "showyear", "datadir"])
+    def cmd_arxiv(self, var, run, scopes, id, tempfile=True, showarxivid=True, showpdflink=True, showtitle=True, showauthors=False, showyear=False, datadir=None):
+        if datadir is None:
+            datadir = var("datadir", None)
 
         def deferred_arxiv(q,i,id):
 
             strid = str(id)
-            tmpdir = gettempdir()
+            tmpdir = gettempdir() if datadir is None else datadir
             idfile = os.path.join(tmpdir,"luke_arxiv_"+strid.replace("/","_"))
             if tempfile and os.path.exists(idfile):
                 with open(idfile, "r") as textfile:
