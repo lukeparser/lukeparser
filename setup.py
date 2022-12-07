@@ -77,11 +77,11 @@ sys.path.insert(0, "src")
 
 # rebuild the extension again
 from luke.parser.markdown import MarkdownParser
-parser = MarkdownParser(buildDir=".",_buildOnlyCFiles=True, verbose=True, debug=True)
+parser = MarkdownParser(buildDir="build/",_buildOnlyCFiles=True, verbose=True, debug=True)
 buildDir = parser.buildDirectory
 
 extension_module = Extension(
-    'luke.parser.compiled.markdown_parser',
+    'luke.parser.markdown_parser',
     sources=[
         f"{buildDir}/tmp.tab.c",
         f"{buildDir}/lex.yy.c"
