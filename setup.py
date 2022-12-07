@@ -75,25 +75,20 @@ def find_meta(meta):
 # add source root to PYTHONPATH
 sys.path.insert(0, "src")
 
-# remake the C files every time
-buildDir = Path("src") / "luke" / "parser" / "compiled"
-if os.path.exists(buildDir):
-    shutil.rmtree(buildDir)
-    os.makedirs(buildDir)
-
 # rebuild the extension again
 from luke.parser.markdown import MarkdownParser
-parser = MarkdownParser(_buildOnlyCFiles=True)
+parser = MarkdownParser(_buildOnlyCFiles=True, verbose=True, debug=True)
+buildDir = parser.buildDirectory
 
 extension_module = Extension(
     'luke.parser.compiled.markdown_parser',
     sources=[
-        'src/luke/parser/compiled/tmp.tab.c',
-        'src/luke/parser/compiled/lex.yy.c'
+        f"{buildDir}/tmp.tab.c",
+        f"{buildDir}/lex.yy.c"
     ],
     headers=[
-        'src/luke/parser/compiled/tmp.tab.h',
-        'src/luke/parser/compiled/lex.yy.h'
+        f"{buildDir}/tmp.tab.h",
+        f"{buildDir}/lex.yy.h"
     ]
 )
 

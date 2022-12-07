@@ -445,9 +445,7 @@ class MarkdownParser(BisonParser):
 
         self.handlesErrorRules = True
 
-
-        buildDirectory = os.path.join(os.path.dirname(__file__),"compiled")+os.path.sep
-        super(MarkdownParser, self).__init__(buildDirectory=buildDirectory,**kwargs)
+        super(MarkdownParser, self).__init__(**kwargs)
 
     # ---------------------------------------------------------------
     # These methods are the python handlers for the bison targets.
