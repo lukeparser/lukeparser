@@ -77,7 +77,7 @@ sys.path.insert(0, "src")
 
 # rebuild the extension again
 from luke.parser.markdown import MarkdownParser
-parser = MarkdownParser(_buildOnlyCFiles=True, verbose=True, debug=True)
+parser = MarkdownParser(buildDir=".",_buildOnlyCFiles=True, verbose=True, debug=True)
 buildDir = parser.buildDirectory
 
 extension_module = Extension(
